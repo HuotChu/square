@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+
+    <title>JATO Launch Pad</title>
+
+    <link rel="stylesheet" href="app/style/main.css?v=1.0" />
+
+</head>
+<body>
+
+<div id="jato"></div>
+
+<script src="lib/require.js"></script>
+<script>
+    require.config({
+        baseUrl: '',
+        deps: ['lib/load'],
+        callback: function(preloader) {
+            preloader.load();
+        }
+    });
+</script>
+</body>
+</html>
