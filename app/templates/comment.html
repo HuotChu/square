@@ -1,0 +1,12 @@
+<div class="comment" id="commentAll{{discussId}}{{postId}}{{commentId}}">
+
+    <div class="content" contenteditable="false" id="comment{{discussId}}{{postId}}{{commentId}}">{{comment}}</div>
+    <div class="author">
+        {{author}} commented on {{date}}
+        <span class="{{buttons}}">
+            <a href="#editComment?discussion={{discussId}}&post={{postId}}&comment={{commentId}}" class="edit">Edit</a>
+            <a href="#deleteComment?discussion={{discussId}}&post={{postId}}&comment={{commentId}}" class="delete">Delete</a>
+        </span>
+    </div>
+    <hr />
+</div>
