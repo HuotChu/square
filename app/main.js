@@ -10,9 +10,9 @@ define(['../lib/temple', '../lib/notify', '../lib/jSQL'], function(temple, notif
         // Eventually this will be a sample application and tests will be in the tests folder...
         // but for now, testing here allows for rapid development :)
         var dataMap = {
-                helloID: 'hello',
+                helloID: '"hello"',
                 helloTag: 'h1',
-                helloText: 'Hello, JATO. You are cleared for takeoff.',
+                helloText: 'Hello, JATO. You are cleared for takeoff!',
                 helloImage: 'app/style/jet.gif'
             };
 
