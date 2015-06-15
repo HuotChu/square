@@ -4,3 +4,8 @@
 ## This framework is in Alpha
 Look for daily refinements :)
 Contribution instructions, license, and other stuff will be added soon.
+
+## Updates
+### 6/15/2015
+Temple now supports repeating elements.
+Temple can attach event handlers!
