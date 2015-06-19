@@ -1,0 +1,29 @@
+{
+  "devices": [
+    {
+      "product": "iPhone",
+      "desc": "This is a Smartphone.",
+      "id": "ip"
+    },
+    {
+      "product": "Nexus",
+      "desc": "This is a Tablet.",
+      "id": "ne"
+    },
+    {
+      "product": "Lenovo",
+      "desc": "This is a PC.",
+      "id": "le"
+    },
+    {
+      "product": "Sony",
+      "desc": "This is a SmartWatch.",
+      "id": "so"
+    },
+    {
+      "product": "Sony 4",
+      "desc": "This is a Gaming Console.",
+      "id": "s4"
+    }
+  ]
+}
