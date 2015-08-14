@@ -3,7 +3,7 @@
  */
 define(function() {
         // comments show sample data structure
-    var notifications = {
+    var topicStore = {
         "topics": {
             //"topicName1": [
             //    {
@@ -64,8 +64,8 @@ define(function() {
     };
 
     var subscribe = function(topic, callBackObj) {
-        var topics = notifications.topics,
-            lastIdMap = notifications.lastIdMap,
+        var topics = topicStore.topics,
+            lastIdMap = topicStore.lastIdMap,
             id;
 
         if (!topics.hasOwnProperty(topic)) {
@@ -88,11 +88,11 @@ define(function() {
     };
 
     var unsubscribe = function(topic, id) {
-        var topics = notifications.topics,
+        var topics = topicStore.topics,
             topicArray;
 
         if (topics.hasOwnProperty(topic)) {
-            topicArray = notifications.topics[topic];
+            topicArray = topicStore.topics[topic];
             topicArray.splice(findById(topicArray, id));
             return true;
         }
@@ -101,7 +101,7 @@ define(function() {
     };
 
     var publish = function(topic) {
-        var topics = notifications.topics,
+        var topics = topicStore.topics,
             uri = topic.split('?'),
             topicName = uri[0],
             args = uri.length === 2 ? uri[1] : null,
@@ -132,7 +132,7 @@ define(function() {
         }
     };
 
-    var publisher = function(event) {
+    var publisher = function (event) {
         var args = event.target.hash.slice(1);
 
         publish(args);
