@@ -10,3 +10,6 @@ Contribution instructions, license, and other stuff will be added soon.
 Temple now supports repeating elements AND Temple can now attach event handlers!
 ### 6/19/2015
 There is now an examples directory where I can showcase the power and sensibility of JATO
+### 8/14/2015
+Added a Model service for a lightweight model (when jSQL is overkill)
+The sample app in the examples directory showcases the new model
