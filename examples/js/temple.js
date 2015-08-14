@@ -18,7 +18,7 @@ define(function() {
         return container.firstChild;
     };
 
-    var _build = function (html, dataMap, toDom) {
+    var _build = function (html, model, toDom) {
         var repeaters,
             repeater,
             dataRoot,
@@ -31,9 +31,9 @@ define(function() {
             el,
             i;
 
-        if (dataMap) {
+        if (model) {
             html = html.replace(_re1, function () {
-                return dataMap[RegExp.$1] || '';
+                return model[RegExp.$1] || '';
             });
 
             html = _html2Dom(html);
@@ -44,7 +44,7 @@ define(function() {
             // html now has all true Element methods and properties :)
 
             var createRepeatingElements = function(root, elm) {
-                var dataObjects = dataMap[root],
+                var dataObjects = model[root],
                     dataObj,
                     str = '',
                     i = 0, len = dataObjects.length;
@@ -68,7 +68,7 @@ define(function() {
             }
         }
 
-        callBacks = dataMap['_callbacks'];
+        callBacks = model['_callBacks'];
         if ( callBacks && ( list = html.querySelectorAll('[data-event-listener]') ) ) {
             for (i = 0, len = list.length; i < len; ++i) {
                 el = list[i];
@@ -94,12 +94,12 @@ define(function() {
         delete cache[name];
     };
 
-    var toDom = function (html, dataMap) {
-        return _build(html, dataMap, true);
+    var toDom = function (html, model) {
+        return _build(html, model, true);
     };
 
-    var toString = function (html, dataMap) {
-        return _build(html, dataMap, false);
+    var toString = function (html, model) {
+        return _build(html, model, false);
     };
 
     var getTemplate = function (uri, useCache) {
