@@ -1,0 +1,23 @@
+{
+  "name": "jato",
+  "version": "0.0.1",
+  "description": "JavaScript Application Framework",
+  "main": "index.html",
+  "directories": {
+    "example": "examples"
+  },
+  "scripts": {
+    "test": "require.config({});"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/blujagu"
+  },
+  "keywords": [],
+  "devDependencies": {
+    "grunt": "^0.4.5",
+    "grunt-contrib-jshint": "^0.11.2"
+  },
+  "author": "Scott Bishop",
+  "license": "MIT"
+}

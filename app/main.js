@@ -34,9 +34,9 @@ define(['../lib/temple', '../lib/notify', '../lib/jSQL'], function(temple, notif
                 'data': [
                     'Alfreds Futterkiste',
                     'Ana Trujillo Emparedados',
-                    'Antonio Moreno Taquería',
+                    'Antonio Moreno Taqueria',
                     'Around the Horn',
-                    'Berglunds snabbköp'
+                    'Berglunds snabbkop'
                 ]
             }],
             ['ContactName', {
@@ -53,10 +53,10 @@ define(['../lib/temple', '../lib/notify', '../lib/jSQL'], function(temple, notif
                 'domain': /.+]/gi,
                 'data': [
                     'Obere Str. 57',
-                    'Avda. de la Constitución 2222',
+                    'Avda. de la Constitucion 2222',
                     'Mataderos 2312',
                     '120 Hanover Sq.',
-                    'Berguvsvägen 8'
+                    'Berguvsvagen 8'
                 ]
             }],
             ['City', {

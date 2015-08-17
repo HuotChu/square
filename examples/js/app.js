@@ -7,6 +7,7 @@ define(['js/request', 'js/temple', 'js/notify', 'js/mods/product/productModel'],
         var baseNode = document.querySelector('body');
 
         // add the device view to the page...
+        // TODO: move this to js/mods/product/productView.js
         temple.getTemplate('templates/deviceView.html').then(function(deviceView){
             // temple retrieves a simple template -> returns it as a String in the deviceView argument
             productModel.then(function(model) {
