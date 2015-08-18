@@ -47,13 +47,14 @@ define(function() {
                 var dataObjects = model[root],
                     dataObj,
                     str = '',
-                    i = 0, len = dataObjects.length;
+                    i = 0, len = dataObjects.length,
+                    cloneParent = function () {
+                        return dataObj[RegExp.$1] || '';
+                    };
 
                 for (i; i < len; ++i) {
                     dataObj = dataObjects[i];
-                    str += elm.outerHTML.replace(_re2, function() {
-                        return dataObj[RegExp.$1] || '';
-                    });
+                    str += elm.outerHTML.replace(_re2, cloneParent);
                 }
 
                 elm.parentNode.innerHTML = str;
@@ -68,13 +69,13 @@ define(function() {
             }
         }
 
-        callBacks = model['_callBacks'];
+        callBacks = model._callBacks;
         if ( callBacks && ( list = html.querySelectorAll('[data-event-listener]') ) ) {
             for (i = 0, len = list.length; i < len; ++i) {
                 el = list[i];
                 eventName = el.getAttribute('data-event-listener');
                 callback = callBacks[eventName];
-                el.addEventListener(callback['event'], callback['function']);
+                el.addEventListener(callback.event, callback.function);
             }
         }
 
