@@ -26,10 +26,9 @@ define(['js/temple', 'js/notify', 'js/mods/product/productModel'], function (tem
                             desc.className = 'hide';
                         }
                     }
-                }, view, devices;
-
+                },
                 view = temple.toDom(deviceView, model);
-                devices = view.querySelector('#devices');
+
                 desc = view.querySelector('#description');
 
                 notify.subscribe('productSelect', {

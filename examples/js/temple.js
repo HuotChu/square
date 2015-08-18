@@ -3,7 +3,7 @@
  * BluJagu, LLC - www.blujagu.com
  * MIT License (MIT) - This header must remain intact.
  **/
-define(function() {
+define(function () {
     var _re1 = /\{\{([\w\-]*)\}\}/mig;
 
     var _re2 = /\{\{\+([\w\-]+)\}\}/mig;
