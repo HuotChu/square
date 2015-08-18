@@ -36,7 +36,7 @@ define(['js/temple', 'js/notify', 'js/mods/product/productModel'], function (tem
                     "context": setText
                 });
 
-                desc.addEventListener('transitionend', function() {
+                desc.addEventListener('transitionend', function () {
                     if (desc.className == 'hide') {
                         setText.show();
                     }
