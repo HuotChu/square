@@ -64,7 +64,7 @@ define(function () {
             if (found instanceof Object) {
                 found.$get = function (key) {
                     return found[key];
-                }
+                };
             }
 
             return found;
