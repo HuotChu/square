@@ -9,16 +9,11 @@ define(['../lib/temple', '../lib/notify', '../lib/jSQL'], function(temple, notif
     app.start = function() {
         // Eventually this will be a sample application and tests will be in the tests folder...
         // but for now, testing here allows for rapid development :)
-        var dataMap = {
-                helloID: 'hello',
-                helloTag: 'h1',
-                helloText: 'Hello, JATO. You are cleared for takeoff!',
-                helloImage: 'app/style/jet.gif'
-            };
 
-        temple.getTemplate('./app/templates/hello.html', true).then(function(htmlStr) {
-            app.baseNode.appendChild(temple.toDom(htmlStr, dataMap));
-        });
+        // make sure auto-publish knows the current URI
+        // solves initial load of url, ie. from a bookmark - site.com/index.html#info
+        // otherwise, initial url hash is not evaluated
+        window.dispatchEvent(new Event('hashchange'));
 
         jSQL.create.db('testDB').table('Customers')([
             ['CustomerID', {

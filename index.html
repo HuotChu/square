@@ -11,13 +11,15 @@
 </head>
 <body>
 
-<div id="jato"></div>
+<div id="jato">
+    <div id="hello-dom"></div>
+</div>
 
 <script src="lib/require.js"></script>
 <script>
     require.config({
         baseUrl: '',
-        deps: ['lib/load'],
+        deps: ['app/load'],
         callback: function(preloader) {
             preloader.load();
         }
