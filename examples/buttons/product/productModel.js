@@ -1,4 +1,4 @@
-define(['js/model', 'js/notify', 'js/request'], function (model, notify, request) {
+define(['model', 'notify', 'request'], function (model, notify, request) {
     'use strict';
     return new Promise(function (resolve, reject) {
         request('json/devices.json').then(function (deviceData) {
