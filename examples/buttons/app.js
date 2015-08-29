@@ -1,4 +1,4 @@
-define(['js/mods/product/productView'], function (productView) {
+define(['product/productView'], function (productView) {
     var app = {};
 
     // app.startup is called by require.js in the config callback (index.html) to launch the app
