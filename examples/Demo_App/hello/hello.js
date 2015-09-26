@@ -1,15 +1,15 @@
 /**
  * Created by Scott on 8/21/2015.
  */
-define(['../../lib/temple', '../../lib/notify'], function(temple, notify) {
+define(['../../../lib/temple', '../../../lib/notify'], function(temple, notify) {
     'use strict';
     var helloPromise = new Promise(function (resolve, reject) {
-        temple.getTemplate('app/hello/hello.html', true).then(function (helloTemplate) {
+        temple.getTemplate('hello/hello.html', true).then(function (helloTemplate) {
             var hello = temple.toDom(helloTemplate, {
                 helloID: 'hello',
                 helloTag: 'h1',
                 helloText: 'Hello, JATO. You are cleared for takeoff!',
-                helloImage: 'app/style/jet.gif'
+                helloImage: 'style/jet.gif'
             });
 
             resolve(hello);

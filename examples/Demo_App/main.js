@@ -1,7 +1,7 @@
 /**
  * Created by Scott on 5/29/2015.
  */
-define(['../lib/temple', '../lib/notify', '../lib/jSQL'], function(temple, notify, jSQL) {
+define(['../../lib/jSQL'], function(jSQL) {
     var app = {
         baseNode: document.getElementById('jato') || document.querySelector('body')
     };
@@ -85,6 +85,8 @@ define(['../lib/temple', '../lib/notify', '../lib/jSQL'], function(temple, notif
                 ]
             }]
         ]);
+
+        console.log('Running jSQL Tests...');
 
         var query;
 
