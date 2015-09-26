@@ -6,7 +6,7 @@
     <title>JATO Launch Pad</title>
 
     <link rel="shortcut icon" href="favicon.ico?v=1" />
-    <link rel="stylesheet" href="./app/style/main.css" />
+    <link rel="stylesheet" href="style/main.css" />
 
 </head>
 <body>
@@ -15,11 +15,11 @@
     <div id="hello-dom"></div>
 </div>
 
-<script src="lib/require.js"></script>
+<script src="../../lib/require.js"></script>
 <script>
     require.config({
         baseUrl: '',
-        deps: ['app/load'],
+        deps: ['load'],
         callback: function(preloader) {
             preloader.load();
         }
