@@ -7,6 +7,7 @@ define(['temple', 'notify', 'product/productModel'], function (temple, notify, p
             // temple retrieves a simple template -> returns it as a String in the deviceView argument
             productModel.then(function (model) {
                 var desc,
+                    products = model.getNodeFromPath('devices'),
                     setText = {
                         descText: '',
                         show: function () {
@@ -16,9 +17,7 @@ define(['temple', 'notify', 'product/productModel'], function (temple, notify, p
                     set: function (obj) {
                         var firstClick = !desc.className;
 
-                        this.descText = model.select('products', function (o) {
-                            return o.id === obj.id ? o : false;
-                        }).$get('desc');
+                        this.descText = products.query('isEqual', ['id', obj.id]).get('desc');
 
                         if (firstClick) {
                             this.show();
@@ -27,7 +26,7 @@ define(['temple', 'notify', 'product/productModel'], function (temple, notify, p
                         }
                     }
                 },
-                view = temple.toDom(deviceView, model);
+                view = temple.toDom(deviceView, model._data);
 
                 desc = view.querySelector('#description');
 
