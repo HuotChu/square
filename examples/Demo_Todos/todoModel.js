@@ -5,12 +5,12 @@ define(['model', 'notify'], function (model, notify) {
                 // enhance the model to deal with our data more conveniently
                 getAllPending: function () {
                     // return all todos where done === false
-                    return this.todos.query('notEqual', ['done', true]);
+                    return this.todos.query('notEqual', ['done', true]).found;
                 },
 
                 getAllComplete: function () {
                     // return all todos where done === true
-                    return this.todos.query('isEqual', ['done', true]);
+                    return this.todos.query('isEqual', ['done', true]).found;
                 },
 
                 remainingCount: function () {

@@ -9,7 +9,6 @@ define(['temple', 'notify', 'todoModel'], function (temple, notify, todoModel) {
                         val = newTodo.value,
                         todos = model.getNodeFromPath('todos'),
                         last = todos[todos.length - 1].get('id'),
-                        baseNode = document.querySelector('#todo-list'),
                         todo = temple.getTemplate('todo.html', true),
                         dataObj = model.add('todos', {title: val, done: false, id: ++last});
 
@@ -17,9 +16,19 @@ define(['temple', 'notify', 'todoModel'], function (temple, notify, todoModel) {
                     e.stopPropagation();
 
                     todo.then(function (todoDom) {
+                        var baseNode = document.querySelector('#todo-list');
+
                         baseNode.appendChild(temple.toDom(todoDom, dataObj));
                         newTodo.value = '';
                     });
+                });
+
+                model.register('removeTodo', 'click', function (e) {
+                    var target = e.target.offsetParent,
+                        id = target.id.replace(/^todo\-/, '');
+
+                    model.remove('todos', 'isEqual', ['id', id]);
+                    target.parentElement.removeChild(target);
                 });
 
                 view = temple.toDom(view, model);
