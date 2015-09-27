@@ -1,41 +1,43 @@
-define(['model'], function (model) {
+define(['model', 'notify'], function (model, notify) {
     'use strict';
     return new Promise(function (resolve, reject) {
         var todoModel = model.create('todoModel', {
                 // enhance the model to deal with our data more conveniently
+                getAllPending: function () {
+                    // return all todos where done === false
+                    return this.todos.query('notEqual', ['done', true]);
+                },
 
-            getAllPending: function () {
-                // return all todos where done === false
-                return this.selectAll('todos', function (o) {
-                    return !o.done ? o : false;
-                });
-            },
+                getAllComplete: function () {
+                    // return all todos where done === true
+                    return this.todos.query('isEqual', ['done', true]);
+                },
 
-            getAllComplete: function () {
-                // return all todos where done === true
-                return this.selectAll('todos', function (o) {
-                    return o.done ? o : false;
-                });
-            },
+                remainingCount: function () {
+                    return this.getNodeFromPath('todos').length;
+                }
+            });
 
-            remainingCount: function () {
-                return this.todos.length;
-            },
+        //todoModel._update = notify.update;
+        //todoModel.dataBind = notify.subscribe;
 
-            remainingText: ' todos remaining'
+        // create a named data array and insert into the model
+        var dataArray = todoModel.newDataArray('todos', '');
 
-        });
-
-        model.insert('todos', [
+        // copy the data array we got from the server in the dataArray we just made
+        // this will convert all the data into dataObjects and add query to the array
+        dataArray.cloneArray([
             {
-                title: 'Sample Todo #1...',
-                done: false
+                title: 'Sample Todo #1',
+                done: false,
+                id: 1
             },
             {
                 title: 'Sample Todo #2',
-                done: false
+                done: false,
+                id: 2
             }
-        ], null, 'todoModel');
+        ]);
 
         resolve(todoModel);
     });

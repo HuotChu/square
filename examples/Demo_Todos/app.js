@@ -1,4 +1,4 @@
-define(['todoView'], function (todo) {
+define(['todoView'], function (view) {
     var app = {};
 
     // app.startup is called by require.js in the config callback (index.html) to launch the app
@@ -7,8 +7,8 @@ define(['todoView'], function (todo) {
         var baseNode = document.querySelector('body');
 
         // add the module to the page...
-        todo.then(function (view) {
-            baseNode.appendChild(view);
+        view.then(function (todoDom) {
+            baseNode.appendChild(todoDom);
         });
     };
 
