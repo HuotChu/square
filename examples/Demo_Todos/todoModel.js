@@ -18,14 +18,12 @@ define(['model', 'notify'], function (model, notify) {
                 }
             });
 
-        //todoModel._update = notify.update;
-        //todoModel.dataBind = notify.subscribe;
-
         // create a named data array and insert into the model
         var dataArray = todoModel.newDataArray('todos', '');
 
         // copy the data array we got from the server in the dataArray we just made
         // this will convert all the data into dataObjects and add query to the array
+        // ...since there is no server data, we'll use a mock
         dataArray.cloneArray([
             {
                 title: 'Sample Todo #1',
