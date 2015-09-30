@@ -14,7 +14,7 @@ define(['temple', 'notify', 'todoModel'], function (temple, notify, todoModel) {
                     var todo = temple.getTemplate('todo.html', true);
 
                     todo.then(function (dom) {
-                        this.offsetParent.appendChild(temple.toDom(dom, changedVal));
+                        this.parentNode.appendChild(temple.toDom(dom, changedVal));
                     }.bind(this));
                 });
 
