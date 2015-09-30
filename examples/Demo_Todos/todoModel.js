@@ -5,16 +5,16 @@ define(['model', 'notify'], function (model, notify) {
                 // enhance the model to deal with our data more conveniently
                 getAllPending: function () {
                     // return all todos where done === false
-                    return this.todos.query('notEqual', ['done', true]).found;
+                    return model.getNodeFromPath('todos').query('notEqual', ['done', true]).found;
                 },
 
                 getAllComplete: function () {
                     // return all todos where done === true
-                    return this.todos.query('isEqual', ['done', true]).found;
+                    return model.getNodeFromPath('todos').query('isEqual', ['done', true]).found;
                 },
 
                 remainingCount: function () {
-                    return this.getNodeFromPath('todos').length;
+                    return model.getNodeFromPath('todos').length;
                 }
             });
 
