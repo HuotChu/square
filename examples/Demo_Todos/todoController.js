@@ -22,7 +22,7 @@ define(['temple', 'notify', 'todoModel'], function (temple, notify, todoModel) {
                 // data-dom functions respond to dom events => function (event)
 
                 model.register('addTodo', 'submit', function (e) {
-                    var textField = model._domDataNodes.getNode('todo-input').node,
+                    var textField = model._domDataNodes.getEl('todo-input'),
                         val = textField.value,
                         todos = model.getNodeFromPath('todos'),
                         last = todos[todos.length - 1].get('id');
