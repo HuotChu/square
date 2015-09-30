@@ -4,6 +4,7 @@ define(['temple', 'notify', 'todoModel'], function (temple, notify, todoModel) {
             todoModel.then(function (model) {
                 model.register('publisher', 'click', notify.publisher);
 
+                // TODO: rewire these...
                 model.register('addTodo', 'submit', function (e) {
                     var newTodo = document.querySelector('#new-todo'),
                         val = newTodo.value,
