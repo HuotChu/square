@@ -6,6 +6,8 @@ Look for daily refinements :)
 Contribution instructions, license, and other stuff will be added soon.
 
 ## Updates
+### 10/01/2015
+Tons of bug fixes and rewrites today. model's domDataNodes is still buggy and needs better structure.
 ### 9/29/2015
 Complete rewrite of the model and data-binding via dataSpies... more on that soon.
 ### 8/14/2015
