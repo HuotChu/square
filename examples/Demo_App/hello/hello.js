@@ -18,6 +18,9 @@ define(['../../../lib/temple', '../../../lib/notify'], function(temple, notify) 
         });
     });
 
+    // tell notify.js to auto-publish this topic when the uri hash changes to it
+    notify.setRoute('#hello');
+
     notify.subscribe('#hello', function () {
         helloPromise.then(function (helloDom) {
             window.document.querySelector('#hello-dom').appendChild(helloDom);
