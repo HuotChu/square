@@ -15,6 +15,7 @@ define(['../../lib/jSQL'], function(jSQL) {
         // otherwise, initial url hash is not evaluated
         window.dispatchEvent(new Event('hashchange'));
 
+        // TODO: move to tests!!!
         jSQL.create.db('testDB').table('Customers')([
             ['CustomerID', {
                 'primary': true,
