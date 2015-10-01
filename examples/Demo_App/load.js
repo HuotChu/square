@@ -15,9 +15,7 @@ define(['../../lib/temple', '../../lib/notify',  'hello/hello', 'main'], functio
             temple.getTemplate('./templates/topic.html', true)
         ];
 
-        // tell notify.js to auto-publish this topic when the uri hash changes to it
-        // hello.js (view) loaded and is listening to this topic, so no need to 'start' it manually
-        notify.setRoute('#hello');
+        // hello.js (view) loaded and is listening to the #hello topic, so no need to 'start' it manually
 
         Promise.all(templates).then(function () {
             // resources are cached...
