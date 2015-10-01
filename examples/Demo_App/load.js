@@ -7,6 +7,7 @@ define(['../../lib/temple', '../../lib/notify',  'hello/hello', 'main'], functio
     preloader.load = function () {
         var templates = [
             // array of templates  -- get and cache
+            // TODO: Move this to discussion forum Demo
             temple.getTemplate('./hello/hello.html', true),
             temple.getTemplate('./templates/comment.html', true),
             temple.getTemplate('./templates/discussion.html', true),
@@ -14,13 +15,13 @@ define(['../../lib/temple', '../../lib/notify',  'hello/hello', 'main'], functio
             temple.getTemplate('./templates/topic.html', true)
         ];
 
-        // set routes to auto-publish when the uri hash changes
+        // tell notify.js to auto-publish this topic when the uri hash changes to it
+        // hello.js (view) loaded and is listening to this topic, so no need to 'start' it manually
         notify.setRoute('#hello');
 
         Promise.all(templates).then(function () {
             // resources are cached...
-            //require(['main'], function (app) {
-                // launch the app
+                // launch the app (this does almost nothing in this example except run tests)
                 main.start();
             //});
         }).catch(function (e) {
