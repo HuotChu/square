@@ -10,19 +10,28 @@ define(['temple', 'notify', 'todoModel'], function (temple, notify, todoModel) {
                 // data-event tags link the handler to one of the following model events: 'change', 'add', 'update', 'remove'
                 // data-handler tags match a model spy to the correct model event and handler
 
-                model.spy('updateTodoList', function (changedVal) {
-                    var todo = temple.getTemplate('todo.html', true);
+                model.spy('updateTodoList', function (changedVal, event) {
+                    var todo;
 
-                    todo.then(function (dom) {
-                        this.appendChild(temple.toDom(dom, changedVal));
-                    }.bind(this));
+                    if (event === 'add' || event === 'update') {
+                        todo = temple.getTemplate('todo.html', true);
+
+                        todo.then(function (dom) {
+                            this.appendChild(temple.toDom(dom, changedVal));
+                        }.bind(this));
+                    } else if (event === 'remove') {
+                        todo = model.domDataNodes.getNode('todo-list.todo-' + changedVal[0].get('id'));
+
+                        // Todo: make this destroy even easier
+                        todo.parentElement.removeChild(todo);
+                    }
                 });
 
                 // model.register(functionName, domEvent, function) adds a dom event listener to a data-dom element
                 // data-dom functions respond to dom events => function (event)
 
                 model.register('addTodo', 'submit', function (e) {
-                    var textField = model._domDataNodes.getEl('todo-input'),
+                    var textField = model.domDataNodes.getNode('todo-input'),
                         val = textField.value,
                         todos = model.getNodeFromPath('todos'),
                         last = todos[todos.length - 1].get('id');
@@ -36,11 +45,11 @@ define(['temple', 'notify', 'todoModel'], function (temple, notify, todoModel) {
                 });
 
                 model.register('removeTodo', 'click', function (e) {
-                    var target = e.target.offsetParent,
-                        id = target.id.replace(/^todo\-/, '');
+                    var target = e.target,
+                        id = target.id,
+                        outer = target.offsetParent;
 
-                    model.remove('todos', 'isEqual', ['id', id]);
-                    target.parentElement.removeChild(target);
+                    model.getNodeFromPath('todos').remove('isEqual', ['id', e.target.getAttribute('data-id')]);
                 });
 
                 resolve(model);

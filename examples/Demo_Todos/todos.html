@@ -13,14 +13,14 @@
                     <div class="view">
                         <input class="toggle" type="checkbox" data-id="todo-list.check-{{+id}}" data-spy="todos.done" data-event="update" data-react="checked" />
                         <label>{{+title}}</label>
-                        <button class="destroy" data-dom="removeTodo" data-id="todo-list.remove-{{+id}}"></button>
+                        <button class="destroy" data-dom="removeTodo" data-id="{{+id}}"></button>
                     </div>
                     <input class="edit" data-id="todo-list.editor-{{+id}}">
             </li>
         </ul>
     </section>
     <footer id="footer">
-				<span id="todo-count"><strong data-id="counter">{{_model.remainingCount}}</strong> todos remaining</span>
+				<span id="todo-count"><strong data-id="counter" data-spy="todos" data-event="change" data-react="html:length">{{_model.remainingCount}}</strong> todos remaining</span>
         <ul id="filters">
             <li>
                 <a href="#all" data-dom="publisher" class="selected">All</a>
