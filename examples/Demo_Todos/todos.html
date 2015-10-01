@@ -8,10 +8,10 @@
     <section id="main">
         <input id="toggle-all" type="checkbox" data-id="select-all">
         <label for="toggle-all">Mark all as complete</label>
-        <ul id="todo-list" data-id="todo-list">
-            <li data-repeat="todos" data-id="todo-list.todo-{{+id}}" data-spy="todos" data-event="change" data-handler="updateTodoList">
+        <ul id="todo-list" data-id="todo-list" data-spy="todos" data-event="change" data-handler="updateTodoList">
+            <li data-repeat="todos" data-id="todo-list.todo-{{+id}}">
                     <div class="view">
-                        <input class="toggle" type="checkbox" data-id="todo-list.check-{{+id}}" data-spy="this.done" data-event="update" data-update="checked" />
+                        <input class="toggle" type="checkbox" data-id="todo-list.check-{{+id}}" data-spy="todos.done" data-event="update" data-react="checked" />
                         <label>{{+title}}</label>
                         <button class="destroy" data-dom="removeTodo" data-id="todo-list.remove-{{+id}}"></button>
                     </div>
