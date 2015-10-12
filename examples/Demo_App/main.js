@@ -1,7 +1,7 @@
 /**
  * Created by Scott on 5/29/2015.
  */
-define(['../../lib/jSQL'], function(jSQL) {
+define(['../../lib/jSQL', '../../lib/SQLish'], function(jSQL, SQLish) {
     var app = {
         baseNode: document.getElementById('jato') || document.querySelector('body')
     };
@@ -14,6 +14,20 @@ define(['../../lib/jSQL'], function(jSQL) {
         // solves initial load of url, ie. from a bookmark - site.com/index.html#info
         // otherwise, initial url hash is not evaluated
         window.dispatchEvent(new Event('hashchange'));
+
+        var dataObj = new DataObject(),
+            model = SQLish.model,
+            model2 = SQLish.model2;
+
+        model.addListener('modelUpdate', function () {
+            console.log('Model 1:', arguments);
+        });
+
+        model2.addListener('modelUpdate', function () {
+            console.log('Model 2:', arguments);
+        });
+
+        dataObj.set('Scott Loves Jaime', 'truth');
 
         // TODO: move to tests!!!
         jSQL.create.db('testDB').table('Customers')([

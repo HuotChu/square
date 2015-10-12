@@ -15,9 +15,10 @@ define(['temple', 'notify', 'product/productModel'], function (temple, notify, p
                             desc.className = 'show';
                     },
                     set: function (obj) {
-                        var firstClick = !desc.className;
+                        var firstClick = !desc.className,
+                            query = products.query('isEqual', ['id', obj.id]).found;
 
-                        this.descText = products.query('isEqual', ['id', obj.id]).get('desc');
+                        this.descText = query.get('desc');
 
                         if (firstClick) {
                             this.show();
