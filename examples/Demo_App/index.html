@@ -19,8 +19,8 @@
 <script>
     require.config({
         baseUrl: '',
-        deps: ['load'],
-        callback: function(preloader) {
+        deps: ['load', '../../lib/jato'],
+        callback: function(preloader, jato) {
             preloader.load();
         }
     });
