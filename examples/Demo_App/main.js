@@ -16,18 +16,25 @@ define(['../../lib/jSQL', '../../lib/SQLish'], function(jSQL, SQLish) {
         window.dispatchEvent(new Event('hashchange'));
 
         var dataObj = new DataObject(),
-            model = SQLish.model,
-            model2 = SQLish.model2;
+            model = SQLish.model;
 
-        model.addListener('modelUpdate', function () {
-            console.log('Model 1:', arguments);
-        });
+        model.addListener('truth', function (e) {
+            // this === currentTarget
+            this.log('truth was heard with args:', arguments);
+            this.log('The truth about me is:', e.detail.value);
+        }, console); // console was passed as the currentTarget
 
-        model2.addListener('modelUpdate', function () {
-            console.log('Model 2:', arguments);
-        });
+        model.addListener('truth.about', function () {
+            this.log('truth.about was heard with args:', arguments);
+        }, console);
 
-        dataObj.set('Scott Loves Jaime', 'truth');
+        model.addListener('truth.about.me', function () {
+            this.log('truth.about.me was heard with args:', arguments);
+        }, console);
+
+        dataObj.set('Scott Loves Jaime', 'truth.about.me');
+
+        console.log('---------------------------------------------------------------');
 
         // TODO: move to tests!!!
         jSQL.create.db('testDB').table('Customers')([
