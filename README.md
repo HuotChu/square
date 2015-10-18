@@ -8,7 +8,8 @@ Contribution instructions, license, and other stuff will be added soon.
 ## Updates
 ### 10/18/2015
 The application is in a huge state of flux right now as I take the best of model.js and jSQL.js to create a hybrid
-relational/noSQL solution. For now I'll call it SQLish (./lib/SQLish.js)
+relational/noSQL solution. For now I'll call it SQLish (lib/SQLish.js)
+Oh... check out the new eventing mechanism as well, lib/eventHub.js - it's awesome, I can't wait to put it into action!
 ### 10/01/2015
 Tons of bug fixes and rewrites today. model's domDataNodes is still buggy and needs better structure.
 ### 9/29/2015
