@@ -18,6 +18,8 @@ define(['../../lib/jSQL', '../../lib/SQLish'], function(jSQL, SQLish) {
         var dataObj = new DataObject(),
             model = SQLish.model;
 
+        dataObj._model = model;
+
         model.addListener('truth', function (e) {
             // this === currentTarget
             this.log('truth was heard with args:', arguments);
