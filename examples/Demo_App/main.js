@@ -15,26 +15,47 @@ define(['../../lib/jSQL', '../../lib/SQLish'], function(jSQL, SQLish) {
         // otherwise, initial url hash is not evaluated
         window.dispatchEvent(new Event('hashchange'));
 
-        var dataObj = new DataObject(),
-            model = SQLish.model;
+        var model = SQLish('truth'), // Create model named 'truth'
+            collection,
+            dataObj = new DataObject(),
+            eventName;
 
-        dataObj._model = model;
+        model.addListener('truth', function (e) { // listen to the model for changes
+            this.log('truth was heard with args:', e);
+        }, console);
 
-        model.addListener('truth', function (e) {
+        collection = model.add('about');  // add a collection to the model;
+
+        model.addListener('truth.about', function (e) { // listen to the collection for changes
+            this.log('truth.about was heard with args:', e);
+        }, console);
+
+        eventName = collection.add(dataObj);  // event name to listen for changes to this DataObject
+
+        model.addListener(eventName, function (e) {  // listen to DataObject for changes
             // this === currentTarget
-            this.log('truth was heard with args:', arguments);
-            this.log('The truth about me is:', e.detail.value);
+            this.log(eventName + ' was heard with args:', e);
+            //this.log('The truth about me is:', e.detail.value);
         }, console); // console was passed as the currentTarget
 
-        model.addListener('truth.about', function () {
-            this.log('truth.about was heard with args:', arguments);
+        model.addListener(eventName + '.me', function (e) { // listen to the 'me' property of the DataObject
+            this.log(eventName + '.me was heard with args:', e);
         }, console);
 
-        model.addListener('truth.about.me', function () {
-            this.log('truth.about.me was heard with args:', arguments);
+        dataObj.set('Scott Loves Jaime', 'me');
+
+        model.addListener(eventName + '.dataChange', function (e) { // listen to the generic 'dataChange' property of the DataObject
+            this.log(eventName + '.dataChange was heard with args:', e);
         }, console);
 
-        dataObj.set('Scott Loves Jaime', 'truth.about.me');
+        dataObj.set('Scott Loves Jaime!');
+
+        // todo: how do I kill off a handler when the element bound to it is destroyed?
+        //       especially since the closure on the element keeps it alive (zombie element)
+
+        // todo: drop should get the index from passed in dataObj
+        // collection.drop(0);
+        // model.dispatch(eventName + '.dataChange', {});
 
         console.log('---------------------------------------------------------------');
 
