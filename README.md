@@ -12,7 +12,7 @@ Look for daily refinements :)
 Contribution instructions, license, and other stuff will be added... eventually.
 
 ## Updates
-### 10/18/2015
-The application is in a huge state of flux right now as I take the best of model.js and jSQL.js to create a hybrid
-relational/noSQL solution. For now I'll call it SQLish (lib/SQLish.js)
-Oh... check out the new eventing mechanism as well, lib/eventHub.js - it's awesome, I can't wait to put it into action!
+### 10/21/2015
+While trying to create the most useful and efficient model API possible, I created this test on jsPerf: http://jsperf.com/iteration-race/2
+Based on these results, relational data stores in JavaScript are up to 60% faster than data collections, yet no one stores data this way on the client...
+until now.  Keep an eye on the lib/SQLish.js API as it's about to reach a whole new level of awesome.
