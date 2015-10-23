@@ -28,31 +28,24 @@ define(['testharness', '../lib/request', '../lib/SQLish'],
 
                 var db;
 
-                // Create a database called Library
                 harness.test(function () {
                     db = SQLish.createDB('Library');
-
+                    console.log('db', db);
                     harness.assert_true(SQLish.getDB('Library') !== undefined);
                 }, "SQLish should return a database called Library.");
 
-                // Create a table and tell it the rows to create
                 harness.test(function () {
                     var table = db.createTable('Books')('title');
-
+                    console.log('table', table);
                     harness.assert_true(table.hasOwnProperty('title'));
                 }, "Library should contain a Books table with a row named title.");
 
-                // Place mock data into a collection on the model
-               /* harness.test(function () {
-                    var model = M('LibraryModel'),
-                        collection = model.add('BooksCollection');
+                harness.test(function () {
+                    var table = db.insertInto('Books')('title').values('The Book of Foo');
+                    console.log('table', table);
+                    harness.assert_true(db.Books.title[0] === 'The Book of Foo');
+                }, "Books table should contain mock data at path db.Books.title[0]");
 
-                    collection.add(mockData);
-
-                    harness.assert_true(model['BooksCollection'].every(function (book, i) {
-                        return book instanceof DataObject && book.get() === mockData[i];
-                    }));
-                }, "Model should contain 3 objects from mock data converted to JATO DataObjects");*/
             }
         };
     }
