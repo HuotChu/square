@@ -37,7 +37,7 @@ define(['testharness', '../lib/request', '../lib/SQLish'],
 
                 // Create a table and tell it the rows to create
                 harness.test(function () {
-                    var table = db.create('Books', ['title']);
+                    var table = db.createTable('Books', ['title']);
 
                     harness.assert_true(table.hasOwnProperty('title'));
                 }, "Library should contain a Books table with a row named title.");
