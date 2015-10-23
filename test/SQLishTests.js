@@ -3,49 +3,51 @@
  */
 define(['testharness', '../lib/request', '../lib/SQLish'],
     function(harness, request, SQLish) {
-        var mockData = [
-            {
-                'book-id': 'CF10239843-fr987',
-                'book-title': 'One Flew Over the Cuckoo\'s Nest',
-                'book-price': '$15.00'
-            },
-            {
-                'book-id': '555-abc-12-us54323',
-                'book-title': 'Maximum Overdrive',
-                'book-price': '$29.95',
-                'book-author': 'Stephen King'
-            },
-            {
-                'book-id': 'KF0009878US',
-                'book-title': 'One Fish Two Fish Red Fish Blue Fish',
-                'book-price': '$19.95'
-            }
-        ];
-
         return {
             run: function () {
                 "use strict";
 
-                var db;
+                var db, table, query;
 
                 harness.test(function () {
                     db = SQLish.createDB('Library');
-                    console.log('db', db);
                     harness.assert_true(SQLish.getDB('Library') !== undefined);
-                }, "SQLish should return a database called Library.");
+                }, "SQLish should return a database called 'Library'");
+
 
                 harness.test(function () {
-                    var table = db.createTable('Books')('title');
-                    console.log('table', table);
+                    db = SQLish.dropDB('Library');
+                    harness.assert_true(db && SQLish.getDB('Library') === undefined);
+                }, "SQLish should return true after calling dropDB on 'Library'");
+
+
+                harness.test(function () {
+                    db = SQLish.createDB('Library');
+                    table = db.createTable('Books')('title');
+
                     harness.assert_true(table.hasOwnProperty('title'));
-                }, "Library should contain a Books table with a row named title.");
+                }, "'Library' should contain a 'Books' table with a column named 'title'");
+
 
                 harness.test(function () {
-                    var table = db.insertInto('Books')('title').values('The Book of Foo');
-                    console.log('table', table);
-                    harness.assert_true(db.Books.title[0] === 'The Book of Foo');
-                }, "Books table should contain mock data at path db.Books.title[0]");
+                    table = db.insertInto('Books')('title').values('The Book of Foo');
+                    query = db.select('title').from('Books');
 
+                    harness.assert_true(query.return[0].title === 'The Book of Foo');
+                }, "'title' column of 'Books' should contain 'The Book of Foo' at index 0");
+
+
+                harness.test(function () {
+                    var addValues = db.insertInto('Books')('title');
+
+                    [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].forEach(function(el) {
+                        addValues.values(el);
+                    });
+                    harness.assert_true(db.Books.title.length === 11);
+                }, "'title' column of 'Books' should contain values 1 through 10.");
+
+
+                // next test...
             }
         };
     }
