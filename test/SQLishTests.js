@@ -2,7 +2,7 @@
  * Created by Scott on 2/25/2015.
  */
 define(['testharness', '../lib/request', '../lib/SQLish'],
-    function(harness, request, M) {
+    function(harness, request, SQLish) {
         var mockData = [
             {
                 'book-id': 'CF10239843-fr987',
@@ -26,21 +26,33 @@ define(['testharness', '../lib/request', '../lib/SQLish'],
             run: function () {
                 "use strict";
 
-                // Create a model test
+                var db;
+
+                // Create a database called Library
                 harness.test(function () {
-                    var model = M('LibraryModel');
+                    db = SQLish.createDB('Library');
 
-                    harness.assert_true(model.event === 'LibraryModel');
-                }, "Model should be an object with event named LibraryModel");
+                    harness.assert_true(SQLish.getDB('Library') !== undefined);
+                }, "SQLish should return a database called Library.");
 
-                // Create a collection object and put it in the model, then retrieve it
+                // Create a table and tell it the rows to create
                 harness.test(function () {
-                    var model = M('LibraryModel');
+                    var table = db.create('Books', ['title']);
 
-                    model.add('BooksCollection');
+                    harness.assert_true(table.hasOwnProperty('title'));
+                }, "Library should contain a Books table with a row named title.");
 
-                    harness.assert_true(model['BooksCollection']['event'] === 'LibraryModel.BooksCollection');
-                }, "Model should have a new collection object with event LibraryModel.BooksCollection");
+                // Place mock data into a collection on the model
+               /* harness.test(function () {
+                    var model = M('LibraryModel'),
+                        collection = model.add('BooksCollection');
+
+                    collection.add(mockData);
+
+                    harness.assert_true(model['BooksCollection'].every(function (book, i) {
+                        return book instanceof DataObject && book.get() === mockData[i];
+                    }));
+                }, "Model should contain 3 objects from mock data converted to JATO DataObjects");*/
             }
         };
     }
