@@ -15,4 +15,11 @@ Contribution instructions, license, and other stuff will be added... eventually.
 ### 10/21/2015
 While trying to create the most useful and efficient model API possible, I created this test on jsPerf: http://jsperf.com/iteration-race/2
 Based on these results, relational data stores in JavaScript are up to 60% faster than data collections, yet no one stores data this way on the client...
-until now.  Keep an eye on the lib/SQLish.js API as it's about to reach a whole new level of awesome.
+until now.  Take a look at the lib/SQLish.js API as it's reaching a whole new level of WOW!  The SQLish tests show implementation coolness in test/SQLishTests.js.
+
+<a name="patreon"></a>
+## Support JATO on Patreon
+
+![patreon](http://www.blujagu.com/images/patreon.png)
+
+Please help support the future development of JATO through our [Patreon campaign](https://www.patreon.com/blujagu). I have exciting plans and there's so much I'd love to do. If we all work together, JATO will be an amazing resource.
