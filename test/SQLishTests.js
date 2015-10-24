@@ -117,6 +117,14 @@ define(['testharness', '../lib/request', '../lib/SQLish'],
                     harness.assert_true(passedTest);
                     // do not tear down Library
                 }, "SELECT title FROM Books WHERE title NOT LIKE %b%");
+
+
+                harness.test(function () {
+                    query = db.select('*').from('Books')();
+
+                    harness.assert_true(query.length === 6);
+                    // do not tear down Library
+                }, "SELECT * FROM Books");
             }
         };
     }
