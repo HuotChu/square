@@ -12,13 +12,13 @@ define(['testharness', '../lib/request', '../lib/SQLish'],
                 harness.test(function () {
                     db = SQLish.createDB('Library');
                     harness.assert_true(SQLish.getDB('Library') !== undefined);
-                }, "SQLish should return a database called 'Library'");
+                }, "CREATE DATABASE Library  => happens in each test, checking here");
 
 
                 harness.test(function () {
                     db = SQLish.dropDB('Library');
                     harness.assert_true(db && SQLish.getDB('Library') === undefined);
-                }, "SQLish should return true after calling dropDB on 'Library'");
+                }, "DROP DATABASE Library  => happens in each test, checking here");
 
 
                 harness.test(function () {
@@ -26,28 +26,97 @@ define(['testharness', '../lib/request', '../lib/SQLish'],
                     table = db.createTable('Books')('title');
 
                     harness.assert_true(table.hasOwnProperty('title'));
-                }, "'Library' should contain a 'Books' table with a column named 'title'");
+                    db = SQLish.dropDB('Library');
+                }, "CREATE TABLE Books (title)");
 
 
                 harness.test(function () {
-                    table = db.insertInto('Books')('title').values('The Book of Foo');
-                    query = db.select('title').from('Books');
+                    db = SQLish.createDB('Library');
+                    db.createTable('Books')('title');
+                    db.insertInto('Books')('title').values('Book of Foo');
+                    query = db.select('title').from('Books')();
 
-                    harness.assert_true(query.return[0].title === 'The Book of Foo');
-                }, "'title' column of 'Books' should contain 'The Book of Foo' at index 0");
+                    harness.assert_true(query[0].title === 'Book of Foo');
+                    db = SQLish.dropDB('Library');
+                }, "INSERT INTO Books (title) VALUES ('Book of Foo')");
 
+
+                // setup for next test
+                db = SQLish.createDB('Library');
+                table = db.createTable('Books')('title');
 
                 harness.test(function () {
-                    var addValues = db.insertInto('Books')('title');
+                    var insertValues = db.insertInto('Books')('title').values('Alphabet Soup')('Aliens')('Baseball')('Bats')('Cats')('Soup for the Soul'),
+                        testPassed = false,
+                        titlesArray;
 
-                    [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].forEach(function(el) {
-                        addValues.values(el);
+                    titlesArray = db.select('title').from('Books')();
+
+                    testPassed = titlesArray.every(function (rowObj) {
+                        var title = rowObj.title,
+                            a = ['Alphabet Soup', 'Aliens', 'Baseball', 'Bats', 'Cats', 'Soup for the Soul'];
+
+                        return title && a.indexOf(title) >= 0;
                     });
-                    harness.assert_true(db.Books.title.length === 11);
-                }, "'title' column of 'Books' should contain values 1 through 10.");
+
+                    harness.assert_true(testPassed);
+                    // do not tear down Library
+                }, "INSERT INTO Books (title) VALUES ('Alphabet Soup'),('Aliens'),('Baseball'),('Bats'),('Cats'),('Soup for the Soul')");
 
 
-                // next test...
+                // next test uses prerequisites from previous test...
+                harness.test(function () {
+                    query = db.select('title').from('Books').where('title', '===', 'Aliens');
+
+                    harness.assert_true(query[0] && query[0].title === 'Aliens');
+                    // do not tear down Library
+                }, "SELECT title FROM Books WHERE title === 'Aliens'");
+
+
+                // keep going...
+                harness.test(function () {
+                    var where,
+                        returnSet,
+                        passedTest = false;
+
+
+                    query = db.select('title').from('Books');
+                    where = query.where;
+
+                    returnSet = where('title', 'like', 'soup');
+                    passedTest = returnSet.length === 0;
+
+                    if (passedTest) {
+                        returnSet = where('title', 'like', '.*soup');
+                        passedTest = returnSet[0].title === 'Alphabet Soup' && returnSet.length === 1;
+                    }
+
+                    if (passedTest) {
+                        returnSet = where('title', 'like', 'ba.*');
+                        passedTest = returnSet[0].title === 'Baseball' && returnSet[1].title === 'Bats' && returnSet.length === 2;
+                    }
+
+                    if (passedTest) {
+                        returnSet = where('title', 'like', '.*ou.*ou.*');
+                        passedTest = returnSet[0].title === 'Soup for the Soul' && returnSet.length === 1;
+                    }
+
+                    harness.assert_true(passedTest);
+                    // do not tear down Library
+                }, "SELECT title FROM Books WHERE title LIKE %ou%ou%  => plus 3 more 'LIKE' tests");
+
+
+                harness.test(function () {
+                    var where = query.where,
+                        returnSet,
+                        passedTest = false;
+
+                    returnSet = where('title', 'not like', '.*b.*');
+                    passedTest = returnSet[0].title === 'Aliens' && returnSet[1].title === 'Cats' && returnSet[2].title === 'Soup for the Soul' && returnSet.length === 3;
+
+                    harness.assert_true(passedTest);
+                    // do not tear down Library
+                }, "SELECT title FROM Books WHERE title NOT LIKE %b%");
             }
         };
     }
