@@ -80,15 +80,15 @@ define(['testharness', '../lib/request', '../lib/SQLish'],
                     passedTest = returnSet.length === 0;
                     if (passedTest) {
                         returnSet = where('title', 'like', '.*soup');
-                        passedTest = returnSet[0].title === 'Alphabet Soup' && returnSet.length === 1;
+                        passedTest = returnSet.length === 1 && returnSet[0].title === 'Alphabet Soup';
                     }
                     if (passedTest) {
                         returnSet = where('title', 'like', 'ba.*');
-                        passedTest = returnSet[0].title === 'Baseball' && returnSet[1].title === 'Bats' && returnSet.length === 2;
+                        passedTest = returnSet.length === 2 && returnSet[0].title === 'Baseball' && returnSet[1].title === 'Bats';
                     }
                     if (passedTest) {
                         returnSet = where('title', 'like', '.*ou.*ou.*');
-                        passedTest = returnSet[0].title === 'Soup for the Soul' && returnSet.length === 1;
+                        passedTest = returnSet.length === 1 && returnSet[0].title === 'Soup for the Soul';
                     }
                     harness.assert_true(passedTest);
                     // do not tear down Library
@@ -101,7 +101,7 @@ define(['testharness', '../lib/request', '../lib/SQLish'],
                         passedTest = false;
 
                     returnSet = where('title', 'not like', '.*b.*');
-                    passedTest = returnSet[0].title === 'Aliens' && returnSet[1].title === 'Cats' && returnSet[2].title === 'Soup for the Soul' && returnSet.length === 3;
+                    passedTest = returnSet.length === 3 && returnSet[0].title === 'Aliens' && returnSet[1].title === 'Cats' && returnSet[2].title === 'Soup for the Soul';
                     harness.assert_true(passedTest);
                     // do not tear down Library
                 }, "SELECT title FROM Books WHERE title NOT LIKE %b%");
@@ -126,10 +126,18 @@ define(['testharness', '../lib/request', '../lib/SQLish'],
                                                                     ('Baseball', 'Hank Aaron')('Bats', 'Creepy Guy')('Cats', 'Kaitlyn Rose')
                                                                     ('Soup for the Soul', 'Flora Ivy');
                     returnSet = db.select('title').from('Books').where('author', 'like', '.*o.*s.*');
-                    testPassed = returnSet[0].title === 'Alphabet Soup' && returnSet[1].title === 'Cats' && returnSet.length === 2;
+                    testPassed = returnSet.length === 2 && returnSet[0].title === 'Alphabet Soup' && returnSet[1].title === 'Cats';
                     harness.assert_true(testPassed);
                     // do not tear down Library
                 }, "SELECT title FROM Books WHERE author LIKE %o%s%  => condition based on field not in SELECT");
+
+
+                harness.test(function () {
+                    db.update('Books').set('title', 'Green Eggs & Ham')('author', 'Dr. Seuss').where('title', '===', 'Bats');
+                    query = db.select('title', 'author').from('Books')();
+                    harness.assert_true(query && query.length && query.length === 7 && query[4].title === 'Green Eggs & Ham' && query[4].author === 'Dr. Seuss');
+                    //db = SQLish.dropDB('Library');
+                }, "UPDATE Books SET title = 'Green Eggs & Ham', author = 'Dr. Seuss' WHERE title = 'Bats'");
             }
         };
     }
