@@ -33,7 +33,7 @@ define(['testharness', '../lib/request', '../lib/SQLish'],
                     db = SQLish.createDB('Library');
                     db.createTable('Books')('title');
                     db.insertInto('Books')('title').values('Book of Foo');
-                    query = db.select('title').from('Books')();
+                    query = db.select('title').from('Books').go();
                     harness.assert_true(query[0].title === 'Book of Foo');
                     db = SQLish.dropDB('Library');
                 }, "INSERT INTO Books (title) VALUES ('Book of Foo')");
@@ -48,7 +48,7 @@ define(['testharness', '../lib/request', '../lib/SQLish'],
                         testPassed = false,
                         titlesArray;
 
-                    titlesArray = db.select('title').from('Books')();
+                    titlesArray = db.select('title').from('Books').go();
                     testPassed = titlesArray.every(function (rowObj) {
                         var title = rowObj.title,
                             a = ['Alphabet Soup', 'Aliens', 'Baseball', 'Bats', 'Cats', 'Soup for the Soul'];
@@ -62,7 +62,7 @@ define(['testharness', '../lib/request', '../lib/SQLish'],
 
                 // next test uses prerequisites from previous test...
                 harness.test(function () {
-                    query = db.select('title').from('Books').where('title', '===', 'Aliens');
+                    query = db.select('title').from('Books').where('title', '===', 'Aliens').go();
                     harness.assert_true(query[0] && query[0].title === 'Aliens');
                     // do not tear down Library
                 }, "SELECT title FROM Books WHERE title = 'Aliens'");
@@ -76,18 +76,18 @@ define(['testharness', '../lib/request', '../lib/SQLish'],
 
                     query = db.select('title').from('Books');
                     where = query.where;
-                    returnSet = where('title', 'like', 'soup');
+                    returnSet = where('title', 'like', 'soup').go();
                     passedTest = returnSet.length === 0;
                     if (passedTest) {
-                        returnSet = where('title', 'like', '.*soup');
+                        returnSet = where('title', 'like', '.*soup').go();
                         passedTest = returnSet.length === 1 && returnSet[0].title === 'Alphabet Soup';
                     }
                     if (passedTest) {
-                        returnSet = where('title', 'like', 'ba.*');
+                        returnSet = where('title', 'like', 'ba.*').go();
                         passedTest = returnSet.length === 2 && returnSet[0].title === 'Baseball' && returnSet[1].title === 'Bats';
                     }
                     if (passedTest) {
-                        returnSet = where('title', 'like', '.*ou.*ou.*');
+                        returnSet = where('title', 'like', '.*ou.*ou.*').go();
                         passedTest = returnSet.length === 1 && returnSet[0].title === 'Soup for the Soul';
                     }
                     harness.assert_true(passedTest);
@@ -100,7 +100,7 @@ define(['testharness', '../lib/request', '../lib/SQLish'],
                         returnSet,
                         passedTest = false;
 
-                    returnSet = where('title', 'not like', '.*b.*');
+                    returnSet = where('title', 'not like', '.*b.*').go();
                     passedTest = returnSet.length === 3 && returnSet[0].title === 'Aliens' && returnSet[1].title === 'Cats' && returnSet[2].title === 'Soup for the Soul';
                     harness.assert_true(passedTest);
                     // do not tear down Library
@@ -108,7 +108,7 @@ define(['testharness', '../lib/request', '../lib/SQLish'],
 
 
                 harness.test(function () {
-                    query = db.select('*').from('Books')();
+                    query = db.select('*').from('Books').go();
                     harness.assert_true(query.length === 6);
                     db = SQLish.dropDB('Library');
                 }, "SELECT * FROM Books");
@@ -123,9 +123,9 @@ define(['testharness', '../lib/request', '../lib/SQLish'],
                         returnSet;
 
                     db.insertInto('Books')('title', 'author').values('Baseball', 'Hank Aaron')('Alphabet Soup', 'Abe Jones')('Aliens', 'Corey Dorey')
-                                                                    ('Baseball', 'Hank Aaron')('Bats', 'Creepy Guy')('Cats', 'Kaitlyn Rose')
+                                                                    ('Coffee Break', 'Bob Aaron')('Bats', 'Creepy Guy')('Cats', 'Kaitlyn Rose')
                                                                     ('Soup for the Soul', 'Flora Ivy');
-                    returnSet = db.select('title').from('Books').where('author', 'like', '.*o.*s.*');
+                    returnSet = db.select('title').from('Books').where('author', 'like', '.*o.*s.*').go();
                     testPassed = returnSet.length === 2 && returnSet[0].title === 'Alphabet Soup' && returnSet[1].title === 'Cats';
                     harness.assert_true(testPassed);
                     // do not tear down Library
@@ -133,11 +133,23 @@ define(['testharness', '../lib/request', '../lib/SQLish'],
 
 
                 harness.test(function () {
-                    db.update('Books').set('title', 'Green Eggs & Ham')('author', 'Dr. Seuss').where('title', '===', 'Bats');
-                    query = db.select('title', 'author').from('Books')();
-                    harness.assert_true(query && query.length && query.length === 7 && query[4].title === 'Green Eggs & Ham' && query[4].author === 'Dr. Seuss');
+                    db.update('Books').set('title', 'Green Eggs & Ham')('author', 'Dr. Seuss').where('title', '===', 'Bats').go();
+                    query = db.select('title', 'author').from('Books').go();
+                    harness.assert_true(query.length === 7 && query[4].title === 'Green Eggs & Ham' && query[4].author === 'Dr. Seuss');
                     //db = SQLish.dropDB('Library');
                 }, "UPDATE Books SET title = 'Green Eggs & Ham', author = 'Dr. Seuss' WHERE title = 'Bats'");
+
+
+                harness.test(function() {
+                    query = db.select('title').from('Books').where('title', 'like', '.*break').and('author', 'like', '.*Aaron').go();
+                    harness.assert_true(query[0].title === 'Coffee Break');
+                }, "SELECT title FROM Books WHERE title like %break AND author like %Aaron");
+
+
+                harness.test(function() {
+                    query = db.select('title').from('Books').where('title', '===', 'Aliens').or('author', '===', 'Kaitlyn Rose').go();
+                    harness.assert_true(query.length === 2 && query[0].title === 'Aliens' && query[1].title === 'Cats');
+                }, "SELECT title FROM Books WHERE title = 'Aliens' OR author = 'Kaitlyn Rose'");
             }
         };
     }
