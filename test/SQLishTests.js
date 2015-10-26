@@ -150,6 +150,44 @@ define(['testharness', '../lib/request', '../lib/SQLish'],
                     query = db.select('title').from('Books').where('title', '===', 'Aliens').or('author', '===', 'Kaitlyn Rose').go();
                     harness.assert_true(query.length === 2 && query[0].title === 'Aliens' && query[1].title === 'Cats');
                 }, "SELECT title FROM Books WHERE title = 'Aliens' OR author = 'Kaitlyn Rose'");
+
+
+                harness.test(function() {
+                    db.deleteFrom('Books').where('author', '===', 'Hank Aaron').or('author', 'like', '.*ivy').go();
+                    query = db.select('title', 'author').from('Books').where('author', '===', 'Hank Aaron').or('author', 'like', '.*ivy').go();
+                    harness.assert_true(query.length === 0);
+                }, "DELETE FROM Books WHERE author === 'Hank Aaron' OR author like %ivy");
+
+
+                harness.test(function() {
+                    db.deleteFrom('Books').go();
+                    query = db.select('title', 'author').from('Books').go();
+                    harness.assert_true(query.length === 0);
+                }, "DELETE FROM Books");
+
+
+                harness.test(function() {
+                    db.delete('author').from('Books');
+                    query = db.select('author').from('Books').go();
+                    harness.assert_true(db.Books.author === undefined && query.length === 0);
+                }, "DELETE author FROM Books");
+
+
+                // setup for next test
+                db = SQLish.createDB('Library');
+                table = db.createTable('Books')('title', 'author');
+                db.insertInto('Books')('title', 'author').values('Baseball', 'Hank Aaron')('Alphabet Soup', 'Abe Jones')('Aliens', 'Corey Dorey')
+                ('Coffee Break', 'Bob Aaron')('Bats', 'Creepy Guy')('Cats', 'Kaitlyn Rose')
+                ('Soup for the Soul', 'Flora Ivy');
+
+                harness.test(function() {
+                    db.delete('*').from('Books');
+                    var q1 = db.select('title').from('Books').go(),
+                        q2 = db.select('author').from('Books').go();
+
+                    console.log('DB', db);
+                    harness.assert_true(db.Books.author === undefined && db.Books.title === undefined && q1.length === 0 && q2.length === 0);
+                }, "DELETE * FROM Books");
             }
         };
     }
