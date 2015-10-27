@@ -1,8 +1,8 @@
 /**
  * Created by Scott on 2/25/2015.
  */
-define(['testharness', '../lib/request', '../lib/SQLish'],
-    function(harness, request, SQLish) {
+define(['testharness', '../lib/request', '../lib/squareDB'],
+    function(harness, request, squareDB) {
         return {
             run: function () {
                 "use strict";
@@ -10,37 +10,40 @@ define(['testharness', '../lib/request', '../lib/SQLish'],
                 var db, table, query;
 
                 harness.test(function () {
-                    db = SQLish.createDB('Library');
-                    harness.assert_true(SQLish.getDB('Library') !== undefined);
+                    db = squareDB.createDB('Library');
+                    harness.assert_true(squareDB.getDB('Library') !== undefined);
                 }, "CREATE DATABASE Library  => happens in each test, checking here");
 
 
                 harness.test(function () {
-                    db = SQLish.dropDB('Library');
-                    harness.assert_true(db && SQLish.getDB('Library') === undefined);
+                    db = squareDB.dropDB('Library');
+                    harness.assert_true(db && squareDB.getDB('Library') === undefined);
                 }, "DROP DATABASE Library  => happens in each test, checking here");
 
 
                 harness.test(function () {
-                    db = SQLish.createDB('Library');
+                    db = squareDB.createDB('Library');
                     table = db.createTable('Books')('title');
                     harness.assert_true(table.hasOwnProperty('title'));
-                    db = SQLish.dropDB('Library');
                 }, "CREATE TABLE Books (title)");
 
 
+                // tear-down & setup for next test
+                db = squareDB.dropDB('Library');
+                db = squareDB.createDB('Library');
+
                 harness.test(function () {
-                    db = SQLish.createDB('Library');
+
                     db.createTable('Books')('title');
                     db.insertInto('Books')('title').values('Book of Foo');
                     query = db.select('title').from('Books').go();
                     harness.assert_true(query[0].title === 'Book of Foo');
-                    db = SQLish.dropDB('Library');
                 }, "INSERT INTO Books (title) VALUES ('Book of Foo')");
 
 
-                // setup for next test
-                db = SQLish.createDB('Library');
+                // tear-down & setup for next test
+                db = squareDB.dropDB('Library');
+                db = squareDB.createDB('Library');
                 table = db.createTable('Books')('title');
 
                 harness.test(function () {
@@ -56,7 +59,6 @@ define(['testharness', '../lib/request', '../lib/SQLish'],
                         return title && a.indexOf(title) >= 0;
                     });
                     harness.assert_true(testPassed);
-                    // do not tear down Library
                 }, "INSERT INTO Books (title) VALUES ('Alphabet Soup'),('Aliens'),('Baseball'),('Bats'),('Cats'),('Soup for the Soul')");
 
 
@@ -64,7 +66,6 @@ define(['testharness', '../lib/request', '../lib/SQLish'],
                 harness.test(function () {
                     query = db.select('title').from('Books').where('title', '===', 'Aliens').go();
                     harness.assert_true(query[0] && query[0].title === 'Aliens');
-                    // do not tear down Library
                 }, "SELECT title FROM Books WHERE title = 'Aliens'");
 
 
@@ -91,7 +92,6 @@ define(['testharness', '../lib/request', '../lib/SQLish'],
                         passedTest = returnSet.length === 1 && returnSet[0].title === 'Soup for the Soul';
                     }
                     harness.assert_true(passedTest);
-                    // do not tear down Library
                 }, "SELECT title FROM Books WHERE title LIKE %ou%ou%  => plus 3 more 'LIKE' tests");
 
 
@@ -103,19 +103,18 @@ define(['testharness', '../lib/request', '../lib/SQLish'],
                     returnSet = where('title', 'not like', '.*b.*').go();
                     passedTest = returnSet.length === 3 && returnSet[0].title === 'Aliens' && returnSet[1].title === 'Cats' && returnSet[2].title === 'Soup for the Soul';
                     harness.assert_true(passedTest);
-                    // do not tear down Library
                 }, "SELECT title FROM Books WHERE title NOT LIKE %b%");
 
 
                 harness.test(function () {
                     query = db.select('*').from('Books').go();
                     harness.assert_true(query.length === 6);
-                    db = SQLish.dropDB('Library');
                 }, "SELECT * FROM Books");
 
 
-                // setup for next test
-                db = SQLish.createDB('Library');
+                // tear-down & setup for next test
+                db = squareDB.dropDB('Library');
+                db = squareDB.createDB('Library');
                 table = db.createTable('Books')('title', 'author');
 
                 harness.test(function () {
@@ -128,7 +127,6 @@ define(['testharness', '../lib/request', '../lib/SQLish'],
                     returnSet = db.select('title').from('Books').where('author', 'like', '.*o.*s.*').go();
                     testPassed = returnSet.length === 2 && returnSet[0].title === 'Alphabet Soup' && returnSet[1].title === 'Cats';
                     harness.assert_true(testPassed);
-                    // do not tear down Library
                 }, "SELECT title FROM Books WHERE author LIKE %o%s%  => condition based on field not in SELECT");
 
 
@@ -136,7 +134,6 @@ define(['testharness', '../lib/request', '../lib/SQLish'],
                     db.update('Books').set('title', 'Green Eggs & Ham')('author', 'Dr. Seuss').where('title', '===', 'Bats').go();
                     query = db.select('title', 'author').from('Books').go();
                     harness.assert_true(query.length === 7 && query[4].title === 'Green Eggs & Ham' && query[4].author === 'Dr. Seuss');
-                    //db = SQLish.dropDB('Library');
                 }, "UPDATE Books SET title = 'Green Eggs & Ham', author = 'Dr. Seuss' WHERE title = 'Bats'");
 
 
@@ -153,41 +150,70 @@ define(['testharness', '../lib/request', '../lib/SQLish'],
 
 
                 harness.test(function() {
-                    db.deleteFrom('Books').where('author', '===', 'Hank Aaron').or('author', 'like', '.*ivy').go();
+                    var d = db.delete().from('Books').where('author', '===', 'Hank Aaron').or('author', 'like', '.*ivy').go();
                     query = db.select('title', 'author').from('Books').where('author', '===', 'Hank Aaron').or('author', 'like', '.*ivy').go();
+                    console.log('delete 1st and last title', Array.from(d.title));
+                    console.log('delete 1st and last author', Array.from(d.author));
                     harness.assert_true(query.length === 0);
                 }, "DELETE FROM Books WHERE author === 'Hank Aaron' OR author like %ivy");
 
 
-                harness.test(function() {
-                    db.deleteFrom('Books').go();
-                    query = db.select('title', 'author').from('Books').go();
-                    harness.assert_true(query.length === 0);
-                }, "DELETE FROM Books");
+                // tear-down & setup for next test
+                db = squareDB.dropDB('Library');
+                db = squareDB.createDB('Library');
+                table = db.createTable('Books')('title', 'author');
+                db.insertInto('Books')('title', 'author').values('Baseball', 'Hank Aaron')('Alphabet Soup', 'Abe Jones')('Aliens', 'Corey Dorey')
+                ('Coffee Break', 'Bob Aaron')('Bats', 'Creepy Guy')('Cats', 'Kaitlyn Rose')('Soup for the Soul', 'Flora Ivy');
 
-
                 harness.test(function() {
-                    db.delete('author').from('Books');
+                    var d = db.delete('author').from('Books').go();
                     query = db.select('author').from('Books').go();
-                    harness.assert_true(db.Books.author === undefined && query.length === 0);
+                    console.log('delete author', Array.from(d.author));
+                    console.log('did not delete title', db.select('title').from('Books').go());
+                    harness.assert_true(query.length === 0);
                 }, "DELETE author FROM Books");
 
 
-                // setup for next test
-                db = SQLish.createDB('Library');
+                // tear-down & setup for next test
+                db = squareDB.dropDB('Library');
+                db = squareDB.createDB('Library');
                 table = db.createTable('Books')('title', 'author');
                 db.insertInto('Books')('title', 'author').values('Baseball', 'Hank Aaron')('Alphabet Soup', 'Abe Jones')('Aliens', 'Corey Dorey')
-                ('Coffee Break', 'Bob Aaron')('Bats', 'Creepy Guy')('Cats', 'Kaitlyn Rose')
-                ('Soup for the Soul', 'Flora Ivy');
+                ('Coffee Break', 'Bob Aaron')('Bats', 'Creepy Guy')('Cats', 'Kaitlyn Rose')('Soup for the Soul', 'Flora Ivy');
 
                 harness.test(function() {
-                    db.delete('*').from('Books');
+                    var d = db.delete('*').from('Books').go();  // same as db.delete().from('Books').go();
                     var q1 = db.select('title').from('Books').go(),
                         q2 = db.select('author').from('Books').go();
 
-                    console.log('DB', db);
-                    harness.assert_true(db.Books.author === undefined && db.Books.title === undefined && q1.length === 0 && q2.length === 0);
-                }, "DELETE * FROM Books");
+                    console.log('delete title and author data from Books - Title', Array.from(d.title));
+                    console.log('delete title and author data from Books - Author', Array.from(d.title));
+                    harness.assert_true(q1.length === 0 && q2.length === 0);
+                }, "DELETE * FROM Books => same as DELETE FROM Books");
+
+
+                // tear-down & setup for next test
+                db = squareDB.dropDB('Library');
+                db = squareDB.createDB('Library');
+                table = db.createTable('Books')('title', 'author');
+                db.insertInto('Books')('title', 'author').values('Baseball', 'Hank Aaron')('Alphabet Soup', 'Abe Jones')('Aliens', 'Corey Dorey')
+                ('Coffee Break', 'Bob Aaron')('Bats', 'Creepy Guy')('Cats', 'Kaitlyn Rose')('Soup for the Soul', 'Flora Ivy');
+
+                harness.test(function() {
+                    db.alterTable('Books').add('pages');
+                    query = db.select('pages').from('Books').go();
+                    harness.assert_true(query.length === 7);
+                }, "ALTER TABLE Books ADD pages");
+
+
+                harness.test(function() {
+                    db.alterTable('Books').drop('pages');
+                    query = db.select('pages').from('Books').go();
+                    console.log('table', table);
+                    harness.assert_true(query.length === 0);
+                }, "ALTER TABLE Books DROP pages");
+
+
             }
         };
     }
