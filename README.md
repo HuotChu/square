@@ -12,10 +12,8 @@ Look for daily refinements :)
 Contribution instructions, license, and other stuff will be added... eventually.
 
 ## Updates
-### 10/21/2015
-While trying to create the most useful and efficient model API possible, I created this test on jsPerf: http://jsperf.com/iteration-race/2
-Based on these results, relational data stores in JavaScript are up to 60% faster than data collections, yet no one stores data this way on the client...
-until now.  Take a look at the lib/SQLish.js API as it's reaching a whole new level of WOW!  The SQLish tests show implementation coolness in test/SQLishTests.js.
+### 10/27/2015
+SQLish.js has been renamed to squareDB! (Structured QUery And RElational DataBase) It now supports many SQL commands (see tests/squareDBTests.js) using combinatory logic/lambda expressions for a truly awesome client-side data model.
 
 <a name="patreon"></a>
 ## Support JATO on Patreon
