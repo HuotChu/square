@@ -13,14 +13,14 @@ Contribution instructions, license, and other stuff will be added... eventually.
 
 ## Updates
 ### 10/29/2015
-JATO has been renamed to SquareJS!
+JATO has been renamed to Square[JS]!
 
 ### 10/27/2015
 SQLish.js has been renamed to squareDB! (Structured QUery And RElational DataBase) It now supports many SQL commands (see tests/squareDBTests.js) using combinatory logic/lambda expressions for a truly awesome client-side data model.
 
 <a name="patreon"></a>
-## Support SquareJS on Patreon
+## Support Square[JS] on Patreon
 
 ![patreon](http://www.blujagu.com/images/patreon.png)
 
-Please help support the future development of JATO through our [Patreon campaign](https://www.patreon.com/blujagu). I have exciting plans and there's so much I'd love to do. If we all work together, JATO will be an amazing resource.
+Please help support the future development of Square[JS] through our [Patreon campaign](https://www.patreon.com/squarejs). I have exciting plans and there's so much I'd love to do. If we all work together, SquareJS will be an amazing resource.
