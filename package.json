@@ -1,6 +1,6 @@
 {
-  "name": "jato",
-  "version": "0.0.1",
+  "name": "Square",
+  "version": "0.0.2",
   "description": "JavaScript Application Framework",
   "main": "index.html",
   "directories": {
