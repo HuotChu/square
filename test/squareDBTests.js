@@ -47,10 +47,10 @@ define(['testharness', '../lib/request', '../lib/squareDB'],
                 table = db.createTable('Books')('title');
 
                 harness.test(function () {
-                    var insertValues = db.insertInto('Books')('title').values('Alphabet Soup')('Aliens')('Baseball')('Bats')('Cats')('Soup for the Soul'),
-                        testPassed = false,
+                    var testPassed,
                         titlesArray;
 
+                    db.insertInto('Books')('title').values('Alphabet Soup')('Aliens')('Baseball')('Bats')('Cats')('Soup for the Soul');
                     titlesArray = db.select('title').from('Books').go();
                     testPassed = titlesArray.every(function (rowObj) {
                         var title = rowObj.title,
@@ -71,37 +71,31 @@ define(['testharness', '../lib/request', '../lib/squareDB'],
 
                 // keep going...
                 harness.test(function () {
-                    var where,
-                        returnSet,
-                        passedTest = false;
+                    var passedTest;
 
-                    query = db.select('title').from('Books');
-                    where = query.where;
-                    returnSet = where('title', 'like', 'soup').go();
-                    passedTest = returnSet.length === 0;
+                    query = db.select('title').from('Books').where('title', 'like', 'soup').go();
+                    passedTest = query.length === 0;
                     if (passedTest) {
-                        returnSet = where('title', 'like', '.*soup').go();
-                        passedTest = returnSet.length === 1 && returnSet[0].title === 'Alphabet Soup';
+                        query = db.select('title').from('Books').where('title', 'like', '.*soup').go();
+                        passedTest = query.length === 1 && query[0].title === 'Alphabet Soup';
                     }
                     if (passedTest) {
-                        returnSet = where('title', 'like', 'ba.*').go();
-                        passedTest = returnSet.length === 2 && returnSet[0].title === 'Baseball' && returnSet[1].title === 'Bats';
+                        query = db.select('title').from('Books').where('title', 'like', 'ba.*').go();
+                        passedTest = query.length === 2 && query[0].title === 'Baseball' && query[1].title === 'Bats';
                     }
                     if (passedTest) {
-                        returnSet = where('title', 'like', '.*ou.*ou.*').go();
-                        passedTest = returnSet.length === 1 && returnSet[0].title === 'Soup for the Soul';
+                        query = db.select('title').from('Books').where('title', 'like', '.*ou.*ou.*').go();
+                        passedTest = query.length === 1 && query[0].title === 'Soup for the Soul';
                     }
                     harness.assert_true(passedTest);
                 }, "SELECT title FROM Books WHERE title LIKE %ou%ou%  => plus 3 more 'LIKE' tests");
 
 
                 harness.test(function () {
-                    var where = query.where,
-                        returnSet,
-                        passedTest = false;
+                    var passedTest;
 
-                    returnSet = where('title', 'not like', '.*b.*').go();
-                    passedTest = returnSet.length === 3 && returnSet[0].title === 'Aliens' && returnSet[1].title === 'Cats' && returnSet[2].title === 'Soup for the Soul';
+                    query = db.select('title').from('Books').where('title', 'not like', '.*b.*').go();
+                    passedTest = query.length === 3 && query[0].title === 'Aliens' && query[1].title === 'Cats' && query[2].title === 'Soup for the Soul';
                     harness.assert_true(passedTest);
                 }, "SELECT title FROM Books WHERE title NOT LIKE %b%");
 
@@ -118,22 +112,31 @@ define(['testharness', '../lib/request', '../lib/squareDB'],
                 table = db.createTable('Books')('title', 'author');
 
                 harness.test(function () {
-                    var testPassed = false,
-                        returnSet;
+                    var testPassed, returnSet;
 
-                    db.insertInto('Books')('title', 'author').values('Baseball', 'Hank Aaron')('Alphabet Soup', 'Abe Jones')('Aliens', 'Corey Dorey')
-                                                                    ('Coffee Break', 'Bob Aaron')('Bats', 'Creepy Guy')('Cats', 'Kaitlyn Rose')
+                    db.insertInto('Books')('title', 'author').values('Baseball', 'Hank Aaron')('Alphabet Soup', 'Abe Jones')('Aliens', 'Abe Jones')
+                                                                    ('Coffee Break', 'Bob Aaron')('Bats', 'Wes Stacks')('Cats', 'Kaitlyn Rose')
                                                                     ('Soup for the Soul', 'Flora Ivy');
-                    returnSet = db.select('title').from('Books').where('author', 'like', '.*o.*s.*').go();
-                    testPassed = returnSet.length === 2 && returnSet[0].title === 'Alphabet Soup' && returnSet[1].title === 'Cats';
+                    returnSet = db.select('author').from('Books').where('author', 'like', '.*o.*s.*').go();
+                    testPassed = returnSet.length === 3 && returnSet[0]['author'] === 'Abe Jones' && returnSet[1]['author'] === 'Abe Jones' && returnSet[2]['author'] === 'Kaitlyn Rose';
                     harness.assert_true(testPassed);
                 }, "SELECT title FROM Books WHERE author LIKE %o%s%  => condition based on field not in SELECT");
 
 
                 harness.test(function () {
+                    // todo: special case when select is called empty?
+                    var returnSet = db.select().distinct('author').from('Books').go(),
+                        testPassed;
+                    console.log('returnSet', returnSet);
+                    testPassed = returnSet.length === 6 && returnSet[0]['author'] === 'Hank Aaron' && returnSet[1]['author'] === 'Abe Jones' && returnSet[2]['author'] === 'Bob Aaron';
+                    harness.assert_true(testPassed);
+                }, "SELECT DISTINCT author FROM Books WHERE author = 'Creepy Guy'");
+
+
+                harness.test(function () {
                     db.update('Books').set('title', 'Green Eggs & Ham')('author', 'Dr. Seuss').where('title', '===', 'Bats').go();
                     query = db.select('title', 'author').from('Books').go();
-                    harness.assert_true(query.length === 7 && query[4].title === 'Green Eggs & Ham' && query[4].author === 'Dr. Seuss');
+                    harness.assert_true(query.length === 7 && query[4].title === 'Green Eggs & Ham' && query[4]['author'] === 'Dr. Seuss');
                 }, "UPDATE Books SET title = 'Green Eggs & Ham', author = 'Dr. Seuss' WHERE title = 'Bats'");
 
 
@@ -153,7 +156,7 @@ define(['testharness', '../lib/request', '../lib/squareDB'],
                     var d = db.delete().from('Books').where('author', '===', 'Hank Aaron').or('author', 'like', '.*ivy').go();
                     query = db.select('title', 'author').from('Books').where('author', '===', 'Hank Aaron').or('author', 'like', '.*ivy').go();
                     console.log('delete 1st and last title', Array.from(d.title));
-                    console.log('delete 1st and last author', Array.from(d.author));
+                    console.log('delete 1st and last author', Array.from(d['author']));
                     harness.assert_true(query.length === 0);
                 }, "DELETE FROM Books WHERE author === 'Hank Aaron' OR author like %ivy");
 
@@ -168,7 +171,7 @@ define(['testharness', '../lib/request', '../lib/squareDB'],
                 harness.test(function() {
                     var d = db.delete('author').from('Books').go();
                     query = db.select('author').from('Books').go();
-                    console.log('delete author', Array.from(d.author));
+                    console.log('delete author', Array.from(d['author']));
                     console.log('did not delete title', db.select('title').from('Books').go());
                     harness.assert_true(query.length === 0);
                 }, "DELETE author FROM Books");
