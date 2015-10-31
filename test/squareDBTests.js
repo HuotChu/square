@@ -217,6 +217,18 @@ define(['testharness', '../lib/request', '../lib/squareDB'],
                 }, "ALTER TABLE Books DROP pages");
 
 
+                // tear-down & setup for next test
+                db = squareDB.dropDB('Library');
+                db = squareDB.createDB('Library');
+                table = db.createTable('Books')('title', 'author', 'pages');
+                db.insertInto('Books')('title', 'author', 'pages').values('Baseball', 'Hank Aaron', 90)('Alphabet Soup', 'Abe Jones', 540)('Aliens', 'Corey Dorey', 210)
+                ('Coffee Break', 'Bob Aaron', 65)('Bats', 'Creepy Guy', 300)('Cats', 'Kaitlyn Rose', 829)('Soup for the Soul', 'Flora Ivy', 1200);
+
+                harness.test(function() {
+                    query = db.select().min('pages').from('Books').go();
+                    harness.assert_true(query['pages'] === 65);
+                }, "SELECT AVG('pages') FROM Books");
+
             }
         };
     }
