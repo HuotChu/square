@@ -227,6 +227,24 @@ define(['testharness', '../lib/request', '../lib/squareDB'],
                 harness.test(function() {
                     query = db.select().min('pages').from('Books').go();
                     harness.assert_true(query['pages'] === 65);
+                }, "SELECT MIN('pages') FROM Books");
+
+
+                harness.test(function() {
+                    query = db.select().max('pages').from('Books').go();
+                    harness.assert_true(query['pages'] === 1200);
+                }, "SELECT MAX('pages') FROM Books");
+
+
+                harness.test(function() {
+                    query = db.select().sum('pages').from('Books').go();
+                    harness.assert_true(query['pages'] === 3234);
+                }, "SELECT SUM('pages') FROM Books");
+
+
+                harness.test(function() {
+                    query = db.select().avg('pages').from('Books').go();
+                    harness.assert_true(query['pages'] === 462);
                 }, "SELECT AVG('pages') FROM Books");
 
             }
