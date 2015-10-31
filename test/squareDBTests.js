@@ -247,6 +247,18 @@ define(['testharness', '../lib/request', '../lib/squareDB'],
                     harness.assert_true(query['pages'] === 462);
                 }, "SELECT AVG('pages') FROM Books");
 
+
+                harness.test(function() {
+                    query = db.select().count('title').from('Books').go();
+                    harness.assert_true(query['title'] === 7);
+                }, "SELECT COUNT('title') FROM Books");
+
+
+                harness.test(function() {
+                    query = db.select().count('*').from('Books').go();
+                    harness.assert_true(query === 3);
+                }, "SELECT COUNT(*) FROM Books");
+
             }
         };
     }
