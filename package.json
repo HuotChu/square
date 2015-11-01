@@ -1,8 +1,8 @@
 {
-  "name": "Square",
+  "name": "SquareJS",
   "version": "0.0.2",
-  "description": "JavaScript Application Framework",
-  "main": "index.html",
+  "description": "JavaScript Application Framework including client-side SQL",
+  "main": "lib/square.js",
   "directories": {
     "example": "examples"
   },
@@ -11,7 +11,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/blujagu"
+    "url": "https://github.com/blujagu/square.git"
   },
   "keywords": [],
   "devDependencies": {
