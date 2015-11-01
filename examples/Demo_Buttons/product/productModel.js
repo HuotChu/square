@@ -1,4 +1,4 @@
-define(['model', 'notify', 'request'], function (model, notify, request) {
+define(['squobs', 'notify', 'request'], function (model, notify, request) {
     'use strict';
     return new Promise(function (resolve, reject) {
         request('json/devices.json').then(function (deviceData) {
