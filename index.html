@@ -32,32 +32,72 @@
     <div id="main_content_wrap" class="outer">
       <section id="main_content" class="inner">
         <h3>
-<a id="welcome-to-github-pages" class="anchor" href="#welcome-to-github-pages" aria-hidden="true"><span class="octicon octicon-link"></span></a>Welcome to SquareJS.com</h3>
+            <a id="welcome-to-square" class="anchor" href="#welcome-to-square" aria-hidden="true"><span class="octicon octicon-link"></span></a>
+            Welcome to SquareJS.com
+        </h3>
 
-<h3>
-<a id="designer-templates" class="anchor" href="#designer-templates" aria-hidden="true"><span class="octicon octicon-link"></span></a>SquareDB</h3>
+        <h3>
+            <a id="square-squobs" class="anchor" href="#square-squobs" aria-hidden="true"><span class="octicon octicon-link"></span></a>
+            SquareDB & Squobs
+        </h3>
 
-<p>SquareJS comes with SquareDB, the only client-side relational database and query language.</p>
+        <p>
+            SquareJS includes SquareDB (Structured QUery And RElational DataBase), the only client-side relational database and query language. SquareDB
+             allows developers to store client-side data in-memory using a relational data store. Data can be retrieved from the store using structured
+             queries nearly identical to SQL syntax. Possible uses include one-to-one mapping of backend data to the frontend, reuse of SQL queries from
+             your PHP or backend code, mapping of data objects to relational tables, SQL storage on mobile platforms, and much more. SquareDB is also
+             the perfect tool for SQL instructors. Students can write and execute SQL using only a browser - no backend database, no PHP, no outside
+             dependencies at all! (ok, so maybe Node, but most good IDEs will replicated a web server)
+            <br/>
+            Don't need a relation database on the client? No worries, SquareJS has you covered with "Squobs" (Structured QUery OBject Store), an
+             in-memory, noSQL data store. Want both? No problem there, either. SquareJS supports bridging your data across both data stores allowing
+             for the best of both worlds. In fact, Squobs makes a great cache in front of SquareDB, but there are so many other interesting applications
+             for combined noSQL/SQL as I am sure many of you will discover. Need data binding as well? Check out the SquareJS "EventHub"...
+        </p>
 
-<h3>
-<a id="creating-pages-manually" class="anchor" href="#creating-pages-manually" aria-hidden="true"><span class="octicon octicon-link"></span></a>EventHub</h3>
+        <h3>
+            <a id="event-hub" class="anchor" href="#event-hub" aria-hidden="true"><span class="octicon octicon-link"></span></a>EventHub
+        </h3>
 
-<p></p>
+        <p>
+            EventHub enhances objects (and therefor, models) with real JavaScript eventing. This creates an environment which works like DOM eventing,
+             except that all of the events are dispatched from Object nodes and can bubble up to parent nodes. Data binding is as simple as attaching
+             event handlers to the model the same way you would attach them to the DOM. i.e. Model.addEventListener('model.objectNode.change', callBackFunc);
+             and if you want to bind that handler directly to a DOM node, simply pass that node as a third parameter to the handler when it's instantiated.
+             i.e. Model.addEventListener('model.objectNode.change', callBackFunc, domNode); This is a basic example of EventHub's capabilities, so be
+             sure to check out the API documentation*, tutorials, and examples to get a better understanding of how awesome EventHub really is.
+            <br />
+             *Note: Documentation and tutorials will be added soon. Square.js and the Square[JS] site are both new and under active development.
+        </p>
 
-<h3>
-<a id="authors-and-contributors" class="anchor" href="#authors-and-contributors" aria-hidden="true"><span class="octicon octicon-link"></span></a>Temple</h3>
+        <h3>
+            <a id="temple" class="anchor" href="#temple" aria-hidden="true"><span class="octicon octicon-link"></span></a>
+            Temple
+        </h3>
 
-<p></p>
+        <p>
+            I'd rather be writing JavaScript. Period. So when it came to creating a template engine the idea was simple, "make it an HTML file, make
+             it validate, and make the syntax easy". Temple accomplishes all of these things in a super lightweight API that provides everything you
+             need for DOM templating.
+        </p>
 
-<h3>
-<a id="support-or-contact" class="anchor" href="#support-or-contact" aria-hidden="true"><span class="octicon octicon-link"></span></a>Request</h3>
+        <h3>
+            <a id="request" class="anchor" href="#request" aria-hidden="true"><span class="octicon octicon-link"></span></a>
+            Request
+        </h3>
 
-<p></p>
+        <p>
+            Description coming soon...
+        </p>
 
-          <h3>
-              <a id="" class="anchor" href="#" aria-hidden="true"><span class="octicon octicon-link"></span></a>Notify</h3>
+        <h3>
+            <a id="notify" class="anchor" href="#notify" aria-hidden="true"><span class="octicon octicon-link"></span></a>
+            Notify
+        </h3>
 
-          <p></p>
+        <p>
+            Description coming soon...
+        </p>
       </section>
     </div>
 
@@ -65,6 +105,7 @@
     <div id="footer_wrap" class="outer">
       <footer class="inner">
         <p class="copyright">Square maintained by <a href="https://github.com/blujagu">Scott Bishop</a></p>
+        <p>Square[JS] is FREE! Please donate on <a href="https://www.patreon.com/squarejs">Patheon</a></p>
         <p>Published with <a href="https://pages.github.com">GitHub Pages</a></p>
       </footer>
     </div>
