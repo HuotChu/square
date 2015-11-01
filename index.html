@@ -47,12 +47,12 @@
              queries nearly identical to SQL syntax. Possible uses include one-to-one mapping of backend data to the frontend, reuse of SQL queries from
              your PHP or backend code, mapping of data objects to relational tables, SQL storage on mobile platforms, and much more. SquareDB is also
              the perfect tool for SQL instructors. Students can write and execute SQL using only a browser - no backend database, no PHP, no outside
-             dependencies at all! (ok, so maybe Node, but most good IDEs will replicated a web server)
+             dependencies at all!
             <br/>
             Don't need a relation database on the client? No worries, SquareJS has you covered with "Squobs" (Structured QUery OBject Store), an
              in-memory, noSQL data store. Want both? No problem there, either. SquareJS supports bridging your data across both data stores allowing
-             for the best of both worlds. In fact, Squobs makes a great cache in front of SquareDB, but there are so many other interesting applications
-             for combined noSQL/SQL as I am sure many of you will discover. Need data binding as well? Check out the SquareJS "EventHub"...
+             for the best of both worlds. In fact, Squobs makes a great cache in front of SquareDB, but there are many other interesting applications
+             of combined noSQL/SQL as I am sure many of you will discover. Need data binding as well? Check out the SquareJS "EventHub"...
         </p>
 
         <h3>
@@ -61,11 +61,11 @@
 
         <p>
             EventHub enhances objects (and therefor, models) with real JavaScript eventing. This creates an environment which works like DOM eventing,
-             except that all of the events are dispatched from Object nodes and can bubble up to parent nodes. Data binding is as simple as attaching
-             event handlers to the model the same way you would attach them to the DOM. i.e. Model.addEventListener('model.objectNode.change', callBackFunc);
-             and if you want to bind that handler directly to a DOM node, simply pass that node as a third parameter to the handler when it's instantiated.
-             i.e. Model.addEventListener('model.objectNode.change', callBackFunc, domNode); This is a basic example of EventHub's capabilities, so be
-             sure to check out the API documentation*, tutorials, and examples to get a better understanding of how awesome EventHub really is.
+             except that events are dispatched from Javascript Object Nodes and can bubble up to parent object nodes. Data binding is as simple as attaching
+             event handlers to the model the same way you would attach them to the DOM. i.e. Model.addEventListener('model.dataNode.change', callBackFunc);
+             and if you want to bind that handler directly to a DOM node, simply pass that node as a third parameter to the handler during instantiation.
+             i.e. Model.addEventListener('model.dataNode.change', callBackFunc, domNode); This is only a basic example of EventHub's capabilities, so be
+             sure to check out the API documentation*, tutorials, and examples to get a better understanding of how useful EventHub really is.
             <br />
              *Note: Documentation and tutorials will be added soon. Square.js and the Square[JS] site are both new and under active development.
         </p>
@@ -87,7 +87,7 @@
         </h3>
 
         <p>
-            Description coming soon...
+            Request supplies SquareJS with Promise-wrapped AJAX functionality.
         </p>
 
         <h3>
@@ -96,7 +96,8 @@
         </h3>
 
         <p>
-            Description coming soon...
+            Notify takes care of routing concerns and doubles as a pub/sub API. Unique features include a hashName white-list to quickly create
+             and publish routes, and an auto-publisher which turns hashes in anchor tags into published topics with optional parameters when clicked.
         </p>
       </section>
     </div>
