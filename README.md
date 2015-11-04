@@ -1,5 +1,5 @@
 # Square[JS]
-Modern MVC Application Development, Structured Query API, & Client-side Relational Database
+Modern MVC Application Development, Structured Query API, & Client-Side Relational Database
 
 ## What is SquareJS?
 Square is an application framework written in JavaScript that gets your project off the ground with lightning speed. The first thing that should excite you about the Square framework is the tiny footprint.  Square unminified is smaller than any other comparable minified framework!  Plus, Square provides a true MVC architecture which uses eventing rather than digest loops, HTML that validates, AJAX calls returns Promises, and the model supports both relational and non-relational approaches to storing and retrieving data.
@@ -12,13 +12,15 @@ Look for daily refinements :)
 Contribution instructions, license, and other stuff will be added... eventually.
 
 ## Updates
+### 11/03/2015
+New experimental branch added for squareDB work. This branch is usually broken, however running a diff on this branch and master is a great way to see the coming changes.
+
 ### 10/29/2015
 JATO has been renamed to Square[JS]!
 
 ### 10/27/2015
 SQLish.js has been renamed to squareDB! (Structured QUery And RElational DataBase) It now supports many SQL commands (see tests/squareDBTests.js) using combinatory logic/lambda expressions for a truly awesome client-side data model.
 
-<a name="patreon"></a>
 ## Support Square[JS] on Patreon
 
 ![patreon](http://www.blujagu.com/images/patreon.png)
