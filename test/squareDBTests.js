@@ -33,7 +33,6 @@ define(['testharness', '../lib/request', '../lib/squareDB'],
                 db = squareDB.createDB('Library');
 
                 harness.test(function () {
-
                     db.createTable('Books')('title');
                     db.insertInto('Books')('title').values('Book of Foo');
                     query = db.select('title').from('Books').go();
@@ -125,6 +124,7 @@ define(['testharness', '../lib/request', '../lib/squareDB'],
 
                 harness.test(function () {
                     // todo: special case when select is called empty?
+                    // todo: missing where!!!!!!
                     var returnSet = db.select().distinct('author').from('Books').go(),
                         testPassed;
                     console.log('returnSet', returnSet);
@@ -221,7 +221,7 @@ define(['testharness', '../lib/request', '../lib/squareDB'],
                 db = squareDB.dropDB('Library');
                 db = squareDB.createDB('Library');
                 table = db.createTable('Books')('title', 'author', 'pages');
-                db.insertInto('Books')('title', 'author', 'pages').values('Baseball', 'Hank Aaron', 90)('Alphabet Soup', 'Abe Jones', 540)('Aliens', 'Corey Dorey', 210)
+                db.insertInto('Books')('title', 'author', 'pages').values('Baseball', 'Hank Aaron', 1200)('Alphabet Soup', 'Abe Jones', 540)('Aliens', 'Corey Dorey', 210)
                 ('Coffee Break', 'Bob Aaron', 65)('Bats', 'Creepy Guy', 300)('Cats', 'Kaitlyn Rose', 829)('Soup for the Soul', 'Flora Ivy', 1200);
 
                 harness.test(function() {
@@ -255,9 +255,17 @@ define(['testharness', '../lib/request', '../lib/squareDB'],
 
 
                 harness.test(function() {
+                    // total all not null rows in all columns inside this table
                     query = db.select().count('*').from('Books').go();
-                    harness.assert_true(query === 3);
+                    harness.assert_true(query === 21);
                 }, "SELECT COUNT(*) FROM Books");
+
+
+                harness.test(function() {
+                    query = db.select('title').min('pages').from('Books').go();
+                    console.log('Test 26', query);
+                    harness.assert_true(query['title'] === 'Coffee Break');
+                }, "SELECT title, COUNT(pages) FROM Books");
 
             }
         };
