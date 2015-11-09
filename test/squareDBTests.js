@@ -1,7 +1,7 @@
 /**
  * Created by Scott on 2/25/2015.
  */
-define(['testharness', '../lib/request', '../lib/squareDB'],
+define(['testharness', '../lib/request', '../lib/squaredb/squaredb'],
     function(harness, request, squareDB) {
         return {
             run: function () {
