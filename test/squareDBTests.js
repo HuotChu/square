@@ -11,13 +11,13 @@ define(['testharness', '../lib/request', '../lib/squaredb/squaredb'],
 
                 harness.test(function () {
                     db = squareDB.createDB('Library');
-                    harness.assert_true(squareDB.getDB('Library') !== undefined);
+                    harness.assert_true(squareDB.use('Library') !== undefined);
                 }, "CREATE DATABASE Library  => happens in each test, checking here");
 
 
                 harness.test(function () {
                     db = squareDB.dropDB('Library');
-                    harness.assert_true(db && squareDB.getDB('Library') === undefined);
+                    harness.assert_true(db && squareDB.use('Library') === undefined);
                 }, "DROP DATABASE Library  => happens in each test, checking here");
 
 
