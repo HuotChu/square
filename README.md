@@ -12,6 +12,9 @@ Look for daily refinements :)
 Contribution instructions, license, and other stuff will be added... eventually.
 
 ## Updates
+### 11/10/2015
+All new SquareDB work is now in the experimental branch under ./lib/squaredb/ NOT ./lib/squareDB.js
+
 ### 11/03/2015
 New experimental branch added for squareDB work. This branch is usually broken, however running a diff on this branch and master is a great way to see the coming changes.
 
