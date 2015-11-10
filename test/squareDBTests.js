@@ -49,7 +49,7 @@ define(['testharness', '../lib/request', '../lib/squaredb/squaredb'],
                     var testPassed,
                         titlesArray;
 
-                    db.insertInto('Books')('title').values('Alphabet Soup')('Aliens')('Baseball')('Bats')('Cats')('Soup for the Soul');
+                    db.insertInto('Books')('title').values('Alphabet Soup').values('Aliens').values('Baseball').values('Bats').values('Cats').values('Soup for the Soul');
                     titlesArray = db.select('title').from('Books').go();
                     testPassed = titlesArray.every(function (rowObj) {
                         var title = rowObj.title,
@@ -113,9 +113,8 @@ define(['testharness', '../lib/request', '../lib/squaredb/squaredb'],
                 harness.test(function () {
                     var testPassed, returnSet;
 
-                    db.insertInto('Books')('title', 'author').values('Baseball', 'Hank Aaron')('Alphabet Soup', 'Abe Jones')('Aliens', 'Abe Jones')
-                                                                    ('Coffee Break', 'Bob Aaron')('Bats', 'Wes Stacks')('Cats', 'Kaitlyn Rose')
-                                                                    ('Soup for the Soul', 'Flora Ivy');
+                    db.insertInto('Books')('title', 'author').values('Baseball', 'Hank Aaron').values('Alphabet Soup', 'Abe Jones').values('Aliens', 'Abe Jones')
+                        .values('Coffee Break', 'Bob Aaron').values('Bats', 'Wes Stacks').values('Cats', 'Kaitlyn Rose').values('Soup for the Soul', 'Flora Ivy');
                     returnSet = db.select('author').from('Books').where('author', 'like', '.*o.*s.*').go();
                     testPassed = returnSet.length === 3 && returnSet[0]['author'] === 'Abe Jones' && returnSet[1]['author'] === 'Abe Jones' && returnSet[2]['author'] === 'Kaitlyn Rose';
                     harness.assert_true(testPassed);
@@ -165,8 +164,8 @@ define(['testharness', '../lib/request', '../lib/squaredb/squaredb'],
                 db = squareDB.dropDB('Library');
                 db = squareDB.createDB('Library');
                 table = db.createTable('Books')('title', 'author');
-                db.insertInto('Books')('title', 'author').values('Baseball', 'Hank Aaron')('Alphabet Soup', 'Abe Jones')('Aliens', 'Corey Dorey')
-                ('Coffee Break', 'Bob Aaron')('Bats', 'Creepy Guy')('Cats', 'Kaitlyn Rose')('Soup for the Soul', 'Flora Ivy');
+                db.insertInto('Books')('title', 'author').values('Baseball', 'Hank Aaron').values('Alphabet Soup', 'Abe Jones').values('Aliens', 'Corey Dorey')
+                    .values('Coffee Break', 'Bob Aaron').values('Bats', 'Creepy Guy').values('Cats', 'Kaitlyn Rose').values('Soup for the Soul', 'Flora Ivy');
 
                 harness.test(function() {
                     var d = db.delete('author').from('Books').go();
@@ -181,8 +180,8 @@ define(['testharness', '../lib/request', '../lib/squaredb/squaredb'],
                 db = squareDB.dropDB('Library');
                 db = squareDB.createDB('Library');
                 table = db.createTable('Books')('title', 'author');
-                db.insertInto('Books')('title', 'author').values('Baseball', 'Hank Aaron')('Alphabet Soup', 'Abe Jones')('Aliens', 'Corey Dorey')
-                ('Coffee Break', 'Bob Aaron')('Bats', 'Creepy Guy')('Cats', 'Kaitlyn Rose')('Soup for the Soul', 'Flora Ivy');
+                db.insertInto('Books')('title', 'author').values('Baseball', 'Hank Aaron').values('Alphabet Soup', 'Abe Jones').values('Aliens', 'Corey Dorey')
+                    .values('Coffee Break', 'Bob Aaron').values('Bats', 'Creepy Guy').values('Cats', 'Kaitlyn Rose').values('Soup for the Soul', 'Flora Ivy');
 
                 harness.test(function() {
                     var d = db.delete('*').from('Books').go();  // same as db.delete().from('Books').go();
@@ -199,8 +198,8 @@ define(['testharness', '../lib/request', '../lib/squaredb/squaredb'],
                 db = squareDB.dropDB('Library');
                 db = squareDB.createDB('Library');
                 table = db.createTable('Books')('title', 'author');
-                db.insertInto('Books')('title', 'author').values('Baseball', 'Hank Aaron')('Alphabet Soup', 'Abe Jones')('Aliens', 'Corey Dorey')
-                ('Coffee Break', 'Bob Aaron')('Bats', 'Creepy Guy')('Cats', 'Kaitlyn Rose')('Soup for the Soul', 'Flora Ivy');
+                db.insertInto('Books')('title', 'author').values('Baseball', 'Hank Aaron').values('Alphabet Soup', 'Abe Jones').values('Aliens', 'Corey Dorey')
+                    .values('Coffee Break', 'Bob Aaron').values('Bats', 'Creepy Guy').values('Cats', 'Kaitlyn Rose').values('Soup for the Soul', 'Flora Ivy');
 
                 harness.test(function() {
                     db.alterTable('Books').add('pages');
@@ -221,8 +220,8 @@ define(['testharness', '../lib/request', '../lib/squaredb/squaredb'],
                 db = squareDB.dropDB('Library');
                 db = squareDB.createDB('Library');
                 table = db.createTable('Books')('title', 'author', 'pages');
-                db.insertInto('Books')('title', 'author', 'pages').values('Baseball', 'Hank Aaron', 1200)('Alphabet Soup', 'Abe Jones', 540)('Aliens', 'Corey Dorey', 210)
-                ('Coffee Break', 'Bob Aaron', 65)('Bats', 'Creepy Guy', 300)('Cats', 'Kaitlyn Rose', 829)('Soup for the Soul', 'Flora Ivy', 1200);
+                db.insertInto('Books')('title', 'author', 'pages').values('Baseball', 'Hank Aaron', 1200).values('Alphabet Soup', 'Abe Jones', 540).values('Aliens', 'Corey Dorey', 210)
+                    .values('Coffee Break', 'Bob Aaron', 65).values('Bats', 'Creepy Guy', 300).values('Cats', 'Kaitlyn Rose', 829).values('Soup for the Soul', 'Flora Ivy', 1200);
 
                 harness.test(function() {
                     query = db.select().min('pages').from('Books').go();
