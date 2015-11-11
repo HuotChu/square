@@ -1,7 +1,7 @@
 /**
  * Created by Scott on 2/25/2015.
  */
-define(['testharness', '../lib/request', '../lib/squareDB'],
+define(['testharness', '../lib/request', '../lib/squaredb/squaredb'],
     function(harness, request, squareDB) {
         return {
             run: function () {
@@ -11,13 +11,13 @@ define(['testharness', '../lib/request', '../lib/squareDB'],
 
                 harness.test(function () {
                     db = squareDB.createDB('Library');
-                    harness.assert_true(squareDB.getDB('Library') !== undefined);
+                    harness.assert_true(squareDB.use('Library') !== undefined);
                 }, "CREATE DATABASE Library  => happens in each test, checking here");
 
 
                 harness.test(function () {
                     db = squareDB.dropDB('Library');
-                    harness.assert_true(db && squareDB.getDB('Library') === undefined);
+                    harness.assert_true(db && squareDB.use('Library') === undefined);
                 }, "DROP DATABASE Library  => happens in each test, checking here");
 
 
@@ -33,7 +33,6 @@ define(['testharness', '../lib/request', '../lib/squareDB'],
                 db = squareDB.createDB('Library');
 
                 harness.test(function () {
-
                     db.createTable('Books')('title');
                     db.insertInto('Books')('title').values('Book of Foo');
                     query = db.select('title').from('Books').go();
@@ -115,8 +114,7 @@ define(['testharness', '../lib/request', '../lib/squareDB'],
                     var testPassed, returnSet;
 
                     db.insertInto('Books')('title', 'author').values('Baseball', 'Hank Aaron')('Alphabet Soup', 'Abe Jones')('Aliens', 'Abe Jones')
-                                                                    ('Coffee Break', 'Bob Aaron')('Bats', 'Wes Stacks')('Cats', 'Kaitlyn Rose')
-                                                                    ('Soup for the Soul', 'Flora Ivy');
+                        ('Coffee Break', 'Bob Aaron')('Bats', 'Wes Stacks')('Cats', 'Kaitlyn Rose')('Soup for the Soul', 'Flora Ivy');
                     returnSet = db.select('author').from('Books').where('author', 'like', '.*o.*s.*').go();
                     testPassed = returnSet.length === 3 && returnSet[0]['author'] === 'Abe Jones' && returnSet[1]['author'] === 'Abe Jones' && returnSet[2]['author'] === 'Kaitlyn Rose';
                     harness.assert_true(testPassed);
@@ -124,13 +122,12 @@ define(['testharness', '../lib/request', '../lib/squareDB'],
 
 
                 harness.test(function () {
-                    // todo: special case when select is called empty?
-                    var returnSet = db.select().distinct('author').from('Books').go(),
+                    var returnSet = db.select().distinct('author').from('Books').where('author', '===', 'Abe Jones').go(),
                         testPassed;
                     console.log('returnSet', returnSet);
-                    testPassed = returnSet.length === 6 && returnSet[0]['author'] === 'Hank Aaron' && returnSet[1]['author'] === 'Abe Jones' && returnSet[2]['author'] === 'Bob Aaron';
+                    testPassed = returnSet.length === 1 && returnSet[0]['author'] === 'Abe Jones';
                     harness.assert_true(testPassed);
-                }, "SELECT DISTINCT author FROM Books WHERE author = 'Creepy Guy'");
+                }, "SELECT DISTINCT author FROM Books WHERE author = 'Abe Jones'");
 
 
                 harness.test(function () {
@@ -155,8 +152,6 @@ define(['testharness', '../lib/request', '../lib/squareDB'],
                 harness.test(function() {
                     var d = db.delete().from('Books').where('author', '===', 'Hank Aaron').or('author', 'like', '.*ivy').go();
                     query = db.select('title', 'author').from('Books').where('author', '===', 'Hank Aaron').or('author', 'like', '.*ivy').go();
-                    console.log('delete 1st and last title', Array.from(d.title));
-                    console.log('delete 1st and last author', Array.from(d['author']));
                     harness.assert_true(query.length === 0);
                 }, "DELETE FROM Books WHERE author === 'Hank Aaron' OR author like %ivy");
 
@@ -166,13 +161,11 @@ define(['testharness', '../lib/request', '../lib/squareDB'],
                 db = squareDB.createDB('Library');
                 table = db.createTable('Books')('title', 'author');
                 db.insertInto('Books')('title', 'author').values('Baseball', 'Hank Aaron')('Alphabet Soup', 'Abe Jones')('Aliens', 'Corey Dorey')
-                ('Coffee Break', 'Bob Aaron')('Bats', 'Creepy Guy')('Cats', 'Kaitlyn Rose')('Soup for the Soul', 'Flora Ivy');
+                    ('Coffee Break', 'Bob Aaron')('Bats', 'Creepy Guy')('Cats', 'Kaitlyn Rose')('Soup for the Soul', 'Flora Ivy');
 
                 harness.test(function() {
                     var d = db.delete('author').from('Books').go();
                     query = db.select('author').from('Books').go();
-                    console.log('delete author', Array.from(d['author']));
-                    console.log('did not delete title', db.select('title').from('Books').go());
                     harness.assert_true(query.length === 0);
                 }, "DELETE author FROM Books");
 
@@ -182,15 +175,13 @@ define(['testharness', '../lib/request', '../lib/squareDB'],
                 db = squareDB.createDB('Library');
                 table = db.createTable('Books')('title', 'author');
                 db.insertInto('Books')('title', 'author').values('Baseball', 'Hank Aaron')('Alphabet Soup', 'Abe Jones')('Aliens', 'Corey Dorey')
-                ('Coffee Break', 'Bob Aaron')('Bats', 'Creepy Guy')('Cats', 'Kaitlyn Rose')('Soup for the Soul', 'Flora Ivy');
+                    ('Coffee Break', 'Bob Aaron')('Bats', 'Creepy Guy')('Cats', 'Kaitlyn Rose')('Soup for the Soul', 'Flora Ivy');
 
                 harness.test(function() {
                     var d = db.delete('*').from('Books').go();  // same as db.delete().from('Books').go();
                     var q1 = db.select('title').from('Books').go(),
                         q2 = db.select('author').from('Books').go();
 
-                    console.log('delete title and author data from Books - Title', Array.from(d.title));
-                    console.log('delete title and author data from Books - Author', Array.from(d.title));
                     harness.assert_true(q1.length === 0 && q2.length === 0);
                 }, "DELETE * FROM Books => same as DELETE FROM Books");
 
@@ -200,7 +191,7 @@ define(['testharness', '../lib/request', '../lib/squareDB'],
                 db = squareDB.createDB('Library');
                 table = db.createTable('Books')('title', 'author');
                 db.insertInto('Books')('title', 'author').values('Baseball', 'Hank Aaron')('Alphabet Soup', 'Abe Jones')('Aliens', 'Corey Dorey')
-                ('Coffee Break', 'Bob Aaron')('Bats', 'Creepy Guy')('Cats', 'Kaitlyn Rose')('Soup for the Soul', 'Flora Ivy');
+                    ('Coffee Break', 'Bob Aaron')('Bats', 'Creepy Guy')('Cats', 'Kaitlyn Rose')('Soup for the Soul', 'Flora Ivy');
 
                 harness.test(function() {
                     db.alterTable('Books').add('pages');
@@ -221,8 +212,8 @@ define(['testharness', '../lib/request', '../lib/squareDB'],
                 db = squareDB.dropDB('Library');
                 db = squareDB.createDB('Library');
                 table = db.createTable('Books')('title', 'author', 'pages');
-                db.insertInto('Books')('title', 'author', 'pages').values('Baseball', 'Hank Aaron', 90)('Alphabet Soup', 'Abe Jones', 540)('Aliens', 'Corey Dorey', 210)
-                ('Coffee Break', 'Bob Aaron', 65)('Bats', 'Creepy Guy', 300)('Cats', 'Kaitlyn Rose', 829)('Soup for the Soul', 'Flora Ivy', 1200);
+                db.insertInto('Books')('title', 'author', 'pages').values('Baseball', 'Hank Aaron', 1200)('Alphabet Soup', 'Abe Jones', 540)('Aliens', 'Corey Dorey', 210)
+                    ('Coffee Break', 'Bob Aaron', 65)('Bats', 'Creepy Guy', 300)('Cats', 'Kaitlyn Rose', 829)('Soup for the Soul', 'Flora Ivy', 1200);
 
                 harness.test(function() {
                     query = db.select().min('pages').from('Books').go();
@@ -255,9 +246,17 @@ define(['testharness', '../lib/request', '../lib/squareDB'],
 
 
                 harness.test(function() {
+                    // total all not null rows in all columns inside this table
                     query = db.select().count('*').from('Books').go();
-                    harness.assert_true(query === 3);
+                    harness.assert_true(query === 21);
                 }, "SELECT COUNT(*) FROM Books");
+
+
+                harness.test(function() {
+                    query = db.select('title').min('pages').from('Books').go();
+                    console.log('Test 26', query);
+                    harness.assert_true(query['title'] === 'Coffee Break');
+                }, "SELECT title, COUNT(pages) FROM Books");
 
             }
         };
