@@ -124,7 +124,7 @@ define(['testharness', '../lib/request', '../lib/squaredb/squaredb'],
                 harness.test(function () {
                     var returnSet = db.select().distinct('author').from('Books').where('author', '===', 'Abe Jones').go(),
                         testPassed;
-                    console.log('returnSet', returnSet);
+
                     testPassed = returnSet.length === 1 && returnSet[0]['author'] === 'Abe Jones';
                     harness.assert_true(testPassed);
                 }, "SELECT DISTINCT author FROM Books WHERE author = 'Abe Jones'");
@@ -150,8 +150,11 @@ define(['testharness', '../lib/request', '../lib/squaredb/squaredb'],
 
 
                 harness.test(function() {
-                    var d = db.delete().from('Books').where('author', '===', 'Hank Aaron').or('author', 'like', '.*ivy').go();
+                    db.delete().from('Books').where('author', '===', 'Hank Aaron').or('author', 'like', '.*ivy').go();
                     query = db.select('title', 'author').from('Books').where('author', '===', 'Hank Aaron').or('author', 'like', '.*ivy').go();
+                    // could also do: select('title, author')
+                    // select will take individual arguments (above query) or a single string of arguments (shown here)
+                    // todo: check this => or both??? (if you want to be weird)
                     harness.assert_true(query.length === 0);
                 }, "DELETE FROM Books WHERE author === 'Hank Aaron' OR author like %ivy");
 
@@ -164,7 +167,7 @@ define(['testharness', '../lib/request', '../lib/squaredb/squaredb'],
                     ('Coffee Break', 'Bob Aaron')('Bats', 'Creepy Guy')('Cats', 'Kaitlyn Rose')('Soup for the Soul', 'Flora Ivy');
 
                 harness.test(function() {
-                    var d = db.delete('author').from('Books').go();
+                    db.delete('author').from('Books').go();
                     query = db.select('author').from('Books').go();
                     harness.assert_true(query.length === 0);
                 }, "DELETE author FROM Books");
@@ -215,47 +218,46 @@ define(['testharness', '../lib/request', '../lib/squaredb/squaredb'],
                     ('Coffee Break', 'Bob Aaron', 65)('Bats', 'Creepy Guy', 300)('Cats', 'Kaitlyn Rose', 829)('Soup for the Soul', 'Flora Ivy', 1200);
 
                 harness.test(function() {
-                    query = db.select().min('pages').from('Books').go();
+                    query = db.select('min(pages)').from('Books').go();
                     harness.assert_true(query['pages'] === 65);
                 }, "SELECT MIN('pages') FROM Books");
 
 
                 harness.test(function() {
-                    query = db.select().max('pages').from('Books').go();
+                    query = db.select('max(pages)').from('Books').go();
                     harness.assert_true(query['pages'] === 1200);
                 }, "SELECT MAX('pages') FROM Books");
 
 
                 harness.test(function() {
-                    query = db.select().sum('pages').from('Books').go();
-                    harness.assert_true(query['pages'] === 3234);
+                    query = db.select('sum(pages)').from('Books').go();
+                    harness.assert_true(query['pages'] === 4344);
                 }, "SELECT SUM('pages') FROM Books");
 
 
                 harness.test(function() {
-                    query = db.select().avg('pages').from('Books').go();
-                    harness.assert_true(query['pages'] === 462);
+                    query = db.select('avg(pages)').from('Books').go();
+                    harness.assert_true(Math.floor(query['pages']) === 620);
                 }, "SELECT AVG('pages') FROM Books");
 
 
                 harness.test(function() {
-                    query = db.select().count('title').from('Books').go();
-                    harness.assert_true(query['title'] === 7);
+                    query = db.select('count(title)').from('Books').go();
+                    harness.assert_true(query['QUERY_COUNT'] === 7);
                 }, "SELECT COUNT('title') FROM Books");
 
 
                 harness.test(function() {
                     // total all not null rows in all columns inside this table
-                    query = db.select().count('*').from('Books').go();
-                    harness.assert_true(query === 21);
+                    query = db.select('count(*)').from('Books').go();
+                    harness.assert_true(query['QUERY_COUNT'] === 21);
                 }, "SELECT COUNT(*) FROM Books");
 
 
                 harness.test(function() {
-                    query = db.select('title').min('pages').from('Books').go();
-                    console.log('Test 26', query);
-                    harness.assert_true(query['title'] === 'Coffee Break');
-                }, "SELECT title, COUNT(pages) FROM Books");
+                    query = db.select('title, min(pages)').from('Books').go();
+                    harness.assert_true(query['pages'] === 65 && query['title'] === 'Coffee Break');
+                }, "SELECT title, min(pages) FROM Books");
 
             }
         };
