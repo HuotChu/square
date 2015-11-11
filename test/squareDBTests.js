@@ -178,7 +178,7 @@ define(['testharness', '../lib/request', '../lib/squaredb/squaredb'],
                     ('Coffee Break', 'Bob Aaron')('Bats', 'Creepy Guy')('Cats', 'Kaitlyn Rose')('Soup for the Soul', 'Flora Ivy');
 
                 harness.test(function() {
-                    var d = db.delete('*').from('Books').go();  // same as db.delete().from('Books').go();
+                    db.delete('*').from('Books').go();  // same as db.delete().from('Books').go();
                     var q1 = db.select('title').from('Books').go(),
                         q2 = db.select('author').from('Books').go();
 
@@ -203,7 +203,6 @@ define(['testharness', '../lib/request', '../lib/squaredb/squaredb'],
                 harness.test(function() {
                     db.alterTable('Books').drop('pages');
                     query = db.select('pages').from('Books').go();
-                    console.log('table', table);
                     harness.assert_true(query.length === 0);
                 }, "ALTER TABLE Books DROP pages");
 
