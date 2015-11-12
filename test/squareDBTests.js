@@ -259,6 +259,30 @@ define(['testharness', '../lib/request', '../lib/squaredb/squaredb'],
                     harness.assert_true(query['pages'] === 65 && query['title'] === 'Coffee Break');
                 }, "SELECT title, min(pages) FROM Books");
 
+
+                // tear-down & setup for next test
+                db = squareDB.dropDB('Library');
+                db = squareDB.createDB('Library');
+                table = db.createTable('Books');
+                var jsonData = [
+                    {
+                        'author': 'Bill Foo',
+                        'title': 'The Life of Bill',
+                        'pages': '65'
+                    },
+                    {
+                        'author': 'Will Bar',
+                        'title': 'Good Foo Hunting',
+                        'pages': '1000'
+                    }
+                ];
+
+                harness.test(function() {
+                    db.insertJsonInto('Books')(jsonData);
+                    query = db.select('author, pages').from('Books').go();
+                    harness.assert_true(query.length === 2 && query[0]['author'] === 'Bill Foo' && query[0]['pages'] === '65' && query[1]['author'] === 'Will Bar' && query[1]['pages'] === '1000');
+                }, "INSERT JSON INTO Books VALUES [array of objects]");
+
             }
         };
     }
