@@ -1,3 +1,11 @@
+### 11/11/2015
+Current SquareDB is now split into 6 modules in ./lib/squaredb/ NOT ./lib/squareDB.js
+### 11/03/2015
+New experimental branch added for squareDB work. This branch is usually broken, however running a diff on this branch and master is a great way to see the coming changes.
+### 10/29/2015
+JATO has been renamed to Square[JS]!
+### 10/27/2015
+SQLish.js has been renamed to squareDB! (Structured QUery And RElational DataBase) It now supports many SQL commands (see tests/squareDBTests.js) using combinatory logic/lambda expressions for a truly awesome client-side data model.
 ### 10/21/2015
 While trying to create the most useful and efficient model API possible, I created this test on jsPerf: http://jsperf.com/iteration-race/2
 Based on these results, relational data stores in JavaScript are up to 60% faster than data collections, yet no one stores data this way on the client...
