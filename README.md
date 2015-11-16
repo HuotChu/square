@@ -1,15 +1,27 @@
 # Square[JS]
-Modern MVC Application Development, Structured Query API, & Client-Side Relational Database
+========
+Modern Application Development using:
+* square.js - Provides requisite low-level functionality and shims for the rest of the framework.
+* box.js - It's a view in a box, just pass it a 'box config' and you get back a view with all your eventing hooked up. Sweet!
+* eventHub.js - Provides native JavaScript Events to data models for data-binding without loops or synthetic events.
+* notify.js - Experimental router and pub/sub module still under heavy development.
+* request.js - Promise wrapped AJAX requests for when you need to get stuff.
+* squobs.js - Currently broken object collection model. I'll fix it soon, though.
+* temple.js - Lightweight templating engine that lets you write valid html templates and automate event management.
 
-## What is SquareJS?
-Square is an application framework written in JavaScript that gets your project off the ground with lightning speed. The first thing that should excite you about the Square framework is the tiny footprint.  Square unminified is smaller than any other comparable minified framework!  Plus, Square provides a true MVC architecture which uses eventing rather than digest loops, HTML that validates, AJAX calls returns Promises, and the model supports both relational and non-relational approaches to storing and retrieving data.
+SquareJS contains SquareDB ./lib/squaredb/
+==================
+* squaredb.js - Unique and super fast relational database model on the client. Provides SQLish syntax and tons of cool features.
+* aggregates.js - Mathematical functions for column data: sum, max, min, avg, count
+* comparator.js - Handles to comparison logic for WHERE statements
+* go.js - Does the heavy lifting for all queries as it takes the QueryObject and executes the query.
+* Select.js - Creates instances of the SELECT statement providing FROM and WHERE.
 
-## What about performance?
-SquareJS provides awesome power and speed.  Square offers compact, powerful functions using native JavaScript methodology "under the hood" as much as possible. Most frameworks waste operations on extraneous function calls, looping mechanisms, and costly DOM lookups.  Square gets the job done using optimized code structures, multiple caching mechanisms, and best of all... you should never need to do a DOM lookup in Square.  Rather, Square caches DOM nodes you care about as properties of the view object which makes retrieval fast and easy.  Speaking of fast and easy, the view knows how to tear itself down and it cleans up all associated event handlers as it implodes.  This brings up another good point which is that Square is not only fast in terms of applications speed, it also results in rapid architecture and development.
+## Installation
+  npm install square --save
 
-## This framework is in Pre-Alpha
-Look for daily refinements :)
-Contribution instructions, license, and other stuff will be added... eventually.
+## This framework is in the 'Alpha' stage of development
+Current version a0.0.9
 
 ## Updates
 ### 11/15/2015
