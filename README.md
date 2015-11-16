@@ -13,7 +13,7 @@ SquareJS contains SquareDB ./lib/squaredb/
 ==================
 * squaredb.js - Unique and super fast relational database model on the client. Provides SQLish syntax and tons of cool features.
 * aggregates.js - Mathematical functions for column data: sum, max, min, avg, count
-* comparator.js - Handles to comparison logic for WHERE statements
+* comparator.js - Handles comparison logic for WHERE statements
 * go.js - Does the heavy lifting for all queries as it takes the QueryObject and executes the query.
 * Select.js - Creates instances of the SELECT statement providing FROM and WHERE.
 
