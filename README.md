@@ -12,6 +12,11 @@ Look for daily refinements :)
 Contribution instructions, license, and other stuff will be added... eventually.
 
 ## Updates
+### 11/15/2015
+You've tried MVC, now try SBT! SquareDB + Box + Temple = OMG! Check it out...
+Just pushed a complete refactor of temple, the addition of 'box' (I love it!), and a working example showing off squareDB, the eventHub, temple, and request. ./examples/Demo_Buttons_SquareDB
+the files under ./product are where the real magic lies.
+
 ### 11/13/2015
 SquareDB minified added - and it's only 9kb!!! ...and I launched the SquareDB Kickstarter campaign, so that hopefully I get to make SquareJS and SquareDB the full-fledged offerings that I know they can be. https://www.kickstarter.com/projects/blujagu/squaredb
 
