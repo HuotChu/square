@@ -1,7 +1,7 @@
 {
   "devices": [
     {
-      "product": "iPhone",
+      "product": "Galaxy",
       "desc": "This is a Smartphone.",
       "id": "ip"
     },
@@ -16,12 +16,12 @@
       "id": "le"
     },
     {
-      "product": "Sony",
+      "product": "Apple",
       "desc": "This is a SmartWatch.",
       "id": "so"
     },
     {
-      "product": "Sony 4",
+      "product": "Sony",
       "desc": "This is a Gaming Console.",
       "id": "s4"
     }
