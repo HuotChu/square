@@ -13,7 +13,7 @@ li {
     margin-bottom: 8px;
 }
 
-a {
+.button {
     background: #222 url(overlay.png) repeat-x;
     display: block;
     padding: 5px 10px 6px;

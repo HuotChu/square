@@ -2,7 +2,7 @@
 <html>
 <head lang="en">
     <meta charset="UTF-8">
-    <title>JATO Todo MVC</title>
+    <title></title>
 
     <link rel="stylesheet" href="style.css" />
 </head>
@@ -12,9 +12,16 @@
         require.config({
             baseUrl: './',
             paths: {
-                "model": "../../lib/squobs",
+                "box": "../../lib/box",
+                "db": "../../lib/squaredb/squaredb",
+                "eventHub": "../../lib/eventHub",
                 "notify": "../../lib/notify",
                 "request": "../../lib/request",
+                "square": "../../lib/square",
+                "aggregates": "../../lib/squaredb/aggregates",
+                "comparator":  "../../lib/squaredb/comparator",
+                "Select":  "../../lib/squaredb/Select",
+                "go": "../../lib/squaredb/go",
                 "temple": "../../lib/temple"
             },
             deps: ['app'],
