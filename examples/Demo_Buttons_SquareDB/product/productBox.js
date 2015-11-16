@@ -19,14 +19,6 @@ define(['box', './productModel'], function(Box, productModel) {
 
                 template: 'product/product.html',
 
-                /*        templates: {
-                 product: 'product.html',
-                 _build: {
-                 '1': this.product
-                 },
-                 _merge: 'target'
-                 },*/
-
                 domEvents: [
                     {
                         event: 'click',
