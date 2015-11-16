@@ -1,17 +1,18 @@
 {
-  "name": "SquareJS",
-  "version": "0.0.2",
-  "description": "JavaScript Application Framework including client-side SQL",
+  "name": "square",
+  "version": "0.0.9",
+  "description": "JavaScript Application Framework",
   "main": "lib/square.js",
   "directories": {
-    "example": "examples"
+    "example": "examples",
+    "test": "test"
   },
   "scripts": {
     "test": "require.config({});"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/blujagu/square.git"
+    "url": "git+https://github.com/blujagu/square.git"
   },
   "keywords": [],
   "devDependencies": {
@@ -19,5 +20,13 @@
     "grunt-contrib-jshint": "^0.11.2"
   },
   "author": "Scott Bishop",
-  "license": "MIT"
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/blujagu/square/issues"
+  },
+  "homepage": "https://github.com/blujagu/square#readme",
+  "dependencies": {
+    "grunt": "^0.4.5",
+    "grunt-contrib-jshint": "^0.11.2"
+  }
 }
