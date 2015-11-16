@@ -17,6 +17,9 @@ SquareJS contains SquareDB ./lib/squaredb/
 * go.js - Does the heavy lifting for all queries as it takes the QueryObject and executes the query.
 * Select.js - Creates instances of the SELECT statement providing FROM and WHERE.
 
+## Online Demo
+http://squaredb.com/examples/demo1/index.html
+
 ## Installation
   npm install square --save
 
