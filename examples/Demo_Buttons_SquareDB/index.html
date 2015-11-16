@@ -13,23 +13,99 @@
     <h1>Square[JS] "Buttons" Demo & Tutorial</h1>
     <p id="author">by Scott Bishop</p>
     <hr />
-    <h2>Architecture</h2>
+    <h2>Overview</h2>
+    <hr />
     <p>
-        Before we can begin building an app, there needs to be a structure to follow so we know where everything will go.
+        Before building an app, there needs to be a structure to follow so we know where everything will go.
      </p>
     <p>
-        For this demo, our structure looks like the following image. Replicate this structure by creating the required directories
-        and empty files or download the demo from GitHub if you'd like to follow along.
+        The file structure for this demo is shown in the following image. At the root of the project, there are four files: app.js, index.html, overlay.png, and style.css.
+        There is also a sub-directory called `product`, which contains: product.html, productBox.js, and productModel.js. For this tutorial, we don't care much about overlay.png or
+        style.css as these files are simply used to make things look nice. Also, note the SquareJS directory is not shown. This will be discussed in the index.html breakdown.
     </p>
         <div>
             <img src="../demo_1_directories.png" alt="button demo directory structure" />
         </div>
+    <hr />
+    <h2>Configuration</h2>
+    <hr />
     <p>
-        The structure pictured is missing the square framework, because you can keep it anywhere you want. For this tutorial,
-        create a new 'lib' directory in your 'Demo_Buttons_SquareDB' directory. Copy the contents of the SquareJS GitHub 'lib'
-        directory into the 'lib' directory you just created. Now open up index.html and let's create a configuration to tell our app
-        where it can find everything.
+        The starting point for this app is index.html. This is where the framework and application are configured prior to initializing the app. Moving from top to bottom within the BODY of this file,
+        there are three items on the page which are used to prepare the app before it runs.
     </p>
+    <div class="codeBlock">
+        <h3>Index.html</h3>
+        <p>
+            This element will be used to attach the view to the DOM when the view is ready.
+        </p>
+        <p class="code">
+            &lt;div id="button-demo"&gt;&lt;/div&gt;
+        </p>
+
+        <p>
+            Include require.js which is used to load all the modules. The relative path shows require is located outside the main application directory. This is purely a matter of preference.
+            You may place require and square in locations that best suite your project.
+        </p>
+        <p class="code">
+            &lt;script src="../../lib/require.js"&gt;&lt;/script&gt;
+        </p>
+
+        <p>
+            A require.js configuration block must be included before the app runs.
+            <br /><br />
+            <b>baseUrl</b> <i>string</i> sets the base directory of the application relative to this file.
+            <br /><br />
+            <b>paths</b> <i>object</i> maps all the SquareJS modules to module names, so the app will know where to find them.
+            <br /><br />
+            <b>deps</b> <i>array</i> contains application dependencies, so app.js is passed in as `app`. When app.js has finished loading, the app
+            module is passed in to the `callback` function where we call the app.js 'startup' method and get things moving.
+        </p>
+        <p class="code">
+                &lt;script&gt;<br />
+                &nbsp;&nbsp;&nbsp;require.config({<br />
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;baseUrl: './',<br />
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;paths: {<br />
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"box": "../../lib/box",<br />
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"db": "../../lib/squaredb/squaredb",<br />
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"eventHub": "../../lib/eventHub",<br />
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"notify": "../../lib/notify",<br />
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"request": "../../lib/request",<br />
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"square": "../../lib/square",<br />
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"aggregates": "../../lib/squaredb/aggregates",<br />
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"comparator":  "../../lib/squaredb/comparator",<br />
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"Select":  "../../lib/squaredb/Select",<br />
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"go": "../../lib/squaredb/go",<br />
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"temple": "../../lib/temple"<br />
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;},<br />
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;deps: ['app'],<br />
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;callback: function (app) {<br />
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;app.startup();<br />
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br />
+                &nbsp;&nbsp;&nbsp;});<br />
+                &lt;/script&gt;
+        </p>
+    </div>
+    <hr />
+    <h2>Getting Things Started</h2>
+    <hr />
+    <p>
+        When index.html finished loading, it called the app.js `startup` method. This is where the application is initialized. Application specific setup
+        code and module pre-loading can happen here (bootstrapping) if your project needs all that. For this example, though, the need
+        is pretty simple, "create a view with some buttons and a description banner, then put that view on the page". Let's look at how to
+        accomplish that using the Square framework.
+    </p>
+    <div class="codeBlock">
+        <h3>app.js</h3>
+        <p>
+            The first line of code inside app.js <b>define</b>s the `app` module based on the file name, then it imports the view. That view is aliased
+            and cached inside the <b>productView</b> argument which we can attach to the page <i>when the view is ready</i>. Details about how
+            productBox.js creates the view will appear later in the tutorial.
+        </p>
+        <p class="code">
+            define(['product/productBox'], function (productView) {
+        </p>
+    </div>
+
     <p>
         <i>To be continued...</i>
     </p>
