@@ -78,6 +78,10 @@ li {
     width: 40%;
 }
 
+.content {
+    width: 100%;
+}
+
 #tutorial img {
     margin: 8px 0 20px 0;
 }

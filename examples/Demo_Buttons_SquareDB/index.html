@@ -14,7 +14,7 @@
     <hr />
     <h2>Overview</h2>
     <hr />
-    <p>
+    <p class="content">
         There should be five buttons in the upper-left portion of your screen with the labels <b>Galaxy</b>, <b>Nexus</b>, <b>Lenovo</b>, <b>Apple</b>, and <b>Sony</b>.
         There could easily be more or less of these buttons on the screen, because the Square templating engine, temple.js, is creating one button for each `product object` in the database.
         There's more than templating going on here, though. Box (box.js) has dynamically assigned event handlers to each of those buttons. Here's where it
@@ -24,13 +24,14 @@
         to look up the data being requested by the button push. In this case, when I push a button, I want to know what the description text is that matches the button.
         Ok, so you push the button and the model replies with the response data, big deal, right? Actually, it is a big deal. The model may respond with the data, but the
         button doesn't care about that. Why should it, it's just a button! Hidden away until needed, there is a `description` div element on the page. If you click a button
-        the div will appear with the correct description on it. Box hooked that div element up to the eventHub, so each read against the description data throws a real JavaScript
-        event the div is listening for. This mechanism is how one and two way data binding are achieved in Square without the need for loops, pub/sub, or synthetic events.
+        the div will appear with the correct description on it. Box hooked that div element up to the eventHub, so when each read against the description data throws a JavaScript
+        event, the div is listening for it and updates itself! That's great, because the description div is what cares about the data. This mechanism is how one and two way data
+        binding are achieved in Square without the need for loops or pub/sub.
     </p>
-    <p>
+    <p class="content">
         Now that we understand what the demo is doing, let's look at how to build it using the Square framework and Require.js
      </p>
-    <p>
+    <p class="content">
         The file structure is shown in the following image. At the root of the project, there are four files: app.js, index.html, overlay.png, and style.css.
         There is also a sub-directory called `product`, which contains: product.html, productBox.js, and productModel.js. For this tutorial, we don't care much about overlay.png or
         style.css as these files are simply used to make things look nice. Also, note the SquareJS directory is not shown. This will be discussed in the index.html breakdown.
@@ -41,7 +42,7 @@
     <hr />
     <h2>Configuration</h2>
     <hr />
-    <p>
+    <p class="content">
         The starting point for this app is index.html. This is where the framework and application are configured prior to initializing the app. Moving from top to bottom within the BODY of this file,
         there are three items on the page which are used to prepare the app before it runs.
     </p>
@@ -100,7 +101,7 @@
     <hr />
     <h2>Getting Things Started</h2>
     <hr />
-    <p>
+    <p class="content">
         When index.html finished loading, it called the app.js `startup` method. This is where the application is initialized. Application specific setup
         code and module pre-loading can happen here (bootstrapping) if your project needs all that. For this example, though, the need
         is pretty simple, "create a view with some buttons and a description banner, then put that view on the page". Let's look at how to
