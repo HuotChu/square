@@ -124,3 +124,9 @@ li {
     border-bottom-left-radius: 2px;
     border-bottom-right-radius: 2px;
 }
+
+.social {
+    position: absolute;
+    width: 95%;
+    text-align: right;
+}
