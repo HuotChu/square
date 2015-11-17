@@ -1,5 +1,10 @@
 # Square[JS]
 ========
+SquareJS is on Kickstarter, please back this project!
+https://www.kickstarter.com/projects/blujagu/squaredb
+
+The first SquareJS Demo / Tutorial is now online @ http://squaredb.com/examples/demo1/
+========
 Modern Application Development using:
 * square.js - Provides requisite low-level functionality and shims for the rest of the framework.
 * box.js - It's a view in a box, just pass it a 'box config' and you get back a view with all your eventing hooked up. Sweet!
@@ -33,6 +38,7 @@ Just pushed a complete refactor of temple, the addition of 'box' (I love it!), a
 the files under ./product are where the real magic lies.
 
 ### 11/13/2015
-SquareDB minified added - and it's only 9kb!!! ...and I launched the SquareDB Kickstarter campaign, so that hopefully I get to make SquareJS and SquareDB the full-fledged offerings that I know they can be. https://www.kickstarter.com/projects/blujagu/squaredb
+SquareDB minified added - and it's only 9kb!!! ...and I launched the SquareDB Kickstarter campaign, so that hopefully I get to make SquareJS and SquareDB the full-fledged offerings that I know they can be.
+https://www.kickstarter.com/projects/blujagu/squaredb
 
 ### See changelog for all previous updates.
