@@ -9,17 +9,29 @@
 <body>
 <div id="button-demo"></div>
 <div id="tutorial">
-    <hr />
     <h1>Square[JS] "Buttons" Demo & Tutorial</h1>
     <p id="author">by Scott Bishop</p>
     <hr />
     <h2>Overview</h2>
     <hr />
     <p>
-        Before building an app, there needs to be a structure to follow so we know where everything will go.
+        There should be five buttons in the upper-left portion of your screen with the labels <b>Galaxy</b>, <b>Nexus</b>, <b>Lenovo</b>, <b>Apple</b>, and <b>Sony</b>.
+        There could easily be more or less of these buttons on the screen, because the Square templating engine, temple.js, is creating one button for each `product object` in the database.
+        There's more than templating going on here, though. Box (box.js) has dynamically assigned event handlers to each of those buttons. Here's where it
+        gets <i>really</i> cool; two things... First, Box keeps track of all those button DOM nodes and it does so during DOM creation of the nodes, so it's fast.
+        The framework never has to search through the entire DOM to find and cache the nodes and you will never trigger a DOM search since the nodes are all properties
+        of the Box object. Neat, but the other thing that happens here is even better. When a user clicks the button, a query is automatically triggered against the model
+        to look up the data being requested by the button push. In this case, when I push a button, I want to know what the description text is that matches the button.
+        Ok, so you push the button and the model replies with the response data, big deal, right? Actually, it is a big deal. The model may respond with the data, but the
+        button doesn't care about that. Why should it, it's just a button! Hidden away until needed, there is a `description` div element on the page. If you click a button
+        the div will appear with the correct description on it. Box hooked that div element up to the eventHub, so each read against the description data throws a real JavaScript
+        event the div is listening for. This mechanism is how one and two way data binding are achieved in Square without the need for loops, pub/sub, or synthetic events.
+    </p>
+    <p>
+        Now that we understand what the demo is doing, let's look at how to build it using the Square framework and Require.js
      </p>
     <p>
-        The file structure for this demo is shown in the following image. At the root of the project, there are four files: app.js, index.html, overlay.png, and style.css.
+        The file structure is shown in the following image. At the root of the project, there are four files: app.js, index.html, overlay.png, and style.css.
         There is also a sub-directory called `product`, which contains: product.html, productBox.js, and productModel.js. For this tutorial, we don't care much about overlay.png or
         style.css as these files are simply used to make things look nice. Also, note the SquareJS directory is not shown. This will be discussed in the index.html breakdown.
     </p>

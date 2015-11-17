@@ -1,16 +1,14 @@
 define(['product/productBox'], function (productView) {
-    var app = {};
+    // todo: remove app.js
+    return {
+        startup: function () {
+            // reference the button-demo node to add new nodes to later
+            var baseNode = document.querySelector('#button-demo');
 
-    // app.startup is called by require.js in the config callback (index.html) to launch the app
-    app.startup = function () {
-            // reference the BODY node to add new nodes to later
-        var baseNode = document.querySelector('#button-demo');
-
-        // add the product module to the page...
-        productView.then(function (view) {
-            baseNode.appendChild(view);
-        });
+            // add the product module to the page...
+            productView.then(function (view) {
+                baseNode.appendChild(view);
+            });
+        }
     };
-
-    return app;
 });
