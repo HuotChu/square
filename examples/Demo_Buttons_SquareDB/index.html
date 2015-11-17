@@ -33,7 +33,7 @@
      </p>
     <p class="content">
         The file structure is shown in the following image. At the root of the project, there are seven files: index.html, overlay.png, style.css, product.html, productBox.js, and
-        productModel.js. For this tutorial, we don't care much about overlay.png or style.css as these files are simply used to make things look nice.. Also, note the SquareJS
+        productModel.js. For this tutorial, we don't care much about overlay.png or style.css as these files are simply used to make things look nice. Also, note the SquareJS
         directory is not shown. This is discussed in the index.html breakdown.
     </p>
         <div>
@@ -70,8 +70,8 @@
             <br /><br />
             <b>paths</b> <i>object</i> maps all the SquareJS modules to module names, so the app will know where to find them.
             <br /><br />
-            <b>deps</b> <i>array</i> contains application dependencies, so productBox.js is passed in as `productBox`. This module will
-            create and attach the view for us, so we'll take a look at that next.
+            <b>deps</b> <i>array</i> loads any application dependencies, so productBox.js is passed in causing it to load. When the
+            productBox module loads it will create and attach the view, which we'll take a look at next.
         </p>
         <p class="code">
                 &lt;script&gt;<br />
