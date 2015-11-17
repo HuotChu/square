@@ -3,10 +3,9 @@ define(['db', 'eventHub', 'request'], function (db, eventHub, request) {
 
     return new Promise(function (resolve/*, reject*/) {
         request('devices.json').then(function (deviceData) {
-            // use the data Promise to pass the XHR object into the deviceData argument
-            // which ensures the request has completed before executing this code
-
-            // parse the response json data and grab the devices array to assign to allData
+            // get the XHR object from the deviceData argument
+            // ensures the request completed before executing this code
+            // parse response json and grab the devices array
             var allData = JSON.parse(deviceData['response'])['devices'];
 
             // create a model (database) named Products
@@ -15,14 +14,14 @@ define(['db', 'eventHub', 'request'], function (db, eventHub, request) {
             // create a table called devices
             model.createTable('Devices');
 
-            // copy the data array we got from the server in the Table we just made
-            // effectively converting a collection of objects into a relational data structure
+            // copy the data array from the server into the Table
+            // converts a collection of objects to relational structure
             model.insertJsonInto('Devices')(allData);
 
             // connect our model to an eventHub
             eventHub.connect(model);
 
-            // resolve the promise and pass the model to the Promise handler
+            // resolve and pass the model to the handler
             resolve(model);
         });
     });
