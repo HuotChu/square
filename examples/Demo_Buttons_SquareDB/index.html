@@ -158,6 +158,41 @@
             returns, the data is inserted into a new SquareDB database. This database is hooked up to the eventHub to enable data-binding and event management,
             and the whole thing is returned in an argument to any callback passed to the Promise's `then` method.
         </p>
+        <p class="code">
+            request('devices.json').then(function (deviceData) {
+            <br />
+            &nbsp;&nbsp;&nbsp;// use the data Promise to pass the XHR object into the deviceData argument
+            <br />
+            &nbsp;&nbsp;&nbsp;// which ensures the request has completed before executing this code
+            <br />
+            &nbsp;&nbsp;&nbsp;// parse the response json data and grab the devices array to assign to allData
+            <br />
+            &nbsp;&nbsp;&nbsp;var allData = JSON.parse(deviceData['response'])['devices'];
+            <br /><br />
+            &nbsp;&nbsp;&nbsp;// create a model (database) named Products
+            <br />
+            &nbsp;&nbsp;&nbsp;var model = db.createDB('Products');
+            <br /><br />
+            &nbsp;&nbsp;&nbsp;// create a table called devices
+            <br />
+            &nbsp;&nbsp;&nbsp;model.createTable('Devices');
+            <br /><br />
+            &nbsp;&nbsp;&nbsp;// copy the data array we got from the server in the Table we just made
+            <br />
+            &nbsp;&nbsp;&nbsp;// effectively converting a collection of objects into a relational data structure
+            <br />
+            &nbsp;&nbsp;&nbsp; model.insertJsonInto('Devices')(allData);
+            <br /><br />
+            &nbsp;&nbsp;&nbsp;// connect our model to an eventHub
+            <br />
+            &nbsp;&nbsp;&nbsp; eventHub.connect(model);
+            <br /><br />
+            &nbsp;&nbsp;&nbsp;// resolve the promise and pass the model to the Promise handler
+            <br />
+            &nbsp;&nbsp;&nbsp;resolve(model);
+            <br />
+            });<br />
+        </p>
     </div>
 
     <hr />
@@ -284,7 +319,7 @@
             - The DOM element this event is targeting.
             <br /><br />
             The demo callback function first sets a timeout to make itself wait half of a second before executing. This is necessary, because the data comes back
-            so fast that the description elements doesn't get time to animate! The inner-function simply gets the value reported by the model event and sets it
+            so fast that the description element doesn't have time to animate! The inner-function simply gets the value reported by the model event and sets it
             as the innerHTML of the target element. It then tells the element to show itself again.
         </p>
         <p class="code">
