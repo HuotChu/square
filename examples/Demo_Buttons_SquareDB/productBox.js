@@ -3,7 +3,7 @@
  * BluJagu, LLC - www.blujagu.com
  * MIT License (MIT) - This header must remain intact.
  **/
-define(['box', './productModel'], function(Box, productModel) {
+define(['box', 'productModel'], function(Box, productModel) {
     'use strict';
 
     return new Promise(function (resolve) {
@@ -15,9 +15,9 @@ define(['box', './productModel'], function(Box, productModel) {
                     devices: model.select('*').from('Devices').go()
                 },
 
-                target: document.body,
+                target: document.querySelector('#button-demo'),
 
-                template: 'product/product.html',
+                template: 'product.html',
 
                 domEvents: [
                     {
