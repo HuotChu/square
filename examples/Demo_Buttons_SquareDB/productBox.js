@@ -21,7 +21,7 @@ define(['box', 'productModel'], function(Box, productModel) {
             domEvents: [
                 {
                     event: 'click',
-                    id: 'showProduct_',
+                    id: 'productButton_',
                     callback: function (id, domNode, box) {
                         box.index['desc'].className = 'hidden';
                         model.select('desc')

@@ -31,15 +31,23 @@
     </p>
     <p class="content">
         Now that you understand what the demo is doing "under the hood", let's look at how to build it.
+        <br /><br />
+        For this demo the requirements are pretty simple:
+        <br />
+        <i>Fetch json data to get a list of devices.</i>
+        <br />
+        <i>Create a button for each device name.</i>
+        <br />
+        <i>When a button is clicked, the matching device description should appear below the buttons.</i>
      </p>
     <hr />
     <p class="content">
         At the root of the project, there are seven files: index.html, overlay.png, style.css, product.html, productBox.js, and productModel.js. I won't go into detail about overlay.png or style.css
         as these files are simply used to make things look pretty. Also, note the SquareJS directory is not shown. This is discussed in the following index.html breakdown.
     </p>
-        <div>
-            <img src="../demo_1_directories.png" alt="button demo directory structure" />
-        </div>
+    <div>
+        <img src="../demo_1_directories.png" alt="button demo directory structure" />
+    </div>
     <hr />
     <h2>Configuration</h2>
     <hr />
@@ -72,7 +80,8 @@
             <b>paths</b> <i>object</i> maps all the SquareJS modules to module names, so the app will know where to find them.
             <br /><br />
             <b>deps</b> <i>array</i> loads any application dependencies. I added productBox.js, causing it to load. When the
-            productBox module loads it creates and attaches the view, which we'll take a look at next.
+            productBox module loads it creates and attaches the view. Before productBox can even be a "thing" though, we should back up
+            and create the html template for buttons and description.
         </p>
         <p class="code">
                 &lt;script&gt;<br />
@@ -95,12 +104,67 @@
                 &lt;/script&gt;
         </p>
     </div>
+
+    <hr />
+    <h2>Templating with Temple</h2>
+    <hr />
+    <p class="content">
+        The templating structure is pretty simple. Start with a single element and put your required html inside it. Variables which should be replaced by data values are
+        denoted with {{variableName}}. If the variable is inside a repeating element, the syntax includes a plus symbol {{+variableName}}.
+    </p>
+    <div class="codeBlock">
+        <h3>product.html</h3>
+        <p class="content">
+            `data-` property tags are used to give temple special instructions.
+            <br /><br />
+            <b>data-repeat</b> tells temple to repeat this element and any child elements. The value for data-repeat is "devices" which will match a `devices` array in the data structure.
+            <br /><br />
+            <b>data-index</b> tells temple to store this element as a property for later lookup. This is required for any element that will have event handlers or data-binding attached.
+            <br />
+            The value of data-index is used as the property name to look up for retrieval, therefor every data-index in a box must be unique. To accomplish this, I create a data-index
+            that begins with the prefix `productButton_` followed by the `id` of the device associated with this button. That productButton_ prefix will come in handy later
+            when we want to attach event handlers to all these buttons.
+            <br /><br />
+            <b>data-event-args-<i>n</i></b> where <i>n</i> begins at zero and is incremented for each additional data-event-args tag. The value of each data-event-args tag is passed
+            as an argument to any callback function used as an event handler targeting the element.
+            <br /><br />
+            In this case, the `id` of each button will be passed in as the first argument to any event handler we later attach to the button. This will serve as a lookup key to
+            get the correct description from the model.
+        </p>
+        <p class="code">
+            &lt;span&gt;<br />
+            &nbsp;&nbsp;&nbsp;&lt;ul&gt;<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;li data-repeat="devices"&gt;<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;span class="button" data-index="productButton_{{+id}}" data-event-args-0="{{+id}}"&gt;<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{+product}}<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/span&gt;<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/li&gt;<br />
+            &nbsp;&nbsp;&nbsp;&lt;/ul><br />
+            &nbsp;&nbsp;&nbsp;&lt;div id="description" data-index="desc" class="hidden">&lt;/div&gt;<br />
+            &lt;/span&gt;
+        </p>
+    </div>
+
+    <hr />
+    <h2>Model Squared</h2>
+    <hr />
+    <p class="content">
+        Creating the model for our application is incredibly easy, thanks to SquareDB.
+    </p>
+    <div class="codeBlock">
+        <h3>productModel.js</h3>
+        <p class="content">
+            productModel.js is already well commented, so a quick walk-through should suffice. We start by requesting the devices.json file. Then, when that request
+            returns, the data is inserted into a new SquareDB database. This database is hooked up to the eventHub to enable data-binding and event management,
+            and the whole thing is returned in an argument to any callback passed to the Promise's `then` method.
+        </p>
+    </div>
+
     <hr />
     <h2>Build-A-Box</h2>
     <hr />
     <p class="content">
-        For this example the need  is pretty simple, "create a view with some buttons and a description banner, then put that view on the page". Let's look at how to
-        accomplish that using the Square framework.
+        Now that we have both a template and a model, it's time to build a box and watch it construct and render our view. Useful things, those boxes. Who knew?
     </p>
     <div class="codeBlock">
         <h3>productBox.js</h3>
@@ -151,7 +215,7 @@
             target: document.querySelector('#button-demo'),
         </p>
         <p>
-            <b>template</b> <i>string</i> the url to the template file for this view.
+            <b>template</b> <i>string</i> url of the template file for this view.
         </p>
         <p class="code">
             template: 'product.html',
