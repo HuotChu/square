@@ -156,16 +156,16 @@
         <p class="content">
             productModel.js is already well commented, so a quick walk-through should suffice. We start by requesting the devices.json file. Then, when that request
             returns, the data is inserted into a new SquareDB database. This database is hooked up to the eventHub to enable data-binding and event management,
-            and the whole thing is returned in an argument to any callback passed to the Promise's `then` method.
+            and the whole thing is returned in an argument to any callback passed to the productModel's `then` method.
         </p>
         <p class="code">
             request('devices.json').then(function (deviceData) {
             <br />
-            &nbsp;&nbsp;&nbsp;// use the data Promise to pass the XHR object into the deviceData argument
+            &nbsp;&nbsp;&nbsp;// get the XHR object from the deviceData argument
             <br />
-            &nbsp;&nbsp;&nbsp;// which ensures the request has completed before executing this code
+            &nbsp;&nbsp;&nbsp;// ensures the request completed before executing this code
             <br />
-            &nbsp;&nbsp;&nbsp;// parse the response json data and grab the devices array to assign to allData
+            &nbsp;&nbsp;&nbsp;// parse response json and grab the devices array
             <br />
             &nbsp;&nbsp;&nbsp;var allData = JSON.parse(deviceData['response'])['devices'];
             <br /><br />
@@ -177,9 +177,9 @@
             <br />
             &nbsp;&nbsp;&nbsp;model.createTable('Devices');
             <br /><br />
-            &nbsp;&nbsp;&nbsp;// copy the data array we got from the server in the Table we just made
+            &nbsp;&nbsp;&nbsp;// copy the data array from the server into the Table
             <br />
-            &nbsp;&nbsp;&nbsp;// effectively converting a collection of objects into a relational data structure
+            &nbsp;&nbsp;&nbsp;// converts a collection of objects to relational structure
             <br />
             &nbsp;&nbsp;&nbsp; model.insertJsonInto('Devices')(allData);
             <br /><br />
@@ -187,7 +187,7 @@
             <br />
             &nbsp;&nbsp;&nbsp; eventHub.connect(model);
             <br /><br />
-            &nbsp;&nbsp;&nbsp;// resolve the promise and pass the model to the Promise handler
+            &nbsp;&nbsp;&nbsp;// resolve and pass the model to the handler
             <br />
             &nbsp;&nbsp;&nbsp;resolve(model);
             <br />
