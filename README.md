@@ -1,11 +1,11 @@
 # Square[JS]
-========
+
 SquareJS is on Kickstarter, please back this project!
 https://www.kickstarter.com/projects/blujagu/squaredb
+==================================
+## The first SquareJS Demo / Tutorial is now online @ http://squaredb.com/examples/demo1/
 
-The first SquareJS Demo / Tutorial is now online @ http://squaredb.com/examples/demo1/
-========
-Modern Application Development using:
+## Modern Application Development using:
 * square.js - Provides requisite low-level functionality and shims for the rest of the framework.
 * box.js - It's a view in a box, just pass it a 'box config' and you get back a view with all your eventing hooked up. Sweet!
 * eventHub.js - Provides native JavaScript Events to data models for data-binding without loops or synthetic events.
@@ -14,7 +14,7 @@ Modern Application Development using:
 * squobs.js - Currently broken object collection model. I'll fix it soon, though.
 * temple.js - Lightweight templating engine that lets you write valid html templates and automate event management.
 
-SquareJS contains SquareDB ./lib/squaredb/
+## SquareJS contains SquareDB ./lib/squaredb/
 ==================
 * squaredb.js - Unique and super fast relational database model on the client. Provides SQLish syntax and tons of cool features.
 * aggregates.js - Mathematical functions for column data: sum, max, min, avg, count
