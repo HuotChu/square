@@ -1,7 +1,7 @@
 # Square[JS]
 
 ## SquareJS is on Kickstarter, please back this project!
-## kickstarter.com/projects/blujagu/squaredb
+## http://kck.st/1N0FMkS
 
 ==================================
 ## The first SquareJS Demo / Tutorial is now online @ http://squaredb.com/examples/demo1/
