@@ -11,6 +11,16 @@
     <script>
         var require = {
             baseUrl: './',
+            paths: {
+                "db": "../lib/squaredb/squaredb",
+                "eventHub": "../lib/eventHub",
+                "request": "../lib/request",
+                "square": "../lib/square",
+                "aggregates": "../lib/squaredb/aggregates",
+                "comparator": "../lib/squaredb/comparator",
+                "Select": "../lib/squaredb/Select",
+                "go": "../lib/squaredb/go"
+            },
             deps: ['squareDBTests'],
             callback: function(squareDBTests) {
                 squareDBTests.run();
