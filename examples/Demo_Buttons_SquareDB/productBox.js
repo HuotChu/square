@@ -26,7 +26,8 @@ define(['box', 'productModel'], function(Box, productModel) {
                         box.index['desc'].className = 'hidden';
                         model.select('desc')
                                   .from('Devices')
-                                  .where('id', '===', id).go();
+                                  .where('id', '===', id)
+                                  .go();
                     }
                 }
             ],
@@ -37,7 +38,7 @@ define(['box', 'productModel'], function(Box, productModel) {
                     id: 'desc',
                     callback: function (event, descriptionNode) {
                         setTimeout(function () {
-                            descriptionNode.innerHTML = event.detail.value[0]['desc'];
+                            descriptionNode.innerHTML = event.detail.value;
                             descriptionNode.className = 'show';
                         }, 500);
                     }
