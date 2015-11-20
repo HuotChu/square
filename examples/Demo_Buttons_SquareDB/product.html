@@ -1,6 +1,7 @@
 <span>
-    <ul>
-        <li data-repeat="devices">
+    <h3 class="device-counter">There are <span data-index="counter">{{deviceCount}}</span> devices.</h3>
+    <ul data-index="buttons">
+        <li data-repeat="devices"  data-template="device-button">
             <span class="button" data-index="productButton_{{+id}}" data-event-args-0="{{+id}}">
                 {{+product}}
             </span>

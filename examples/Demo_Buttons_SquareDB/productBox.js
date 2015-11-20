@@ -7,10 +7,25 @@ define(['box', 'productModel'], function(Box, productModel) {
     'use strict';
 
     productModel.then(function (model) {
+        window.db = model;
+
+        var getDescription = {
+            event: 'click',
+            id: 'productButton_',
+            callback: function (id, domNode, box) {
+                box.index['desc'].className = 'hidden';
+                model.select('desc')
+                    .from('Devices')
+                    .where('id', '===', id)
+                    .go();
+            }
+        };
+
         var boxConfig = {
             model: model,
 
             data: {
+                deviceCount: model['Devices'].count(),
                 devices: model.select('product, id').from('Devices').go()
             },
 
@@ -19,33 +34,43 @@ define(['box', 'productModel'], function(Box, productModel) {
             template: 'product.html',
 
             domEvents: [
-                {
-                    event: 'click',
-                    id: 'productButton_',
-                    callback: function (id, domNode, box) {
-                        box.index['desc'].className = 'hidden';
-                        model.select('desc')
-                                  .from('Devices')
-                                  .where('id', '===', id)
-                                  .go();
-                    }
-                }
+                getDescription
             ],
 
             modelEvents: [
                 {
+                    event: 'Products.Devices.count.read',
+                    id: 'counter',
+                    callback: function (event, counterElement) {
+                        counterElement.innerHTML = event.detail.value;
+                    }
+                },
+                {
                     event: 'Products.Devices.desc.read',
                     id: 'desc',
-                    callback: function (event, descriptionNode) {
+                    callback: function (event, descriptionElement) {
                         setTimeout(function () {
-                            descriptionNode.innerHTML = event.detail.value;
-                            descriptionNode.className = 'show';
+                            descriptionElement.innerHTML = event.detail.value;
+                            descriptionElement.className = 'show';
                         }, 500);
+                    }
+                },
+                {
+                    event: 'Products.Devices.product.create',
+                    id: 'buttons',
+                    callback: function (event, buttonsContainer) {
+                        productBox.then(function (box) {
+                            box.domEvents.push(getDescription);
+                            box.target = buttonsContainer;
+                            box.template = box.templates['device-button'];
+                            box.data = model.select('product, id').from('Devices').where('product', '===', event.detail.value).go()[0];
+                            box.build({}, box);
+                        });
                     }
                 }
             ]
         };
 
-        new Box(boxConfig).build();
+        var productBox = new Box(boxConfig).view;
     });
 });
