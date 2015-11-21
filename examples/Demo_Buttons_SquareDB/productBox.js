@@ -7,13 +7,20 @@ define(['box', 'productModel'], function(Box, productModel) {
     'use strict';
 
     productModel.then(function (model) {
+        // todo: REMOVE THIS!!!
         window.db = model;
 
         var getDescription = {
             event: 'click',
-            id: 'productButton_',
+            id: '_productButton_',
             callback: function (id, domNode, box) {
-                box.index['desc'].className = 'hidden';
+                var pushed = domNode.parentNode.parentNode.querySelector('.pushed');
+
+                if (pushed) {
+                    pushed.className = 'button';
+                }
+                box.index['desc'].className = 'hide';
+                domNode.className = 'button pushed';
                 model.select('desc')
                     .from('Devices')
                     .where('id', '===', id)
@@ -34,7 +41,22 @@ define(['box', 'productModel'], function(Box, productModel) {
             template: 'product.html',
 
             domEvents: [
-                getDescription
+                getDescription,
+                {
+                    event: 'click',
+                    id: 'add-new',
+                    callback: function (domNode, box) {
+                        var pName = box.index['name-input'],
+                            pDesc = box.index['desc-input'],
+                            pId = db.createUnique();
+
+                        if (pName && pDesc) {
+                            model.insertInto('Devices')('product, desc, id').values(pName.value, pDesc.value, pId);
+                            pName.value = '';
+                            pDesc.value = '';
+                        }
+                    }
+                }
             ],
 
             modelEvents: [
@@ -50,9 +72,10 @@ define(['box', 'productModel'], function(Box, productModel) {
                     id: 'desc',
                     callback: function (event, descriptionElement) {
                         setTimeout(function () {
+                            descriptionElement.className = '';
                             descriptionElement.innerHTML = event.detail.value;
-                            descriptionElement.className = 'show';
-                        }, 500);
+
+                        }, 800);
                     }
                 },
                 {

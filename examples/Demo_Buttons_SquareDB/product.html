@@ -1,11 +1,22 @@
-<span>
-    <h3 class="device-counter">There are <span data-index="counter">{{deviceCount}}</span> devices.</h3>
+<div>
+    <h3 class="device-counter"><span data-index="counter">{{deviceCount}}</span> devices</h3>
+    <p>Click for description</p>
     <ul data-index="buttons">
         <li data-repeat="devices"  data-template="device-button">
-            <span class="button" data-index="productButton_{{+id}}" data-event-args-0="{{+id}}">
+            <span class="button" data-index="_productButton_{{+id}}" data-event-args-0="{{+id}}">
                 {{+product}}
             </span>
         </li>
     </ul>
-    <div id="description" data-index="desc" class="hidden"></div>
-</span>
+    <div id="description" data-index="desc" class="hide"></div>
+    <div id="new-data">
+        <p>Add New Device</p>
+        <form>
+            <label for="name-input">Product Name</label>
+            <input type="text" data-index="name-input" id="name-input" placeholder="product name">
+            <label for="desc-input">Description</label>
+            <input type="text" data-index="desc-input" id="desc-input" maxlength="28" placeholder="short description">
+            <span class="button" data-index="add-new">Add Device</span>
+        </form>
+    </div>
+</div>

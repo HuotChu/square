@@ -9,7 +9,7 @@
     <script src="../socialshares/js/buttons.js"></script>
 </head>
 <body>
-<a id="forkme_banner" href="https://github.com/blujagu/square">View on GitHub</a>
+
 <div class="social">
     <!-- Twitter button -->
     <a class="share-btn share-btn-branded share-btn-twitter"
@@ -35,6 +35,8 @@
         <span class="share-btn-icon"></span>
         <span class="share-btn-text">Google+</span>
     </a>
+    <!-- GitHub Button -->
+    <a id="forkme_banner" href="https://github.com/blujagu/square">View on GitHub</a>
 </div>
 <div id="button-demo"></div>
 <div id="tutorial">
@@ -44,38 +46,28 @@
     <h2>Overview</h2>
     <hr />
     <p class="content">
-        There should be five buttons in the upper-left portion of your screen with the labels <b>Galaxy</b>, <b>Nexus</b>, <b>Lenovo</b>, <b>Apple</b>, and <b>Sony</b>.
-        There could easily be more or less of these buttons on the screen, because the Square templating engine, temple.js, is creating one button for each `product object` in the database.
-        There's more than templating going on here, though. Box (box.js) has dynamically assigned event handlers to each of those buttons. Here's where it
-        gets <i>really</i> cool; two things... First, Box keeps track of all those button DOM nodes and it does so during DOM creation of the nodes, so it's fast.
-        The framework never has to search through the entire DOM to find and cache the nodes and you will never trigger a DOM search since the nodes are all properties
-        of the Box object. Neat, but the other thing that happens here is even better. When a user clicks the button, a query is automatically triggered against the model
-        to look up the data being requested by the button push. In this case, when I push a button, I want to know what the description text is that matches that button.
-        Ok, so I push a button and the model responds with data, big deal, right? Actually, it is a big deal. The model may respond with the data, but the
-        button doesn't care about that. Why should it, it's just a button! Hidden away until needed, there's a `description` div element on the page. If you click a button
-        the div will appear with the correct description on it. Box hooked that div element up to the eventHub, so when a read operations is applied to the model it throws a JavaScript
-        event. The div is listening for that event and updates itself! That's great, because the description div <i>is</i> what cares about the data. This mechanism is how one and two way data
-        binding are achieved in Square without the need for loops or pub/sub.
+        <b>Project Requirements:</b>
+        <br /><br />
+        - <i>Fetch json data to get the initial list of devices.</i>
+        <br />
+        - <i>Create a button for each device product name.</i>
+        <br />
+        - <i>When a button is clicked, the matching description displays below the buttons.</i>
+        <br />
+        - <i>Create fields and labels for adding a new device Product Name and Description.</i>
+        <br />
+        - <i>Create a button to commit the new values to the data model.</i>
+        <br />
+        - <i>Create and render a new button for each new device added.</i>
     </p>
     <p class="content">
-        Now that you understand what the demo is doing "under the hood", let's look at how to build it.
+        This project includes seven files: index.html; devices.json; overlay.png; style.css; product.html; productBox.js; productModel.js.
         <br /><br />
-        <b>Requirements:</b>
+        The directory containing RequireJS and SquareJS is not shown, which is explained in the following section.
         <br /><br />
-        - <i>Fetch json data to get a list of devices.</i>
-        <br />
-        - <i>Create a button for each device name.</i>
-        <br />
-        - <i>When a button is clicked, the matching device description should appear below the buttons.</i>
-     </p>
-    <hr />
-    <p class="content">
-        At the root of the project, there are seven files: index.html, overlay.png, style.css, product.html, productBox.js, and productModel.js. I won't go into detail about overlay.png or style.css
-        as these files are simply used to make things look pretty. Also, note the SquareJS directory is not shown. This is discussed in the following index.html breakdown.
+        Use the GitHub link at the top of this page to download the project. Being able to see all the code together in one place will make it easier to follow the tutorial.
     </p>
-    <div>
-        <img src="../demo_1_directories.png" alt="button demo directory structure" />
-    </div>
+    <br />
     <hr />
     <h2>Configuration</h2>
     <hr />
@@ -132,7 +124,7 @@
                 &lt;/script&gt;
         </p>
     </div>
-
+    <br /><br />
     <hr />
     <h2>Templating with Temple</h2>
     <hr />
@@ -172,7 +164,7 @@
             &lt;/span&gt;
         </p>
     </div>
-
+    <br /><br />
     <hr />
     <h2>Model Squared</h2>
     <hr />
@@ -222,7 +214,7 @@
             });<br />
         </p>
     </div>
-
+    <br /><br />
     <hr />
     <h2>Build-A-Box</h2>
     <hr />
