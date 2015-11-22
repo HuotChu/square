@@ -11,15 +11,15 @@ define(['db', 'eventHub', 'request'], function (db, eventHub, request) {
             // create a model (database) named Products
             var model = db.createDB('Products');
 
+            // connect our model to an eventHub
+            eventHub.connect(model);
+
             // create a table called devices
             model.createTable('Devices');
 
             // copy the data array from the server into the Table
             // converts a collection of objects to relational structure
             model.insertJsonInto('Devices')(allData);
-
-            // connect our model to an eventHub
-            eventHub.connect(model);
 
             // resolve and pass the model to the handler
             resolve(model);
