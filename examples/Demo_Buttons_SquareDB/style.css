@@ -181,6 +181,10 @@ label {
     margin: 8px 0 20px 0;
 }
 
+#tutorial h1 {
+    text-shadow: -1px 0 3px rgba(77, 77, 77, 0.59);
+}
+
 .content {
     width: 100%;
 }
@@ -228,4 +232,11 @@ label {
     width: 300px;
     text-align: center;
     margin: 0 auto;
+}
+
+a.share-btn {
+    box-shadow: 0 0 10px rgba(0,0,0,.5);
+    border-radius: 0;
+    border-bottom-left-radius: 2px;
+    border-bottom-right-radius: 2px;
 }
