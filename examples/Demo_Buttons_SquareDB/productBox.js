@@ -7,9 +7,6 @@ define(['box', 'productModel'], function(Box, productModel) {
     'use strict';
 
     productModel.then(function (model) {
-        // todo: REMOVE THIS!!!
-        window.db = model;
-
         var getDescription = {
             event: 'click',
             id: '_productButton_',
@@ -74,7 +71,6 @@ define(['box', 'productModel'], function(Box, productModel) {
                         setTimeout(function () {
                             descriptionElement.className = '';
                             descriptionElement.innerHTML = event.detail.value;
-
                         }, 800);
                     }
                 },

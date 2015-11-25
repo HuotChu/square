@@ -5,7 +5,7 @@ define(['db', 'eventHub', 'request', 'lobro'], function (db, eventHub, request, 
         // create a model (database) named Products
         var model = db.createDB('Products');
         // enable model events
-        eventHub.connect(model);
+        model = eventHub.connect(model);
         // enable localStorage
         model = lobro.connect(model);
         // check if we already have the data
