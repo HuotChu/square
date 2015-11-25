@@ -48,26 +48,22 @@
     <p class="content">
         <b>Project Requirements:</b>
         <br /><br />
-        - <i>Retrieve the initial list of devices from localStorage, fall back to loading json data.</i>
+        - Retrieve the initial list of devices from localStorage, fall back to loading json data.
         <br />
-        - <i>Persist the data and any future changes to localStorage.</i>
+        - Persist the data and any future changes to localStorage.
         <br />
-        - <i>Create a button for each device product name.</i>
+        - Create a button for each device product name.
         <br />
-        - <i>When a button is clicked, the matching description displays below the buttons.</i>
+        - When a button is clicked, the matching description displays below the buttons.
         <br />
-        - <i>Create fields and labels for adding a new device Product Name and Description.</i>
+        - Create fields and labels for adding a new device Product Name and Description.
         <br />
-        - <i>Create a button to commit the new values to the data model.</i>
+        - Create a button to commit the new values to the data model.
         <br />
-        - <i>Create and render a new button for each new device added.</i>
+        - Create and render a new button for each new device added.
     </p>
     <p class="content">
-        This project includes seven files: index.html; devices.json; overlay.png; style.css; product.html; productBox.js; productModel.js.
-        <br /><br />
-        The directory containing RequireJS and SquareJS is not shown, which is explained in the following section.
-        <br /><br />
-        Use the GitHub link at the top of this page to download the project. Being able to see all the code together in one place will make it easier to follow the tutorial.
+        <b>Use the GitHub link at the top of this page to download the project. Being able to see all the code together in one place will make it easier to follow the tutorial.</b>
     </p>
     <br />
     <hr />
@@ -75,12 +71,14 @@
     <hr />
     <p class="content">
         Index.html is where the framework and application are configured prior to initializing the app. Moving from top to bottom within the BODY of this file,
-        there are three items on the page which are used to prepare the app before it runs.
+        there are three items on this page which are used by our demo application: a div element to attach the button demo widget, a script tag to include require.js,
+        and a require.js configuration block.
     </p>
     <div class="codeBlock">
         <h3>Index.html</h3>
         <p>
-            This element will be used to attach the view to the DOM when the view is ready.
+            This element will be used to attach the demo widget's `box` to the DOM when it's view is ready. Boxes are how SquareJS represents the view of each module.
+            That's all you need to know about boxes for now, we'll go into much more detail later in the tutorial.
         </p>
         <p class="code">
             &lt;div id="button-demo"&gt;&lt;/div&gt;
@@ -113,6 +111,7 @@
                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"box": "../../lib/box",<br />
                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"db": "../../lib/squaredb/squaredb",<br />
                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"eventHub": "../../lib/eventHub",<br />
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"lobro": "../../lib/lobro",<br />
                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"notify": "../../lib/notify",<br />
                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"request": "../../lib/request",<br />
                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"square": "../../lib/square",<br />
@@ -181,39 +180,49 @@
             and the whole thing is returned in an argument to any callback passed to the productModel's `then` method.
         </p>
         <p class="code">
-            request('devices.json').then(function (deviceData) {
-            <br />
-            &nbsp;&nbsp;&nbsp;// get the XHR object from the deviceData argument
-            <br />
-            &nbsp;&nbsp;&nbsp;// ensures the request completed before executing this code
-            <br />
-            &nbsp;&nbsp;&nbsp;// parse response json and grab the devices array
-            <br />
-            &nbsp;&nbsp;&nbsp;var allData = JSON.parse(deviceData['response'])['devices'];
-            <br /><br />
-            &nbsp;&nbsp;&nbsp;// create a model (database) named Products
-            <br />
-            &nbsp;&nbsp;&nbsp;var model = db.createDB('Products');
-            <br /><br />
-            &nbsp;&nbsp;&nbsp;// create a table called devices
-            <br />
-            &nbsp;&nbsp;&nbsp;model.createTable('Devices');
-            <br /><br />
-            &nbsp;&nbsp;&nbsp;// copy the data array from the server into the Table
-            <br />
-            &nbsp;&nbsp;&nbsp;// converts a collection of objects to relational structure
-            <br />
-            &nbsp;&nbsp;&nbsp; model.insertJsonInto('Devices')(allData);
-            <br /><br />
-            &nbsp;&nbsp;&nbsp;// connect our model to an eventHub
-            <br />
-            &nbsp;&nbsp;&nbsp; eventHub.connect(model);
-            <br /><br />
-            &nbsp;&nbsp;&nbsp;// resolve and pass the model to the handler
-            <br />
-            &nbsp;&nbsp;&nbsp;resolve(model);
-            <br />
-            });<br />
+        define(['db',&nbsp;'eventHub',&nbsp;'request',&nbsp;'lobro'],&nbsp;function&nbsp;(db,&nbsp;eventHub,&nbsp;request,&nbsp;lobro)&nbsp;{
+            <br />&nbsp;&nbsp;&nbsp;&nbsp;'use&nbsp;strict';
+            <br /><br />&nbsp;&nbsp;&nbsp;&nbsp;return&nbsp;new&nbsp;Promise(function&nbsp;(resolve)&nbsp;{
+            <br /><br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//&nbsp;create&nbsp;a&nbsp;model&nbsp;(database)&nbsp;named&nbsp;Products
+            <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;var&nbsp;model&nbsp;=&nbsp;db.createDB('Products');
+            <br /><br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//&nbsp;enable&nbsp;model&nbsp;events
+            <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;model&nbsp;=&nbsp;eventHub.connect(model);
+            <br /><br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//&nbsp;enable&nbsp;localStorage
+            <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;model&nbsp;=&nbsp;lobro.connect(model);
+            <br /><br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// check if we already have the data in localStorage
+            <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if&nbsp;(model.isCurrent('Products',&nbsp;1))&nbsp;{
+            <br /><br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//&nbsp;load&nbsp;localStorage&nbsp;data&nbsp;into&nbsp;the&nbsp;model
+            <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;model.sync('Products');
+            <br /><br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// tell lobro to update localStorage when the model data changes
+            <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;model.enableEvents();
+            <br /><br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//&nbsp;resolve&nbsp;and&nbsp;pass&nbsp;the&nbsp;model&nbsp;to&nbsp;the&nbsp;handler
+            <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;resolve(model);
+            <br /><br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}&nbsp;else&nbsp;{
+            <br /><br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// no data in localStorage, request json data instead
+            <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;request('devices.json').then(function&nbsp;(deviceData)&nbsp;{
+            <br /><br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//&nbsp;get&nbsp;the&nbsp;XHR&nbsp;response&nbsp;into&nbsp;the&nbsp;deviceData&nbsp;argument
+            <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//&nbsp;parse&nbsp;response&nbsp;json&nbsp;and&nbsp;grab&nbsp;the&nbsp;devices&nbsp;array
+            <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;var&nbsp;allData&nbsp;=&nbsp;JSON.parse(deviceData['response'])['devices'];
+            <br /><br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//&nbsp;create&nbsp;a&nbsp;table&nbsp;called&nbsp;devices
+            <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;model.createTable('Devices');
+            <br /><br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//&nbsp;copy&nbsp;the&nbsp;data&nbsp;array&nbsp;from&nbsp;the&nbsp;server&nbsp;into&nbsp;the&nbsp;Table
+            <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//&nbsp;converts&nbsp;a&nbsp;collection&nbsp;of&nbsp;objects&nbsp;to&nbsp;relational&nbsp;structure
+            <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;model.insertJsonInto('Devices')(allData);
+            <br /><br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// check if model has lobro methods
+            <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if&nbsp;(model.enableEvents)&nbsp;{
+            <br /><br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//&nbsp;ensure&nbsp;no&nbsp;old&nbsp;localStorage&nbsp;model&nbsp;exists
+            <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;model.clearLocal();
+            <br /><br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//&nbsp;copy&nbsp;model&nbsp;to&nbsp;localStorage&nbsp;with&nbsp;version&nbsp;1
+            <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;model.persist(model,&nbsp;1);
+            <br /><br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//&nbsp;tell&nbsp;lobro&nbsp;to&nbsp;update&nbsp;localStorage&nbsp;when&nbsp;the&nbsp;model&nbsp;data&nbsp;changes
+            <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;model.enableEvents();
+            <br /><br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+            <br /><br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//&nbsp;resolve&nbsp;and&nbsp;pass&nbsp;the&nbsp;model&nbsp;to&nbsp;the&nbsp;handler
+            <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;resolve(model);
+            <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;});
+            <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+            <br />&nbsp;&nbsp;&nbsp;&nbsp;});
+            <br />});
         </p>
     </div>
     <br /><br />
