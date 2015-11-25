@@ -45,7 +45,7 @@ define(['box', 'productModel'], function(Box, productModel) {
                     callback: function (domNode, box) {
                         var pName = box.index['name-input'],
                             pDesc = box.index['desc-input'],
-                            pId = db.createUnique();
+                            pId = model.createUnique();
 
                         if (pName && pDesc) {
                             model.insertInto('Devices')('product, desc, id').values(pName.value, pDesc.value, pId);
