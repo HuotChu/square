@@ -9,7 +9,7 @@ define(['db', 'eventHub', 'request', 'lobro'], function (db, eventHub, request, 
         // enable localStorage
         model = lobro.connect(model);
         // check if we already have the data
-        if (model.getLocal('Products')) {
+        if (model.isCurrent('Products', 1)) {
             // load localStorage data into the model
             model.sync('Products');
             // when using eventHub with lobro, we can enable events so lobro will auto-update localStorage when data changes
@@ -27,7 +27,8 @@ define(['db', 'eventHub', 'request', 'lobro'], function (db, eventHub, request, 
                 // converts a collection of objects to relational structure
                 model.insertJsonInto('Devices')(allData);
                 if (model.enableEvents) {
-                    model.persist(model);
+                    model.clearLocal();
+                    model.persist(model, 1);
                     model.enableEvents();
                 }
                 // resolve and pass the model to the handler
