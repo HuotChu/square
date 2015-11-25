@@ -12,10 +12,10 @@ define(['db', 'eventHub', 'request', 'lobro'], function (db, eventHub, request, 
         if (model.getLocal('Products')) {
             // load localStorage data into the model
             model.sync('Products');
-            // resolve and pass the model to the handler
-            resolve(model);
             // when using eventHub with lobro, we can enable events so lobro will auto-update localStorage when data changes
             model.enableEvents();
+            // resolve and pass the model to the handler
+            resolve(model);
         } else {
             request('devices.json').then(function (deviceData) {
                 // get the XHR response into the deviceData argument
@@ -26,12 +26,12 @@ define(['db', 'eventHub', 'request', 'lobro'], function (db, eventHub, request, 
                 // copy the data array from the server into the Table
                 // converts a collection of objects to relational structure
                 model.insertJsonInto('Devices')(allData);
-                // resolve and pass the model to the handler
-                resolve(model);
                 if (model.enableEvents) {
-                    model.persist(db);
+                    model.persist(model);
                     model.enableEvents();
                 }
+                // resolve and pass the model to the handler
+                resolve(model);
             });
         }
     });
