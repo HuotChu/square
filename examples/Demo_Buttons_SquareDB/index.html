@@ -45,69 +45,63 @@
     <hr />
     <h2>Overview</h2>
     <hr />
-    <p class="content">
-        <b>Project Requirements:</b>
-        <br /><br />
-        - Retrieve the initial list of devices from localStorage, fall back to loading json data.
+    <h6>Project Requirements</h6>
+    <p class="content list">
+        &#9873; Retrieve a list of devices from localStorage; fall back imports json.
         <br />
-        - Persist the data and any future changes to localStorage.
+        &#9873; Persist the data and any future changes to localStorage.
         <br />
-        - Create a button for each device product name.
+        &#9873; Create buttons for each device product name.
         <br />
-        - When a button is clicked, the matching description displays below the buttons.
+        &#9873; When a button is clicked, the matching description displays.
         <br />
-        - Create fields and labels for adding a new device Product Name and Description.
+        &#9873; Create a form to add new device data to the model.
         <br />
-        - Create a button to commit the new values to the data model.
-        <br />
-        - Create and render a new button for each new device added.
+        &#9873; Create and render a device button for each new device added.
     </p>
-    <p class="content">
-        <b>
+    <p class="content notice">
             Use the GitHub link to create a fork or download the project.
             <br />
-            Having all the code in one place will make it easier for you to follow this tutorial.
-            <br />
             The demo is located in `examples/Demo_Buttons_SquareDB`.
-        </b>
     </p>
-    <br />
+
     <hr />
     <h2>Configuration</h2>
     <hr />
-    <p class="content">
-        Index.html is where the framework and application are configured prior to initializing the app. Moving from top to bottom within the BODY of this file,
-        there are three items on this page which are used by our demo application: a div element to attach the button demo widget, a script tag to include require.js,
+    <p class="content intro">
+        index.html is where the framework and application are configured prior to initializing the app. Moving from top to bottom within the BODY of this file
+        there are three items which are used by the demo application: a div element where the demo widget will be inserted, a script tag to include require.js,
         and a require.js configuration block.
     </p>
     <div class="codeBlock">
-        <h3>Index.html</h3>
-        <p>
-            This element will be used to attach the demo widget's `box` to the DOM when it's view is ready. Boxes are how SquareJS represents the view of each module.
-            That's all you need to know about boxes for now, we'll go into much more detail later in the tutorial.
+        <h3>index.html</h3>
+        <p class="narrative">
+            A div element with the id `button-demo` is added to the page.
+            <br />
+            This is where the demo widget will be inserted.
         </p>
         <p class="code">
             &lt;div id="button-demo"&gt;&lt;/div&gt;
         </p>
 
-        <p>
-            Include require.js which is used to load all the modules. The relative path shows require is located outside the main application directory. This is purely a matter of preference.
-            You may place require and square in locations that best suite your project.
+        <p class="narrative">
+            Include require.js so it can handle the loading and caching of modules. The relative path shows require is located outside the main application directory, but this is purely a matter of preference.
+            You may place require in a location that best suites your project and update the script src to reflect that location.
         </p>
         <p class="code">
             &lt;script src="../../lib/require.js"&gt;&lt;/script&gt;
         </p>
 
-        <p>
+        <p class="narrative">
             A require.js configuration block must be included before the app runs.
             <br /><br />
             <b>baseUrl</b> <i>string</i> sets the base directory of the application relative to this file.
             <br /><br />
-            <b>paths</b> <i>object</i> maps all the SquareJS modules to module names, so the app will know where to find them.
+            <b>paths</b> <i>object</i> maps all the SquareJS module names to module locations.
             <br /><br />
-            <b>deps</b> <i>array</i> loads any application dependencies. I added productBox.js, causing it to load. When the
-            productBox module loads it creates and attaches the view. Before productBox can even be a "thing" though, we should back up
-            and create the html template for buttons and description.
+            <b>deps</b> <i>array</i> loads application dependencies.
+            <br />
+            productBox.js is passed in, causing it to load and attach the view to the `button-demo` div.
         </p>
         <p class="code">
                 &lt;script&gt;<br />
@@ -131,56 +125,97 @@
                 &lt;/script&gt;
         </p>
     </div>
+
+    <br /><br />
+    <hr />
+    <h2>Data Structure</h2>
+    <hr />
+    <p class="content intro">
+        Before writing code, it's a good idea to first examine the data structure.
+        <br />
+        This information is required for naming template variables and crafting data queries.
+    </p>
+    <div class="codeBlock">
+        <h3>devices.json</h3>
+        <p class="narrative">
+          <!-- Todo: update description--> Description content coming soon...
+        </p>
+        <p class="code">
+            {<br />
+            &nbsp;&nbsp; "devices": [<br />
+            &nbsp;&nbsp;&nbsp;&nbsp; {<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; "product": "Galaxy",<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; "desc": "This is a Smartphone.",<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; "id": "ip"<br />
+            &nbsp;&nbsp;&nbsp;&nbsp; },<br />
+            &nbsp;&nbsp;&nbsp;&nbsp; {<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; "product": "Nexus",<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; "desc": "This is a Tablet.",<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; "id": "ne"<br />
+            &nbsp;&nbsp;&nbsp;&nbsp; },<br />
+            &nbsp;&nbsp;&nbsp;&nbsp; {<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; "product": "Lenovo",<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; "desc": "This is a PC.",<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; "id": "le"<br />
+            &nbsp;&nbsp;&nbsp;&nbsp; },<br />
+            &nbsp;&nbsp;&nbsp;&nbsp; {<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; "product": "Apple",<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; "desc": "This is a SmartWatch.",<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; "id": "so"<br />
+            &nbsp;&nbsp;&nbsp;&nbsp; },<br />
+            &nbsp;&nbsp;&nbsp;&nbsp; {<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; "product": "Sony",<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; "desc": "This is a Gaming Console.",<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; "id": "s4"<br />
+            &nbsp;&nbsp;&nbsp;&nbsp; }<br />
+            &nbsp;&nbsp; ]<br />
+            }<br />
+        </p>
+    </div>
+
     <br /><br />
     <hr />
     <h2>Templating with Temple</h2>
     <hr />
-    <p class="content">
-        The templating structure is pretty simple. Start with a single element and put your required html inside it. Variables which should be replaced by data values are
-        denoted with {{variableName}}. If the variable is inside a repeating element, the syntax includes a plus symbol {{+variableName}}.
+    <p class="content intro">
+        The templating structure is simple. Start with a single dom element and put your view's html inside it. Variables which should be replaced by data values are
+        denoted with <b>{{variableName}}</b>. If the variable is inside a repeating element, the syntax includes a plus symbol <b>{{+variableName}}</b>.
     </p>
     <div class="codeBlock">
         <h3>product.html</h3>
-        <p class="content">
-            `data-` property tags are used to give temple special instructions.
+        <br />
+        <h6>`data-` property tags are used to give temple special instructions.</h6>
+        <p class="narrative list">
+            &#9733; <b>data-repeat</b> tells temple to repeat this element and any child elements. The value for data-repeat is "devices" which will match a `devices` array in the data structure.
             <br /><br />
-            <b>data-repeat</b> tells temple to repeat this element and any child elements. The value for data-repeat is "devices" which will match a `devices` array in the data structure.
+            &#9733; <b>data-index</b> tells temple to store this element as a property for later lookup. This is required for any element that will have event handlers or data-binding attached.
             <br /><br />
-            <b>data-index</b> tells temple to store this element as a property for later lookup. This is required for any element that will have event handlers or data-binding attached.
-            <br />
             The value of data-index is used as the property name to look up for retrieval, therefor every data-index in a box must be unique. To accomplish this, I create a data-index
             that begins with the prefix `productButton_` followed by the `id` of the device associated with this button. That productButton_ prefix will come in handy later
             when we want to attach event handlers to all these buttons.
             <br /><br />
-            <b>data-event-args-<i>n</i></b> where <i>n</i> begins at zero and is incremented for each additional data-event-args tag. The value of each data-event-args tag is passed
+            &#9733; <b>data-event-args-<i>n</i></b> where <b><i>n</i></b> begins at <b>zero</b> and is incremented for each additional data-event-args tag. The value of each data-event-args tag is passed
             as an argument to any callback function used as an event handler targeting the element.
             <br /><br />
             In this case, the `id` of each button will be passed in as the first argument to any event handler we later attach to the button. This will serve as a lookup key to
             get the correct description from the model.
+            <br /><br />
+            &#9733; <b>data-template</b> creates a reusable template named for the value supplied. The `device-button` data-template is used to generate additional buttons later.
         </p>
         <p class="code">
-            &lt;span&gt;<br />
-            &nbsp;&nbsp;&nbsp;&lt;ul&gt;<br />
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;li data-repeat="devices"&gt;<br />
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;span class="button" data-index="productButton_{{+id}}" data-event-args-0="{{+id}}"&gt;<br />
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{+product}}<br />
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/span&gt;<br />
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/li&gt;<br />
-            &nbsp;&nbsp;&nbsp;&lt;/ul><br />
-            &nbsp;&nbsp;&nbsp;&lt;div id="description" data-index="desc" class="hidden">&lt;/div&gt;<br />
-            &lt;/span&gt;
+            <!--Needs Update--> Code sample coming soon...
         </p>
     </div>
     <br /><br />
     <hr />
     <h2>Model Squared</h2>
     <hr />
-    <p class="content">
+    <p class="content intro">
         Creating the model for our application is incredibly easy, thanks to SquareDB.
     </p>
     <div class="codeBlock">
         <h3>productModel.js</h3>
-        <p class="content">
+        <p class="narrative">
             productModel.js is already well commented, so a quick walk-through should suffice. We start by requesting the devices.json file. Then, when that request
             returns, the data is inserted into a new SquareDB database. This database is hooked up to the eventHub to enable data-binding and event management,
             and the whole thing is returned in an argument to any callback passed to the productModel's `then` method.
@@ -235,31 +270,31 @@
     <hr />
     <h2>Build-A-Box</h2>
     <hr />
-    <p class="content">
+    <p class="content intro">
         Now that we have both a template and a model, it's time to build a box and watch it construct and render our view. Useful things, those boxes. Who knew?
     </p>
     <div class="codeBlock">
         <h3>productBox.js</h3>
-        <p>
+        <p class="narrative">
             The first line of code inside productBox.js <b>define</b>s the `productBox` module based on the file name, then it imports both the box.js module and the productModel.
         </p>
         <p class="code">
             define(['box', 'productModel'], function(Box, productModel) {
         </p>
-        <p>
+        <p class="narrative">
             The model returns a Promise to prevent rendering the UI before we have the data. The Promise's `then` method is used to capture and pass in the actual model.
         </p>
         <p class="code">
             productModel.then(function (model) {
         </p>
-        <p>
+        <p class="narrative">
             Now that we have the model, we need to build our box and to do that, we need to create a boxConfig object. This is just an ordinary object with some rather important
             properties.
         </p>
         <p class="code">
             var boxConfig = {
         </p>
-        <p>
+        <p class="narrative">
             boxConfig properties:
         </p>
         <p>
@@ -268,7 +303,7 @@
         <p class="code">
             model: model,
         </p>
-        <p>
+        <p class="narrative">
             <b>data</b> <i>object</i> maps data in the model to variable names in the html template.
             <br />
             The product.html template has a data-repeat element with the value `devices`, so I need a devices property set to the array of devices.
@@ -280,19 +315,19 @@
              &nbsp;&nbsp;&nbsp;devices: model.select('product, id').from('Devices').go()<br />
             },
         </p>
-        <p>
+        <p class="narrative">
             <b>target</b> <i>DOM element | optional</i> if provided, the box will automatically attach the completed view to this DOM element.
         </p>
         <p class="code">
             target: document.querySelector('#button-demo'),
         </p>
-        <p>
+        <p class="narrative">
             <b>template</b> <i>string</i> url of the template file for this view.
         </p>
         <p class="code">
             template: 'product.html',
         </p>
-        <p>
+        <p class="narrative">
             <b>domEvents</b> <i>array of objects</i> each object represents an event handler that needs to be attached to one or more DOM elements.
             <br /><br />
             <b>domEvent <i>object</i></b>
@@ -333,8 +368,7 @@
             &nbsp;&nbsp;&nbsp;}<br />
             ],
         </p>
-        <p>
-            <br /><br />
+        <p class="narrative">
             <b>modelEvents</b> <i>array of objects</i>  each object represents an event handler that needs to be attached to a model event.
             <br /><br />
             <b>modelEvent <i>object</i></b>
