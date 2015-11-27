@@ -67,20 +67,20 @@
             &nbsp;&nbsp;&nbsp;require.config({<br />
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;baseUrl: './',<br />
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;paths: {<br />
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"box": "../../lib/box",<br />
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"db": "../../lib/squaredb/squaredb",<br />
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"eventHub": "../../lib/eventHub",<br />
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"lobro": "../../lib/lobro",<br />
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"notify": "../../lib/notify",<br />
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"request": "../../lib/request",<br />
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"square": "../../lib/square",<br />
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"aggregates": "../../lib/squaredb/aggregates",<br />
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"comparator":  "../../lib/squaredb/comparator",<br />
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"Select":  "../../lib/squaredb/Select",<br />
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"go": "../../lib/squaredb/go",<br />
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"temple": "../../lib/temple"<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;box: "../../lib/box",<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;db: "../../lib/squaredb/squaredb",<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;eventHub: "../../lib/eventHub",<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;lobro: "../../lib/lobro",<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;notify: "../../lib/notify",<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;request: "../../lib/request",<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;square: "../../lib/square",<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;aggregates: "../../lib/squaredb/aggregates",<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;comparator:  "../../lib/squaredb/comparator",<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Select:  "../../lib/squaredb/Select",<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;go: "../../lib/squaredb/go",<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;temple: "../../lib/temple"<br />
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;},<br />
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;deps: ['productBox']<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;deps: ['productBox', 'tutorial', '../social-links']<br />
             &lt;/script&gt;
         </p>
     </div>
@@ -97,35 +97,38 @@
     <div class="codeBlock">
         <h3>devices.json</h3>
         <p class="narrative">
-            <!-- Todo: update description--> Description content coming soon...
+            At the root of our data, there is a `devices` array which provides two crucial pieces of information. First, I will likely want to create
+            a Devices table in the database where I can store this data for use within the application. Second, I know that I will be creating a
+            template with a repeating button element. The Devices table is going to determine how many of those elements get created [initially]
+            and what the variable names should be inside those templated elements.
         </p>
         <p class="code">
             {<br />
             &nbsp;&nbsp; "devices": [<br />
             &nbsp;&nbsp;&nbsp;&nbsp; {<br />
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; "product": "Galaxy",<br />
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; "desc": "This is a Smartphone.",<br />
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; "id": "ip"<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; "desc": "This is a Smart Phone.",<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; "id": "gal"<br />
             &nbsp;&nbsp;&nbsp;&nbsp; },<br />
             &nbsp;&nbsp;&nbsp;&nbsp; {<br />
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; "product": "Nexus",<br />
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; "desc": "This is a Tablet.",<br />
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; "id": "ne"<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; "id": "nex"<br />
             &nbsp;&nbsp;&nbsp;&nbsp; },<br />
             &nbsp;&nbsp;&nbsp;&nbsp; {<br />
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; "product": "Lenovo",<br />
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; "desc": "This is a PC.",<br />
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; "id": "le"<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; "id": "len"<br />
             &nbsp;&nbsp;&nbsp;&nbsp; },<br />
             &nbsp;&nbsp;&nbsp;&nbsp; {<br />
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; "product": "Apple",<br />
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; "desc": "This is a SmartWatch.",<br />
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; "id": "so"<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; "desc": "This is a Smart Watch.",<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; "id": "aio"<br />
             &nbsp;&nbsp;&nbsp;&nbsp; },<br />
             &nbsp;&nbsp;&nbsp;&nbsp; {<br />
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; "product": "Sony",<br />
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; "desc": "This is a Gaming Console.",<br />
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; "id": "s4"<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; "id": "son"<br />
             &nbsp;&nbsp;&nbsp;&nbsp; }<br />
             &nbsp;&nbsp; ]<br />
             }<br />
@@ -147,11 +150,11 @@
         <p class="narrative list">
             &#9733; <b>data-repeat</b> tells temple to repeat this element and any child elements. The value for data-repeat is "devices" which will match a `devices` array in the data structure.
             <br /><br />
-            &#9733; <b>data-index</b> tells temple to store this element as a property for later lookup. This is required for any element that will have event handlers or data-binding attached.
+            &#9733; <b>data-index</b> tells temple to store this element in the box for later lookup. This is <i>required</i> for any element that has an event handler or data-binding attached.
             <br /><br />
-            The value of data-index is used as the property name to look up for retrieval, therefor every data-index in a box must be unique. To accomplish this, I create a data-index
-            that begins with the prefix `productButton_` followed by the `id` of the device associated with this button. That productButton_ prefix will come in handy later
-            when we want to attach event handlers to all these buttons.
+            The value of data-index is used as the property name to look up for retrieval, therefor every data-index in a box must be unique. To create unique indices on repeating elements, create
+            a prefix that begins with an underscore _ character. For example, in the demo I gave the repeating button element a data-index with the prefix `_productButton_` followed by an `id` of
+            the device associated with the button. That _productButton_ prefix will come in handy when we want temple to attach a single event handler to every one of these buttons.
             <br /><br />
             &#9733; <b>data-event-args-<i>n</i></b> where <b><i>n</i></b> begins at <b>zero</b> and is incremented for each additional data-event-args tag. The value of each data-event-args tag is passed
             as an argument to any callback function used as an event handler targeting the element.
@@ -162,7 +165,30 @@
             &#9733; <b>data-template</b> creates a reusable template named for the value supplied. The `device-button` data-template is used to generate additional buttons later.
         </p>
         <p class="code">
-            <!--Needs Update--> Code sample coming soon...
+            &lt;div&gt;<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&lt;h3 class="device-counter"&gt;<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;span data-index="counter"&gt;&#x7B;&#x7B;deviceCount&#x7D;&#x7D;&lt;/span&gt; devices<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&lt;/h3&gt;<br />
+            &nbsp;&nbsp;&nbsp;&nbsp; &lt;p&gt;Click for description&lt;/p&gt;<br />
+            &nbsp;&nbsp;&nbsp;&nbsp; &lt;ul data-index="buttons"&gt;<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;li data-repeat="devices"&nbsp;&nbsp;data-template="device-button"&gt;<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;span class="button" data-index="_productButton_{{+id}}" data-event-args-0="{{+id}}"&gt;<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {{+product}}<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;/span&gt;<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;/li&gt;<br />
+            &nbsp;&nbsp;&nbsp;&nbsp; &lt;/ul&gt;<br />
+            &nbsp;&nbsp;&nbsp;&nbsp; &lt;div id="description" data-index="desc" class="hide"&gt;&lt;/div&gt;<br />
+            &nbsp;&nbsp;&nbsp;&nbsp; &lt;div id="new-data"&gt;<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;p&gt;Add New Device&lt;/p&gt;<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;form&gt;<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;label for="name-input"&gt;Product Name&lt;/label&gt;<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;input type="text" data-index="name-input" id="name-input" maxlength="6" placeholder="product name"&gt;<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;label for="desc-input"&gt;Description&lt;/label&gt;<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;input type="text" data-index="desc-input" id="desc-input" maxlength="28" placeholder="short description"&gt;<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;span class="button" data-index="add-new"&gt;Add Device&lt;/span&gt;<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;/form&gt;<br />
+            &nbsp;&nbsp;&nbsp;&nbsp; &lt;/div&gt;<br />
+            &lt;/div&gt;
         </p>
     </div>
     <br /><br />
@@ -170,6 +196,8 @@
     <h2>Model Squared</h2>
     <hr />
     <p class="content intro">
+        ** This section needs updating **
+        <!--Todo: Update Section-->
         Creating the model for our application is incredibly easy, thanks to SquareDB.
     </p>
     <div class="codeBlock">
