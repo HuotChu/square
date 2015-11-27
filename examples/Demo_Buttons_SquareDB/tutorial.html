@@ -141,7 +141,7 @@
     <hr />
     <p class="content intro">
         The templating structure is simple. Start with a single dom element and put your view's html inside it. Variables which should be replaced by data values are
-        denoted with <b>{{variableName}}</b>. If the variable is inside a repeating element, the syntax includes a plus symbol <b>{{+variableName}}</b>.
+        denoted with <b>&#x7B;&#x7B;variableName&#x7D;&#x7D;</b>. If the variable is inside a repeating element, the syntax includes a plus symbol <b>{{+variableName}}</b>.
     </p>
     <div class="codeBlock">
         <h3>product.html</h3>
@@ -171,7 +171,7 @@
             &nbsp;&nbsp;&nbsp;&nbsp;&lt;/h3&gt;<br />
             &nbsp;&nbsp;&nbsp;&nbsp; &lt;p&gt;Click for description&lt;/p&gt;<br />
             &nbsp;&nbsp;&nbsp;&nbsp; &lt;ul data-index="buttons"&gt;<br />
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;li data-repeat="devices"&nbsp;&nbsp;data-template="device-button"&gt;<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;li data-repeat="devices" data-template="device-button"&gt;<br />
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;span class="button" data-index="_productButton_{{+id}}" data-event-args-0="{{+id}}"&gt;<br />
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {{+product}}<br />
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;/span&gt;<br />
