@@ -1,6 +1,6 @@
 h1,h2,h3,h4,h5,h6{font-family:'Lucida Grande', Calibri, Helvetica, Arial, sans-serif;font-weight:500;margin:10px 0;letter-spacing: -1px;}
 h1 a,h2 a,h3 a,h4 a,h5 a,h6 a{font-weight:inherit;}
-h1{font-size:2.1em;}h2{font-size:1.9em;margin-left:1em;}h3{font-size:1.8em;}h4{font-size:1.6em;}h5{font-size:1.4em;}h6{font-size:1.2em;margin-left:2em;}
+h1{font-size:2.1em;}h2{font-size:1.9em;margin-left:1em;}h3{font-size:1.8em;}h4{font-size:1.6em;}h5{font-size:1.4em;}h6{font-size:1.2em;margin-left:2.8em;}
 hr{height:0;border:0;border-top:1px solid #A8A8A8;margin:20px 0;width:78%;}
 
 html, body {
@@ -210,7 +210,7 @@ label {
     font-size: 0.9em;
     font-weight: 500;
     line-height: 2em;
-    margin: 2em 0 4em 4em;
+    margin: 2em 0 3em 4em;
 }
 
 .intro {
@@ -227,6 +227,7 @@ label {
 
 .codeBlock p {
     margin-left: 10px;
+    padding-left: 5px;
 }
 
 .codeBlock h3 {
