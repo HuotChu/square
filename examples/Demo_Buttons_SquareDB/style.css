@@ -260,18 +260,19 @@ label {
 #forkme_banner {
     position: relative;
     top: -5px;
-    z-index: 10;
-    padding: 6px 10px 5px 33px;
+    padding: 6px 10px 4px 33px;
     color: #fff;
-    background: url('../blacktocat.png') #0090ff no-repeat 15% 49%;
+    background: url('../blacktocat.png') rgba(217, 130, 174, 0.88) no-repeat 15% 49%;
     background-size: 15px;
     font-size: 12px;
     font-weight: 700;
     font-family: 'Helvetica Neue', Arial, sans-serif;
     text-decoration: none;
     line-height: 1.53;
-    letter-spacing: .04em;
-    box-shadow: 0 0 10px rgba(0,0,0,.5);
+    letter-spacing: .05em;
+    box-shadow: 0 0 10px rgba(0,0,0,.4);
+    border: 1px solid rgba(189, 113, 152, 0.54);
+    border-radius: 0;
     border-bottom-left-radius: 2px;
     border-bottom-right-radius: 2px;
 }
