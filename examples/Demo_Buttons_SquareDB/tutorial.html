@@ -10,13 +10,13 @@
         <br />
         &#9873;&nbsp; Persist the data and any future changes to localStorage.
         <br />
-        &#9873;&nbsp; Create buttons for each device product name.
+        &#9873;&nbsp; Create buttons depicting each device name.
+        <br />
+        &#9873;&nbsp; Create a form where new device data is added to the model.
         <br />
         &#9873;&nbsp; When a button is clicked, the matching description displays.
         <br />
-        &#9873;&nbsp; Create a form to add new device data to the model.
-        <br />
-        &#9873;&nbsp; Create and render a device button for each new device added.
+        &#9873;&nbsp; Render additional buttons for every new device added.
     </p>
     <p class="content notice">
         Use the GitHub link to create a fork or download the project.
@@ -100,7 +100,8 @@
     <div class="codeBlock">
         <h3>devices.json</h3>
         <p class="narrative">
-            At the root of our data, there is a `devices` array which contains 5 device objects. Each object has 3 properties: `product`, `desc`, and `id`.
+            At the root, there's a `devices` array which initially holds 5 objects. Each object represents a device
+            with 3 properties: `product`, `desc`, and `id`.
         </p>
         <p class="code">
             {<br />
@@ -147,52 +148,56 @@
     <div class="codeBlock">
         <h3>productModel.js</h3>
         <p class="narrative">
-            To satisfy the first 2 project requirements, productModel.js implements 4 Square[JS] APIs: SquareDB, eventHub, request, and lobro.
+            To help satisfy the first 2 project requirements, productModel.js implements a few Square APIs: squareDB, eventHub, request, and lobro.
+            SquareDB is aliased as `db` for brevity. When another module includes this productModel, that module will want to know when the
+            data is available. To accomplish this, return the productModel inside a Promise. This allows any module to import the productModel
+            and run code only when the data is ready. i.e.
+        </p>
+        <p class="code">productModel.then(function (model) {/*do stuff with model data*/});</p>
+        <p class="narrative">
+            Follow the comments in productModel.js (shown below) to see how project requirements 1 & 2 are satisfied.
         </p>
         <p class="code">
-            define(['db',&nbsp;'eventHub',&nbsp;'request',&nbsp;'lobro'],&nbsp;function&nbsp;(db,&nbsp;eventHub,&nbsp;request,&nbsp;lobro)&nbsp;{
-            <br />&nbsp;&nbsp;&nbsp;&nbsp;'use&nbsp;strict';
-            <br /><br />&nbsp;&nbsp;&nbsp;&nbsp;return&nbsp;new&nbsp;Promise(function&nbsp;(resolve)&nbsp;{
-            <br /><br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//&nbsp;create&nbsp;a&nbsp;model&nbsp;(database)&nbsp;named&nbsp;Products
-            <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;var&nbsp;model&nbsp;=&nbsp;db.createDB('Products');
-            <br /><br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//&nbsp;enable&nbsp;model&nbsp;events
-            <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;model&nbsp;=&nbsp;eventHub.connect(model);
-            <br /><br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//&nbsp;enable&nbsp;localStorage
-            <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;model&nbsp;=&nbsp;lobro.connect(model);
-            <br /><br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// check if we already have the data in localStorage
-            <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if&nbsp;(model.isCurrent('Products',&nbsp;1))&nbsp;{
-            <br /><br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//&nbsp;load&nbsp;localStorage&nbsp;data&nbsp;into&nbsp;the&nbsp;model
-            <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;model.sync('Products');
-            <br /><br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// tell lobro to update localStorage when the model data changes
-            <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;model.enableEvents();
-            <br /><br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//&nbsp;resolve&nbsp;and&nbsp;pass&nbsp;the&nbsp;model&nbsp;to&nbsp;the&nbsp;handler
-            <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;resolve(model);
-            <br /><br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}&nbsp;else&nbsp;{
-            <br /><br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// no data in localStorage, request json data instead
-            <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;request('devices.json').then(function&nbsp;(deviceData)&nbsp;{
-            <br /><br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//&nbsp;get&nbsp;the&nbsp;XHR&nbsp;response&nbsp;into&nbsp;the&nbsp;deviceData&nbsp;argument
-            <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//&nbsp;parse&nbsp;response&nbsp;json&nbsp;and&nbsp;grab&nbsp;the&nbsp;devices&nbsp;array
-            <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;var&nbsp;allData&nbsp;=&nbsp;JSON.parse(deviceData['response'])['devices'];
-            <br /><br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//&nbsp;create&nbsp;a&nbsp;table&nbsp;called&nbsp;devices
-            <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;model.createTable('Devices');
-            <br /><br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//&nbsp;copy&nbsp;the&nbsp;data&nbsp;array&nbsp;from&nbsp;the&nbsp;server&nbsp;into&nbsp;the&nbsp;Table
-            <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//&nbsp;converts&nbsp;a&nbsp;collection&nbsp;of&nbsp;objects&nbsp;to&nbsp;relational&nbsp;structure
-            <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;model.insertJsonInto('Devices')(allData);
-            <br /><br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// check if model has lobro methods
-            <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if&nbsp;(model.enableEvents)&nbsp;{
-            <br /><br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//&nbsp;ensure&nbsp;no&nbsp;old&nbsp;localStorage&nbsp;model&nbsp;exists
-            <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;model.clearLocal();
-            <br /><br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//&nbsp;copy&nbsp;model&nbsp;to&nbsp;localStorage&nbsp;with&nbsp;version&nbsp;1
-            <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;model.persist(model,&nbsp;1);
-            <br /><br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//&nbsp;tell&nbsp;lobro&nbsp;to&nbsp;update&nbsp;localStorage&nbsp;when&nbsp;the&nbsp;model&nbsp;data&nbsp;changes
-            <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;model.enableEvents();
-            <br /><br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
-            <br /><br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//&nbsp;resolve&nbsp;and&nbsp;pass&nbsp;the&nbsp;model&nbsp;to&nbsp;the&nbsp;handler
-            <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;resolve(model);
-            <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;});
-            <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
-            <br />&nbsp;&nbsp;&nbsp;&nbsp;});
-            <br />});
+            define(['db', 'eventHub', 'request', 'lobro'], function (db, eventHub, request, lobro) {<br /><br />
+            &nbsp;&nbsp;&nbsp;&nbsp; return new Promise(function (resolve) {<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <code class="comment">// create a model (in-memory database) named `Products`</code>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; var model = db.createDB('Products');<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <code class="comment">// enable model events</code>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; model = eventHub.connect(model);<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <code class="comment">// enable localStorage</code>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; model = lobro.connect(model);<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <code class="comment">// check if we already have the data</code>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if (model.isCurrent('Products', 1)) {<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <code class="comment">// load localStorage data into the model</code>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; model.sync('Products');<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <code class="comment">// enable events so lobro will auto-update localStorage when data changes</code>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; model.enableEvents();<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <code class="comment">// resolve and pass the model to the handler</code>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; resolve(model);<br /><br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; } else {<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <code class="comment">// no data found in localStorage, fallback to json</code>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; request('devices.json').then(function (deviceData) {<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <code class="comment">// parse response json and grab the devices array</code>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; var allData = JSON.parse(deviceData['response'])['devices'];<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <code class="comment">// create a table called devices</code>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; model.createTable('Devices');<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <code class="comment">// put data in Table; insertJsonInto converts it to a relational structure</code>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; model.insertJsonInto('Devices')(allData);<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <code class="comment">// feature detection checks if using localStorage</code>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if (model.enableEvents) {<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <code class="comment">// ensure no old localStorage model exists</code>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; model.clearLocal();<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <code class="comment">// copy model to localStorage with version 1</code>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; model.persist(model, 1);<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <code class="comment">// tell lobro to update localStorage when the model data changes</code>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; model.enableEvents();<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <code class="comment">// resolve and pass the model to the handler</code>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; resolve(model);<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; });<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }<br />
+            &nbsp;&nbsp;&nbsp;&nbsp; });<br />
+            });
         </p>
     </div>
 
@@ -202,7 +207,10 @@
     <h2>Templating with Temple</h2>
     <hr />
     <p class="content intro">
-        The templating structure is simple. Start with a single dom element and put your view's html inside it. Variables which should be replaced by data values are
+        Project requirements 3 & 4 include creating buttons and a form, so users can interact with the data. Temple manufactures user interface components in Square,
+        so it's the natural choice to use for these tasks.
+        <br /><br />
+        The templating structure is simple. Start with a single dom element and put the desired html inside it. Variables which should be replaced by data values are
         denoted with <b>&#x7B;&#x7B;variableName&#x7D;&#x7D;</b>. If the variable is inside a repeating element, the syntax includes a plus symbol <b>{{+variableName}}</b>.
     </p>
     <div class="codeBlock">
@@ -210,22 +218,33 @@
         <br />
         <h6>`data-` property tags are used to give temple special instructions.</h6>
         <p class="narrative list">
-            &#9733; <b>data-repeat</b> tells temple to repeat this element and any child elements. The value for data-repeat is "devices" which will match a `devices` array in the data structure.
+            &#9733; <b>data-repeat</b> tells temple to repeat this element and any child elements.
+            <br />
+            The value for data-repeat is "devices" which will match a `devices` array in the data structure.
             <br /><br />
-            &#9733; <b>data-index</b> tells temple to store this element in the box for later lookup. This is <i>required</i> for any element that has an event handler or data-binding attached.
+            &#9733; <b>data-index</b> tells temple to store this element for later retrieval.
+            <br />
+            This is <i>required</i> for an element to have event handlers or data-binding.
             <br /><br />
-            The value of data-index is used as the property name to look up for retrieval, therefor every data-index in a box must be unique. To create unique indices on repeating elements, create
-            a prefix that begins with an underscore _ character. For example, in the demo I gave the repeating button element a data-index with the prefix `_productButton_` followed by an `id` of
-            the device associated with the button. That _productButton_ prefix will come in handy when we want temple to attach a single event handler to every one of these buttons.
+            The value of data-index is used as the name of the element to look up later, therefor every data-index must be unique.
+            <br /><br />
+            If attaching event handlers to repeating elements, create a prefix for the data-index that begins with an underscore character.
+            For example, I gave the repeating button element a data-index with the prefix `_productButton_`, so I can attach the <i>same</i>
+            event handler to every button, followed by the `id` of the device to keep the data-index unique.
+            <br /><br />
+            <code class="code">
+                &lt;span class="button" data-index="_productButton_{{+id}}"...&gt;
+            </code>
             <br /><br />
             &#9733; <b>data-event-args-<i>n</i></b> where <b><i>n</i></b> begins at <b>zero</b> and is incremented for each additional data-event-args tag. The value of each data-event-args tag is passed
             as an argument to any callback function used as an event handler targeting the element.
             <br /><br />
-            In this case, the `id` of each button will be passed in as the first argument to any event handler we later attach to the button. This will serve as a lookup key to
+            In this case, the `id` of each button will be passed in as the first argument to any event handler we later attach to that button. This will serve as a lookup key to
             get the correct description from the model.
             <br /><br />
             &#9733; <b>data-template</b> creates a reusable template named for the value supplied. The `device-button` data-template is used to generate additional buttons later.
         </p>
+        <br />
         <p class="code">
             &lt;div&gt;<br />
             &nbsp;&nbsp;&nbsp;&nbsp;&lt;h3 class="device-counter"&gt;<br />
@@ -260,12 +279,15 @@
     <h2>Build-A-Box</h2>
     <hr />
     <p class="content intro">
-        Now that we have both a template and a model, it's time to build a box and watch it construct and render our view. Useful things, those boxes. Who knew?
+        The final 2 requirements deal with making things happen at specific moments, in other words, we need to handle events.
+        Events make up most of the controller logic and in Square, controller logic belongs in a `box`.
+        <br />
+        The box will also construct and render our view. Useful things, those boxes. Who knew?
     </p>
     <div class="codeBlock">
         <h3>productBox.js</h3>
         <p class="narrative">
-            The first line of code inside productBox.js <b>define</b>s the `productBox` module based on the file name, then it imports both the box.js module and the productModel.
+            productBox.js imports both the box.js module and the productModel.
         </p>
         <p class="code">
             define(['box', 'productModel'], function(Box, productModel) {
@@ -277,47 +299,54 @@
             productModel.then(function (model) {
         </p>
         <p class="narrative">
-            Now that we have the model, we need to build our box and to do that, we need to create a boxConfig object. This is just an ordinary object with some rather important
-            properties.
+            Now that we have the model, we need to build our box and to do that, we need to create a boxConfig object.
+            You don't actually have to name it boxConfig, but I am.
+            This is just an ordinary object with a handful of very important properties.
         </p>
         <p class="code">
             var boxConfig = {
         </p>
-        <p class="narrative">
-            boxConfig properties:
-        </p>
-        <p>
-            <b>model</b> <i>square model object</i> is set to the passed in model argument.
+        <br />
+        <h6>
+            Box Configuration Properties
+        </h6>
+        <p class="narrative list">
+            &#9733; <b>model</b> <i>square model object</i> is set to the passed in model argument.
         </p>
         <p class="code">
             model: model,
         </p>
-        <p class="narrative">
-            <b>data</b> <i>object</i> maps data in the model to variable names in the html template.
-            <br />
-            The product.html template has a data-repeat element with the value `devices`, so I need a devices property set to the array of devices.
-            <br />
-            More specifically, I will need the `product` and `id` of each device in the model, as seen in the template, so I use SquareDB to query for that data.
+        <p class="narrative list">
+            &#9733; <b>data</b> <i>object</i> maps data in the model to variable names in the html template.
+            <br /><br />
+            The template (product.html) contains a variable named &#x7B;&#x7B;deviceCount&#x7D;&#x7D;, so we add a deviceCount property
+            to the data object and map it to the return of the table's count method.
+            <br /><br />
+            The template also contains a data-repeat element with the value `devices`, so we create a `devices` property on the data object.
+            In order to repeat the element, we need an array containing the `product` and `id` of each device.
+            A squareDB query for that data returns an array of objects with product and id properties. These match the {{+product}} and
+            {{+id}} variables in the template.
         </p>
         <p class="code">
             data: {<br />
-            &nbsp;&nbsp;&nbsp;devices: model.select('product, id').from('Devices').go()<br />
+            &nbsp;&nbsp;&nbsp; deviceCount: model['Devices'].count(),<br />
+            &nbsp;&nbsp;&nbsp; devices: model.select('product, id').from('Devices').go()<br />
             },
         </p>
-        <p class="narrative">
-            <b>target</b> <i>DOM element | optional</i> if provided, the box will automatically attach the completed view to this DOM element.
+        <p class="narrative list">
+            &#9733; <b>target</b> <i>DOM element</i> if provided, the box will automatically attach the completed view to this element.
         </p>
         <p class="code">
             target: document.querySelector('#button-demo'),
         </p>
-        <p class="narrative">
-            <b>template</b> <i>string</i> url of the template file for this view.
+        <p class="narrative list">
+            &#9733; <b>template</b> <i>string</i> url of the template file for this view.
         </p>
         <p class="code">
             template: 'product.html',
         </p>
-        <p class="narrative">
-            <b>domEvents</b> <i>array of objects</i> each object represents an event handler that needs to be attached to one or more DOM elements.
+        <p class="narrative list">
+            &#9733; <b>domEvents</b> <i>array of objects</i> each object represents an event handler that needs to be attached to one or more DOM elements.
             <br /><br />
             <b>domEvent <i>object</i></b>
             <br /><br />
@@ -358,7 +387,7 @@
             ],
         </p>
         <p class="narrative">
-            <b>modelEvents</b> <i>array of objects</i>  each object represents an event handler that needs to be attached to a model event.
+            &#9733; <b>modelEvents</b> <i>array of objects</i>  each object represents an event handler that needs to be attached to a model event.
             <br /><br />
             <b>modelEvent <i>object</i></b>
             <br /><br />

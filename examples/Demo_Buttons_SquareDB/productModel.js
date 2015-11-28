@@ -1,7 +1,7 @@
 define(['db', 'eventHub', 'request', 'lobro'], function (db, eventHub, request, lobro) {
     'use strict';
 
-    return new Promise(function (resolve/*, reject*/) {
+    return new Promise(function (resolve) {
         // create a model (database) named Products
         var model = db.createDB('Products');
         // enable model events
@@ -18,7 +18,7 @@ define(['db', 'eventHub', 'request', 'lobro'], function (db, eventHub, request, 
             resolve(model);
         } else {
             request('devices.json').then(function (deviceData) {
-                // get the XHR response into the deviceData argument
+                // get the XHR response from the deviceData argument
                 // parse response json and grab the devices array
                 var allData = JSON.parse(deviceData['response'])['devices'];
                 // create a table called devices

@@ -213,6 +213,11 @@ label {
     margin: 2em 0 3em 4em;
 }
 
+.comment {
+    color: #5c5c5c;
+    display: block;
+}
+
 .intro {
     padding: 20px 0;
 }
