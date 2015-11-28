@@ -178,15 +178,15 @@ label {
 
 /*Tutorial Styles*/
 #author {
-    width: 78%;
+    width: 56%;
     text-align: right;
 }
 
 #tutorial {
     position: absolute;
     top: 100px;
-    left: 600px;
-    width: 40%;
+    left: 590px;
+    width: 55%;
 }
 
 #tutorial img {
@@ -258,22 +258,26 @@ label {
 }
 
 #forkme_banner {
-    display: block;
-    position: absolute;
-    top: 0;
-    left: 1200px;
+    position: relative;
+    top: -5px;
     z-index: 10;
-    padding: 10px 50px 10px 10px;
+    padding: 6px 10px 5px 33px;
     color: #fff;
-    background: url('../blacktocat.png') #0090ff no-repeat 95% 50%;
+    background: url('../blacktocat.png') #0090ff no-repeat 15% 49%;
+    background-size: 15px;
+    font-size: 12px;
     font-weight: 700;
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    text-decoration: none;
+    line-height: 1.53;
+    letter-spacing: .04em;
     box-shadow: 0 0 10px rgba(0,0,0,.5);
     border-bottom-left-radius: 2px;
     border-bottom-right-radius: 2px;
 }
 
 .social {
-    width: 300px;
+    width: 500px;
     text-align: center;
     margin: 0 auto;
 }
