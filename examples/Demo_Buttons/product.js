@@ -45,7 +45,7 @@
         }
     });
 
-    var productBox = (function () {
+    (function () {
         productModel.then(function (model) {
             var getDescription = {
                 event: 'click',
@@ -130,7 +130,7 @@
                 ]
             };
 
-            return new Box(boxConfig).view;
+            var productBox = new Box(boxConfig).view;
         });
     }());
 
