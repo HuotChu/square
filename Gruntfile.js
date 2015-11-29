@@ -9,10 +9,22 @@ module.exports = function(grunt) {
         jshint: {
             files: ['Gruntfile.js', 'app/main.js', 'examples/js/app.js', 'lib/jSQL.js', 'lib/model.js', 'lib/notify.js',
                     'lib/request.js', 'lib/temple.js', 'lib/load.js']
+        },
+        uglify: {
+            options: {
+                mangle: false
+            },
+            square: {
+                files: {
+                    'lib/square.min.js': ['lib/square.js']
+                }
+            }
         }
     });
     // Load the plugin that provides the "jshint" task.
     grunt.loadNpmTasks('grunt-contrib-jshint');
+
+    grunt.loadNpmTasks('grunt-contrib-uglify');
 
     grunt.registerTask('default', ['jshint']);
 };
