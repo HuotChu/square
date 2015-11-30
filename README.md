@@ -1,17 +1,15 @@
 # Square[JS]
 
-## SquareJS is on Kickstarter, please back this project!
+SquareJS is on Kickstarter, please back this project!
 http://kck.st/1N0FMkS
 ==================================
-## The first SquareJS Demo / Tutorial is now online @ http://squaredb.com/examples/demo1/
-
 ## Modern Application Development using:
 * square.js - Provides requisite low-level functionality and shims for the rest of the framework.
 * box.js - It's a view in a box, just pass it a 'box config' and you get back a view with all your eventing hooked up. Sweet!
 * eventHub.js - Provides native JavaScript Events to data models for data-binding without loops or synthetic events.
 * notify.js - Experimental router and pub/sub module still under heavy development.
 * request.js - Promise wrapped AJAX requests for when you need to get stuff.
-* squobs.js - Currently broken object collection model. I'll fix it soon, though.
+* lobro.js - Persist data to localStorage.
 * temple.js - Lightweight templating engine that lets you write valid html templates and automate event management.
 
 ## SquareJS contains SquareDB ./lib/squaredb/
@@ -27,17 +25,12 @@ http://squaredb.com/examples/demo1/index.html
 ## Installation
   npm install square --save
 
-## This framework is in the 'Alpha' stage of development
-Current version a0.0.9
+## This framework is in the 'BETA' stage of development
+Current version 1.0.0
 
 ## Updates
-### 11/15/2015
-You've tried MVC, now try SBT! SquareDB + Box + Temple = OMG! Check it out...
-Just pushed a complete refactor of temple, the addition of 'box' (I love it!), and a working example showing off squareDB, the eventHub, temple, and request. ./examples/Demo_Buttons_SquareDB
-the files under ./product are where the real magic lies.
-
-### 11/13/2015
-SquareDB minified added - and it's only 9kb!!! ...and I launched the SquareDB Kickstarter campaign, so that hopefully I get to make SquareJS and SquareDB the full-fledged offerings that I know they can be.
-https://www.kickstarter.com/projects/blujagu/squaredb
+### 11/29/2015
+Squobs was dropped, Square.js now actually contains the framework, and there's a minified Square available which is super tiny and crazy fast.
+Also, today marks the first official beta version; we are no longer in alpha development which means lots of stabilization, hardening, and documentation in the coming weeks.
 
 ### See changelog for all previous updates.
