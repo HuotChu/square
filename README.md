@@ -1,5 +1,8 @@
 # Square[JS]
 
+## Installation
+  npm install squarejs --save
+
 SquareJS is on Kickstarter, please back this project!
 http://kck.st/1N0FMkS
 ==================================
@@ -21,9 +24,6 @@ http://kck.st/1N0FMkS
 
 ## Online Demo
 http://squaredb.com/examples/demo1/index.html
-
-## Installation
-  npm install square --save
 
 ## This framework is in the 'BETA' stage of development
 Current version 1.0.0
