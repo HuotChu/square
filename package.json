@@ -1,6 +1,6 @@
 {
   "name": "squarejs",
-  "version": "0.0.9",
+  "version": "1.0.0",
   "description": "JavaScript Application Framework",
   "main": "./lib/square.js",
   "directories": {
