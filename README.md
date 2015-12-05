@@ -11,10 +11,10 @@
 npm will create a node_modules folder (if it does not exist already).  
 Inside that folder will be a squarejs folder which contains a `lib` directory.  
 It is recommended that you create a lib folder under your own application root directory.  
-Copy only the files you need from `node_modules/squarejs/lib` into your lib folder.
+Copy only the files you need from `node_modules/squarejs/lib` into your own lib folder.
 
 
-For example  
+_For example_  
 ```
 V YourAppRoot
     V YourAppDir
