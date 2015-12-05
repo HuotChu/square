@@ -7,8 +7,7 @@ module.exports = function(grunt) {
         // configuration for grunt tasks...
         pkg: grunt.file.readJSON('package.json'),
         jshint: {
-            files: ['Gruntfile.js', 'app/main.js', 'examples/js/app.js', 'lib/jSQL.js', 'lib/model.js', 'lib/notify.js',
-                    'lib/request.js', 'lib/temple.js', 'lib/load.js']
+            files: ['Gruntfile.js', 'lib/square.js']
         },
         uglify: {
             options: {

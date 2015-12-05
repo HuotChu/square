@@ -18,24 +18,24 @@
 
     <div id="button-tutorial"></div>
 
-    <script src="../../lib/require.js"></script>
+    <script src="../../lib/modules/require.js"></script>
 
     <script>
         require.config({
             baseUrl: './',
             paths: {
-                box: "../../lib/box",
-                db: "../../lib/squaredb/squaredb",
-                eventHub: "../../lib/eventHub",
-                lobro: "../../lib/lobro",
-                notify: "../../lib/notify",
-                request: "../../lib/request",
-                util: "../../lib/util",
-                aggregates: "../../lib/squaredb/aggregates",
-                comparator:  "../../lib/squaredb/comparator",
-                Select:  "../../lib/squaredb/Select",
-                go: "../../lib/squaredb/go",
-                temple: "../../lib/temple"
+                box: "../../lib/modules/box",
+                db: "../../lib/modules/squaredb/squaredb",
+                eventHub: "../../lib/modules/eventHub",
+                lobro: "../../lib/modules/lobro",
+                notify: "../../lib/modules/notify",
+                request: "../../lib/modules/request",
+                util: "../../lib/modules/util",
+                aggregates: "../../lib/modules/squaredb/aggregates",
+                comparator:  "../../lib/modules/squaredb/comparator",
+                Select:  "../../lib/modules/squaredb/Select",
+                go: "../../lib/modules/squaredb/go",
+                temple: "../../lib/modules/temple"
             },
             deps: ['productBox', 'tutorial', '../social-links']
         });

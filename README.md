@@ -2,9 +2,15 @@
 
 ## Installation
   npm install squarejs --save
+  or download the zip
 
-SquareJS is on Kickstarter, please back this project!
-http://kck.st/1N0FMkS
+  SquareJS can be run:
+  * minified using script src="lib/square.min.js"
+    See "examples/Demo_Buttons" for a sample implementation
+  * unminified using script src="lib/square.js"
+  * as a require.js module, in which case you don't use square.js
+    For require, use only the files under "lib/modules"
+    See "examples/Demo_Buttons_Require" for a sample implementation
 ==================================
 ## Modern Application Development using:
 * square.js - Provides requisite low-level functionality and shims for the rest of the framework.
@@ -15,7 +21,7 @@ http://kck.st/1N0FMkS
 * lobro.js - Persist data to localStorage.
 * temple.js - Lightweight templating engine that lets you write valid html templates and automate event management.
 
-## SquareJS contains SquareDB ./lib/squaredb/
+## SquareJS contains SquareDB ./lib/modules/squaredb/ or included in square.js and square.min.js
 * squaredb.js - Unique and super fast relational database model on the client. Provides SQLish syntax and tons of cool features.
 * aggregates.js - Mathematical functions for column data: sum, max, min, avg, count
 * comparator.js - Handles comparison logic for WHERE statements

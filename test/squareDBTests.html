@@ -12,14 +12,14 @@
         var require = {
             baseUrl: './',
             paths: {
-                "db": "../lib/squaredb/squaredb",
-                "eventHub": "../lib/eventHub",
-                "request": "../lib/request",
-                "square": "../lib/square",
-                "aggregates": "../lib/squaredb/aggregates",
-                "comparator": "../lib/squaredb/comparator",
-                "Select": "../lib/squaredb/Select",
-                "go": "../lib/squaredb/go"
+                "db": "../lib/modules/squaredb/squaredb",
+                "eventHub": "../lib/modules/eventHub",
+                "request": "../lib/modules/request",
+                "util": "../lib/modules/util",
+                "aggregates": "../lib/modules/squaredb/aggregates",
+                "comparator": "../lib/modules/squaredb/comparator",
+                "Select": "../lib/modules/squaredb/Select",
+                "go": "../lib/modules/squaredb/go"
             },
             deps: ['squareDBTests'],
             callback: function(squareDBTests) {
@@ -28,7 +28,7 @@
         };
     </script>
 
-    <script src="../lib/require.js"></script>
+    <script src="../lib/modules/require.js"></script>
 
     <script src="testharnessreport.js"></script>
 

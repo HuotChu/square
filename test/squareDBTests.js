@@ -199,14 +199,19 @@ define(['testharness', 'request', 'db'],
                 harness.test(function() {
                     db.alterTable('Books').add('pages');
                     query = db.select('pages').from('Books').go();
-                    harness.assert_true(query.length === 7);
+                    harness.assert_true(query && query.length === 0);
                 }, "ALTER TABLE Books ADD pages");
 
-
+// todo: implement errors for bad requests
                 harness.test(function() {
                     db.alterTable('Books').drop('pages');
                     query = db.select('pages').from('Books').go();
-                    harness.assert_true(query.length === 0);
+                    harness.assert_true(query === {
+                            error: {
+                                message: 'Table `pages` does not exist.'
+                            }
+                        }
+                    );
                 }, "ALTER TABLE Books DROP pages");
 
 
