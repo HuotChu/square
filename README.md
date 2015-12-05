@@ -1,19 +1,23 @@
 # Square[JS]
 
-## Installation
-   npm install squarejs --save
-   or download the zip
 
-   SquareJS can be run:
-1. minified using script src="lib/square.min.js"
-   * See "examples/Demo_Buttons" for a sample implementation
-2. unminified using script src="lib/square.js"
-3. as a require.js module, in which case you don't use square.js
-   * For require, use only the files under "lib/modules"
-   * See "examples/Demo_Buttons_Require" for a sample implementation
-----------
-## Modern Application Development using:
-1. square.js - Provides requisite low-level functionality and shims for the rest of the framework.
+## Installation
+`npm install squarejs --save`  
+or download the zip
+
+
+### Include SquareJS in your app using one of these methods:
+1. minified using `script src="lib/square.min.js"`
+  * See `examples/Demo_Buttons` for a sample implementation
+2. unminified using `script src="lib/square.js"`
+3. as a require.js module, in which case you don't use the square.js file
+  * For require, use only the files under `lib/modules`
+  * See `examples/Demo_Buttons_Require` for a sample implementation
+  
+___
+
+## SquareJS Modules:
+1. util.js - Provides requisite low-level functionality and shims for the rest of the framework.
 2. box.js - It's a view in a box, just pass it a 'box config' and you get back a view with all your eventing hooked up. Sweet!
 3. eventHub.js - Provides native JavaScript Events to data models for data-binding without loops or synthetic events.
 4. notify.js - Experimental router and pub/sub module still under heavy development.
@@ -36,7 +40,7 @@ Current version 1.0.1
 
 ## Updates
 ### 11/29/2015
-Squobs was dropped, Square.js now actually contains the framework, and there's a minified Square available which is super tiny and crazy fast.
+Squobs was dropped, Square.js now actually contains the framework, and there's a minified Square available which is super tiny and crazy fast.  
 Also, today marks the first official beta version; we are no longer in alpha development which means lots of stabilization, hardening, and documentation in the coming weeks.
 
 #### See changelog for all previous updates.
