@@ -8,7 +8,21 @@
 `npm install squarejs --save`
 
 
-### Include SquareJS in your app using one of these methods:
+npm will create a node_modules folder (if it does not exist already).  
+Inside that folder will be a squarejs folder which contains a `lib` directory.  
+It is recommended that you create a lib folder under your own application root directory.  
+Copy only the files you need from `node_modules/squarejs/lib` into your lib folder.  
+For example  
+```
+V YourAppRoot
+    V YourAppDir
+        > Your app files
+    V lib
+        > SquareJS files
+```
+
+
+### Which files you need depends on how you include the framework:
 + minified using `script src="lib/square.min.js"`
   * See `examples/Demo_Buttons` for a sample implementation
 + unminified using `script src="lib/square.js"`
