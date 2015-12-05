@@ -1,6 +1,9 @@
 # Square[JS]
 
 
+#### Current version 1.0.1
+
+
 ## Installation
 `npm install squarejs --save`  
 or download the zip
@@ -14,7 +17,9 @@ or download the zip
   * For require, use only the files under `lib/modules`
   * See `examples/Demo_Buttons_Require` for a sample implementation
   
+  
 ___
+
 
 ## SquareJS Modules:
 + util.js - Provides requisite low-level functionality and shims for the rest of the framework.
@@ -25,6 +30,7 @@ ___
 + lobro.js - Persist data to localStorage.
 + temple.js - Lightweight templating engine that lets you write valid html templates and automate event management.
 
+
 ### SquareJS contains SquareDB
 `./lib/modules/squaredb` or included with square.js and square.min.js
 
@@ -34,15 +40,15 @@ ___
 + go.js - Does the heavy lifting for all queries as it takes the QueryObject and executes the query.
 + Select.js - Creates instances of the SELECT statement providing FROM and WHERE.
 
+
 ### Online Demo
 http://squaredb.com/examples/demo1/index.html
 
-#### This framework is in the 'BETA' stage of development
-Current version 1.0.1
 
 ## Updates
 ### 11/29/2015
 Squobs was dropped, Square.js now actually contains the framework, and there's a minified Square available which is super tiny and crazy fast.  
-Also, today marks the first official beta version; we are no longer in alpha development which means lots of stabilization, hardening, and documentation in the coming weeks.
+There's more API documentation coming over the next few weeks.
+
 
 #### See changelog for all previous updates.
