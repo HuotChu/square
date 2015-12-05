@@ -25,17 +25,18 @@ ___
 6. lobro.js - Persist data to localStorage.
 7. temple.js - Lightweight templating engine that lets you write valid html templates and automate event management.
 
-## SquareJS contains SquareDB ./lib/modules/squaredb/ or included in square.js and square.min.js
+### SquareJS contains SquareDB
+``./lib/modules/squaredb` or included with square.js and square.min.js
 1. squaredb.js - Unique and super fast relational database model on the client. Provides SQLish syntax and tons of cool features.
 2. aggregates.js - Mathematical functions for column data: sum, max, min, avg, count
 3. comparator.js - Handles comparison logic for WHERE statements
 4. go.js - Does the heavy lifting for all queries as it takes the QueryObject and executes the query.
 5. Select.js - Creates instances of the SELECT statement providing FROM and WHERE.
 
-## Online Demo
+### Online Demo
 http://squaredb.com/examples/demo1/index.html
 
-## This framework is in the 'BETA' stage of development
+#### This framework is in the 'BETA' stage of development
 Current version 1.0.1
 
 ## Updates
