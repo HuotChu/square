@@ -5,9 +5,7 @@
 
 
 ## Installation
-`npm install squarejs --save`  
-  or create a fork of this repo  
-  or download the zip
+`npm install squarejs --save`
 
 
 ### Include SquareJS in your app using one of these methods:
