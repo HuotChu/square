@@ -26,7 +26,7 @@ ___
 7. temple.js - Lightweight templating engine that lets you write valid html templates and automate event management.
 
 ### SquareJS contains SquareDB
-``./lib/modules/squaredb` or included with square.js and square.min.js
+`./lib/modules/squaredb` or included with square.js and square.min.js
 1. squaredb.js - Unique and super fast relational database model on the client. Provides SQLish syntax and tons of cool features.
 2. aggregates.js - Mathematical functions for column data: sum, max, min, avg, count
 3. comparator.js - Handles comparison logic for WHERE statements
