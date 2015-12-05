@@ -6,7 +6,8 @@
 
 ## Installation
 `npm install squarejs --save`  
-or download the zip
+  or create a fork of this repo  
+  or download the zip
 
 
 ### Include SquareJS in your app using one of these methods:
@@ -34,7 +35,8 @@ ___
 ### SquareJS contains SquareDB
 `./lib/modules/squaredb` or included with square.js and square.min.js
 
-+ __squaredb.js__ Unique and super fast relational database model on the client. Provides SQLish syntax and tons of cool features.
++ __squaredb.js__ Unique and super fast relational database model on the client.  
+  Provides SQLish syntax and tons of cool features.
 + __aggregates.js__ Mathematical functions for column data: sum, max, min, avg, count
 + __comparator.js__ Handles comparison logic for WHERE statements
 + __go.js__ Does the heavy lifting for all queries as it takes the QueryObject and executes the query.
