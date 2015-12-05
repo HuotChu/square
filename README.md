@@ -24,7 +24,7 @@ V YourAppRoot
 ```
 
 
-### Which files you need depends on how you include the framework:
+#### Which files you need depends on how you include the framework:
 + minified using `script src="lib/square.min.js"`
   * See `examples/Demo_Buttons` for a sample implementation
 + unminified using `script src="lib/square.js"`
