@@ -57,10 +57,6 @@ ___
 + __Select.js__ Creates instances of the SELECT statement providing FROM and WHERE.
 
 
-### Online Demo
-#### http://squaredb.com/examples/demo1/index.html
-
-
 ## Updates
 ### 11/29/2015
 Squobs was dropped, Square.js now actually contains the framework, and there's a minified Square available which is super tiny and crazy fast.  
