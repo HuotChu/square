@@ -1,5 +1,7 @@
 # Square[JS]
 
+> There is no development planned for SquareJS or SquareDB in 2017.
+
 
 #### Current version 1.0.1
 
@@ -59,8 +61,6 @@ ___
 
 ## Updates
 ### 11/29/2015
-Squobs was dropped, Square.js now actually contains the framework, and there's a minified Square available which is super tiny and crazy fast.  
-There's more API documentation coming over the next few weeks.
-
+Squobs was dropped, Square.js now actually contains the framework, and there's a minified Square available which is super tiny and crazy fast.
 
 #### See changelog for all previous updates.
